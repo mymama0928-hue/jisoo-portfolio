@@ -477,15 +477,13 @@
         <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">생성형 AI 활용 미디어 콘텐츠 크리에이터 캠프. K-드라마 글로벌 확산 분석 기사 기획·집필.</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">MidJourney</span><span class="tag" style="font-size:0.72rem;">Perplexity</span><span class="tag" style="font-size:0.72rem;">NotebookLM</span></div>
       </div>
-      <div class="pjcard" id="andong-card" style="cursor:default;">
-        <img src="image/안동.png" alt="안동 다큐멘터리" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:14px;display:block;" />
+      <div class="pjcard" id="andong-card">
+        <img class="proj-preview" src="image/안동.png" alt="안동 미리보기" style="cursor:pointer;" />
         <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · AI 영상·다큐 협업</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">AI 다큐멘터리 "시간을 빚는 손 — 안동에서 미래로" (14분)</h3></div></div>
         <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
         <p style="font-size:0.8rem;color:#7AC5C5;font-style:italic;margin-bottom:10px;">"AI는 전통을 배우고, 인간은 기술을 빚는다."</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
-        <button onclick="event.stopPropagation();playSound('click');openIframeModal('https://www.instagram.com/reel/DQvv-T4E79m/embed/',true);" style="display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#833AB4,#C13584,#E1306C);color:#fff;border:none;padding:9px 18px;border-radius:999px;font-size:0.82rem;font-weight:700;cursor:pointer;letter-spacing:0.02em;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>인스타그램에서 영상보기
-        </button>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
+        <p style="font-size:0.75rem;color:#aaa;margin-top:6px;">🎬 클릭하면 영상을 볼 수 있어요</p>
       </div>
     </div>
   </section>
@@ -834,12 +832,15 @@ function openIframeModal(url, portrait=false) {
   document.body.style.overflow = 'hidden';
 }
 
-/* ─ PJCARD click → lightbox (안동은 버튼으로 별도 처리) ─ */
+/* ─ PJCARD click → lightbox / 안동은 Instagram 영상 ─ */
 document.querySelectorAll('.pjcard').forEach(el=>{
-  if (el.id === 'andong-card') return;
   el.style.cursor = 'pointer';
   el.addEventListener('click', e=>{
     playSound('click'); addRipple(el,e);
+    if (el.id === 'andong-card') {
+      openIframeModal('https://www.instagram.com/reel/DQvv-T4E79m/embed/', true);
+      return;
+    }
     const img = el.querySelector('.proj-preview');
     const title = el.querySelector('h3');
     if(img) { openLightbox(img.src, title ? title.textContent : ''); }
