@@ -109,7 +109,12 @@
       line-height:1; letter-spacing:-0.04em; opacity:0.9;
       user-select:none; flex-shrink:0; text-align:right; white-space:nowrap;
     }
-    @media(max-width:640px){ .cover{flex-direction:column;padding:24px;} .pf-text{font-size:3rem;align-self:flex-end;} #hero{padding:80px 16px 24px!important;} }
+    @media(max-width:640px){
+      .cover{flex-direction:column;padding:24px;}
+      .pf-text{font-size:3rem;align-self:flex-end;}
+      #hero{padding:20px 16px 24px!important;}
+      #hero-sticky-note{position:relative!important;top:auto!important;left:auto!important;transform:rotate(-2deg)!important;margin:0 auto 12px auto!important;max-width:92%!important;}
+    }
 
     /* ── STAT BOX ── */
     .stat {
@@ -289,7 +294,7 @@
   <div id="hero" class="cover" style="flex-direction:column;align-items:center;text-align:center;gap:0;padding:160px 40px 32px;overflow:visible;">
 
     <!-- Sticky note: hero 상단 영역에 직접 배치 (fbody 클리핑 방지) -->
-    <div class="sticky" style="position:absolute;top:20px;left:max(10px,calc(50% - 290px));z-index:5;max-width:290px;transform:rotate(-4deg);text-align:left;">
+    <div id="hero-sticky-note" class="sticky" style="position:absolute;top:20px;left:max(10px,calc(50% - 290px));z-index:5;max-width:290px;transform:rotate(-4deg);text-align:left;">
       <div class="clip"></div>
       <p class="hw" style="font-size:2.6rem;color:#1a1a1a;line-height:1.1;margin-bottom:6px;">김지수</p>
       <p class="hw" style="font-size:1.26rem;color:#555;margin-bottom:4px;">SNS 마케터 &amp; 콘텐츠 크리에이터</p>
