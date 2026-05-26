@@ -553,7 +553,7 @@
         <div style="display:flex;gap:12px;align-items:flex-start;"><div><span style="background:rgba(122,197,197,0.15);color:#7AC5C5;font-size:0.72rem;font-weight:700;padding:3px 11px;border-radius:999px;margin-bottom:8px;display:inline-block;">인기상 입선</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">OK저축은행 29역숏폼왕 2관 입선</h3><p style="font-size:0.78rem;color:#888;">세상의 모든 웃맨 / 금융영웅 (2026.04)</p><p style="font-size:0.78rem;color:#7AC5C5;font-weight:600;margin-top:4px;">OK저축은행</p></div></div>
       </div>
       <div class="acard" id="gg-card" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;">
-        <video class="vid-preview landscape" id="gg-vid" src="letsgg_720p.mp4" muted loop playsinline></video>
+        <img class="vid-preview landscape" id="gg-thumb" src="https://img.youtube.com/vi/58XxIdKdBiI/hqdefault.jpg" alt="Let's GG 미리보기" />
         <div style="display:flex;gap:12px;"><div><span style="font-size:0.72rem;font-weight:600;color:#999;border:1px solid #ddd;padding:3px 10px;border-radius:999px;margin-bottom:8px;display:inline-block;">공모전 출품</span><h3 style="font-weight:700;font-size:0.9rem;margin-bottom:3px;">경기관광 국제 AI 영상 공모전</h3><p style="font-size:0.78rem;color:#888;">Let's GG — 이미지·영상편집 담당 (2026.01)</p></div></div>
       </div>
       <a href="https://www.instagram.com/jisoo_lab" target="_blank" class="acard" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;display:block;text-decoration:none;color:inherit;">
@@ -671,6 +671,7 @@
   <div style="position:relative;max-width:880px;width:100%;" onclick="event.stopPropagation()">
     <button onclick="closeVidModal()" style="position:absolute;top:-48px;right:0;background:none;border:none;color:#fff;font-size:2.4rem;cursor:pointer;line-height:1;opacity:0.8;">&times;</button>
     <video id="vid-modal-player" controls playsinline style="width:100%;max-height:80vh;border-radius:14px;display:block;background:#000;"></video>
+    <iframe id="yt-modal-frame" src="" allow="autoplay; fullscreen" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:14px;border:none;display:none;"></iframe>
   </div>
 </div>
 
@@ -824,15 +825,29 @@ document.querySelectorAll('.pjcard').forEach(el=>{
 function openVidModal(src) {
   const modal = document.getElementById('vid-modal');
   const player = document.getElementById('vid-modal-player');
+  const yt = document.getElementById('yt-modal-frame');
+  yt.style.display = 'none'; yt.src = '';
+  player.style.display = 'block';
   player.src = src;
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   player.play().catch(()=>{});
 }
+function openYTModal(videoId) {
+  const modal = document.getElementById('vid-modal');
+  const player = document.getElementById('vid-modal-player');
+  const yt = document.getElementById('yt-modal-frame');
+  player.pause(); player.src = ''; player.style.display = 'none';
+  yt.style.display = 'block';
+  yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
 function closeVidModal() {
   const player = document.getElementById('vid-modal-player');
-  player.pause();
-  player.src = '';
+  const yt = document.getElementById('yt-modal-frame');
+  player.pause(); player.src = ''; player.style.display = 'block';
+  yt.src = ''; yt.style.display = 'none';
   document.getElementById('vid-modal').style.display = 'none';
   document.body.style.overflow = '';
 }
@@ -851,15 +866,7 @@ if(sasmCard) {
 const _okCard = document.getElementById('ok-card');
 const _ggCard = document.getElementById('gg-card');
 if(_okCard) _okCard.addEventListener('click', ()=>{ playSound('click'); openVidModal('ok_video.mp4'); });
-if(_ggCard) _ggCard.addEventListener('click', ()=>{ playSound('click'); openVidModal('letsgg_720p.mp4'); });
-
-/* ─ VIDEO HOVER on GG card ─ */
-const ggCard = document.getElementById('gg-card');
-const ggVid  = document.getElementById('gg-vid');
-if (ggCard && ggVid) {
-  ggCard.addEventListener('mouseenter', () => ggVid.play().catch(()=>{}));
-  ggCard.addEventListener('mouseleave', () => { ggVid.pause(); ggVid.currentTime = 0; });
-}
+if(_ggCard) _ggCard.addEventListener('click', ()=>{ playSound('click'); openYTModal('58XxIdKdBiI'); });
 
 /* ─ VIDEO HOVER on OK card ─ */
 const okCard = document.getElementById('ok-card');
