@@ -483,7 +483,7 @@
         <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
         <p style="font-size:0.8rem;color:#7AC5C5;font-style:italic;margin-bottom:10px;">"AI는 전통을 배우고, 인간은 기술을 빚는다."</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
-        <p style="font-size:0.75rem;color:#aaa;margin-top:6px;">🎬 클릭하면 영상을 볼 수 있어요</p>
+        <p style="font-size:0.75rem;color:#aaa;margin-top:6px;">🎬 클릭하면 이미지 확인 후 영상을 볼 수 있어요</p>
       </div>
     </div>
   </section>
@@ -669,6 +669,11 @@
     <button onclick="closeLightbox()" style="position:absolute;top:-44px;right:0;background:none;border:none;color:#fff;font-size:2.2rem;cursor:pointer;line-height:1;opacity:0.8;">&times;</button>
     <img id="lightbox-img" src="" alt="" style="width:100%;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,0.5);display:block;" />
     <p id="lightbox-cap" style="color:#fff;text-align:center;margin-top:14px;font-size:0.9rem;font-weight:700;opacity:0.85;"></p>
+    <div id="lightbox-action-wrap" style="display:none;text-align:center;margin-top:16px;">
+      <button id="lightbox-action-btn" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#833AB4,#C13584,#E1306C);color:#fff;border:none;padding:11px 26px;border-radius:999px;font-size:0.88rem;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(193,53,132,0.45);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>인스타그램에서 영상보기
+      </button>
+    </div>
   </div>
 </div>
 
@@ -804,10 +809,19 @@ document.querySelectorAll('.ccard,.vcard,.acard,.cntcard').forEach(el=>{
 });
 
 /* ─ LIGHTBOX ─ */
-function openLightbox(src, caption) {
+function openLightbox(src, caption, actionFn) {
   const lb = document.getElementById('lightbox');
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox-cap').textContent = caption;
+  const wrap = document.getElementById('lightbox-action-wrap');
+  const btn  = document.getElementById('lightbox-action-btn');
+  if (actionFn) {
+    btn.onclick = () => { closeLightbox(); actionFn(); };
+    wrap.style.display = 'block';
+  } else {
+    wrap.style.display = 'none';
+    btn.onclick = null;
+  }
   lb.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -837,12 +851,16 @@ document.querySelectorAll('.pjcard').forEach(el=>{
   el.style.cursor = 'pointer';
   el.addEventListener('click', e=>{
     playSound('click'); addRipple(el,e);
-    if (el.id === 'andong-card') {
-      openIframeModal('https://www.instagram.com/reel/DQvv-T4E79m/embed/', true);
-      return;
-    }
     const img = el.querySelector('.proj-preview');
     const title = el.querySelector('h3');
+    if (el.id === 'andong-card') {
+      openLightbox(
+        img ? img.src : 'image/안동.png',
+        title ? title.textContent : '',
+        () => openIframeModal('https://www.instagram.com/reel/DQvv-T4E79m/embed/', true)
+      );
+      return;
+    }
     if(img) { openLightbox(img.src, title ? title.textContent : ''); }
   });
 });
