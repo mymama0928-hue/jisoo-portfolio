@@ -472,7 +472,7 @@
         <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">생성형 AI 활용 미디어 콘텐츠 크리에이터 캠프. K-드라마 글로벌 확산 분석 기사 기획·집필.</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">MidJourney</span><span class="tag" style="font-size:0.72rem;">Perplexity</span><span class="tag" style="font-size:0.72rem;">NotebookLM</span></div>
       </div>
-      <div class="pjcard">
+      <div class="pjcard" id="andong-card">
         <img class="proj-preview" src="image/안동.png" alt="안동 미리보기" />
         <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · AI 영상·다큐 협업</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">AI 다큐멘터리 "시간을 빚는 손 — 안동에서 미래로" (14분)</h3></div></div>
         <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
@@ -811,13 +811,33 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
 
-/* ─ PJCARD click → lightbox ─ */
+/* ─ IFRAME MODAL (Instagram 등) ─ */
+function openIframeModal(url, portrait=false) {
+  const modal = document.getElementById('vid-modal');
+  const player = document.getElementById('vid-modal-player');
+  const yt = document.getElementById('yt-modal-frame');
+  player.pause(); player.src = ''; player.style.display = 'none';
+  yt.style.display = 'block';
+  yt.style.aspectRatio = portrait ? '9/16' : '16/9';
+  yt.style.width = portrait ? 'auto' : '100%';
+  yt.style.height = portrait ? '80vh' : '';
+  yt.src = url;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+/* ─ PJCARD click → lightbox (안동은 Instagram 모달) ─ */
 document.querySelectorAll('.pjcard').forEach(el=>{
   el.style.cursor = 'pointer';
   el.addEventListener('click', e=>{
+    playSound('click'); addRipple(el,e);
+    if (el.id === 'andong-card') {
+      openIframeModal('https://www.instagram.com/reel/DQvv-T4E79m/embed/', true);
+      return;
+    }
     const img = el.querySelector('.proj-preview');
     const title = el.querySelector('h3');
-    if(img) { playSound('click'); addRipple(el,e); openLightbox(img.src, title ? title.textContent : ''); }
+    if(img) { openLightbox(img.src, title ? title.textContent : ''); }
   });
 });
 
@@ -847,7 +867,7 @@ function closeVidModal() {
   const player = document.getElementById('vid-modal-player');
   const yt = document.getElementById('yt-modal-frame');
   player.pause(); player.src = ''; player.style.display = 'block';
-  yt.src = ''; yt.style.display = 'none';
+  yt.src = ''; yt.style.display = 'none'; yt.style.aspectRatio = '16/9'; yt.style.width = '100%'; yt.style.height = '';
   document.getElementById('vid-modal').style.display = 'none';
   document.body.style.overflow = '';
 }
