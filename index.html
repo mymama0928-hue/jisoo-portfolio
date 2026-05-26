@@ -109,7 +109,7 @@
       line-height:1; letter-spacing:-0.04em; opacity:0.9;
       user-select:none; flex-shrink:0; text-align:right; white-space:nowrap;
     }
-    @media(max-width:640px){ .cover{flex-direction:column;padding:24px;} .pf-text{font-size:3rem;align-self:flex-end;} }
+    @media(max-width:640px){ .cover{flex-direction:column;padding:24px;} .pf-text{font-size:3rem;align-self:flex-end;} #hero{padding:80px 16px 24px!important;} }
 
     /* ── STAT BOX ── */
     .stat {
@@ -289,7 +289,7 @@
   <div id="hero" class="cover" style="flex-direction:column;align-items:center;text-align:center;gap:0;padding:160px 40px 32px;overflow:visible;">
 
     <!-- Sticky note: hero 상단 영역에 직접 배치 (fbody 클리핑 방지) -->
-    <div class="sticky" style="position:absolute;top:20px;left:calc(50% - 290px);z-index:5;max-width:290px;transform:rotate(-4deg);text-align:left;">
+    <div class="sticky" style="position:absolute;top:20px;left:max(10px,calc(50% - 290px));z-index:5;max-width:290px;transform:rotate(-4deg);text-align:left;">
       <div class="clip"></div>
       <p class="hw" style="font-size:2.6rem;color:#1a1a1a;line-height:1.1;margin-bottom:6px;">김지수</p>
       <p class="hw" style="font-size:1.26rem;color:#555;margin-bottom:4px;">SNS 마케터 &amp; 콘텐츠 크리에이터</p>
@@ -298,10 +298,10 @@
     </div>
 
     <!-- Photo + JisooLab text overlapping behind head -->
-    <div style="position:relative;width:580px;margin:0 auto 20px;">
+    <div style="position:relative;max-width:580px;width:100%;margin:0 auto 20px;">
       <!-- JisooLab text sits behind the photo -->
       <div class="pf-text" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:0;font-size:clamp(6rem,15vw,9.5rem);opacity:0.92;white-space:nowrap;text-shadow:0 6px 32px rgba(0,0,0,0.18),0 2px 8px rgba(0,0,0,0.12);">Ji<span style="color:#fff;">soo</span>L<span style="color:#fff;">a</span>b</div>
-      <div style="position:relative;width:580px;height:700px;overflow:hidden;z-index:1;">
+      <div style="position:relative;width:100%;height:min(700px,120vw);overflow:hidden;z-index:1;">
         <img src="image/main.png" alt="김지수" style="width:100%;height:auto;display:block;object-fit:cover;object-position:top center;" />
       <div style="position:absolute;bottom:0;left:0;right:0;padding:36px 16px 20px;background:linear-gradient(transparent 30%, rgba(255,251,232,0.7) 60%, #FFFBE8 85%);text-align:center;">
         <p style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fff;margin-bottom:8px;text-shadow:0 1px 6px rgba(0,0,0,0.4);">AI 콘텐츠 강사 · 일산동구, 고양시</p>
