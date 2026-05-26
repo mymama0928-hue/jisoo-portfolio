@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무지출 AI 영상 제작 마스터 코스</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f5f5f4; color: #1c1917; }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .hidden-section { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active-tab { background-color: #f97316; color: white; border-color: #f97316; }
+        .inactive-tab { background-color: white; color: #57534e; border-color: #d6d3d1; }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone 100-900) with vibrant Orange/Amber accents (#f97316) for high visibility and a welcoming, non-intimidating feel for seniors. -->
+    <!-- Application Structure Plan: The SPA is structured into three main task-oriented views: 1. 준비 운동 (Tools & Terminology) to build foundational knowledge without overwhelming the user. 2. 실전 워크플로우 (Action Plan) transforming linear days into clickable, step-by-step interactive cards with direct "Copy" buttons for prompts, crucial for senior usability. 3. 심화 과정 (Pricing & Automations) featuring a logarithmic chart to easily compare vastly different numerical limits and a step-by-step flow for NotebookLM. This architecture prioritizes logical progression and interactive reading over a static document format. -->
+    <!-- Visualization & Content Choices: 1. Tools: Actionable cards with large buttons. 2. Terminology: Clickable accordion lists revealing cooking analogies (reduces cognitive load). 3. Workflow: Tabbed interface separating Day 1, Day 2, Day 3 to prevent wall-of-text fatigue. 4. Pricing: Bar chart (Chart.js) using a logarithmic Y-axis to effectively display the jump from 150 to 25,000 video limits visually. 5. Icons: Unicode emojis ensuring NO SVG/Mermaid usage while maintaining visual hierarchy and friendliness. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-3xl">🎥</span>
+                    <h1 class="text-xl md:text-2xl font-black text-stone-800 tracking-tight">AI 영상 제작 코스</h1>
+                </div>
+                <nav class="hidden md:flex gap-2">
+                    <button onclick="navigate('section-prep')" id="nav-prep" class="px-4 py-2 rounded-full font-bold transition-colors active-tab">1. 준비 운동</button>
+                    <button onclick="navigate('section-workflow')" id="nav-workflow" class="px-4 py-2 rounded-full font-bold transition-colors inactive-tab hover:bg-stone-100">2. 실전 실습</button>
+                    <button onclick="navigate('section-advanced')" id="nav-advanced" class="px-4 py-2 rounded-full font-bold transition-colors inactive-tab hover:bg-stone-100">3. 심화 과정</button>
+                </nav>
+                <div class="md:hidden">
+                    <select onchange="navigate(this.value)" class="bg-stone-100 border border-stone-300 text-stone-800 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 font-bold">
+                        <option value="section-prep">1. 준비 운동 (도구/용어)</option>
+                        <option value="section-workflow">2. 실전 실습 (3일 완성)</option>
+                        <option value="section-advanced">3. 심화 과정 (요금/비서)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <section id="section-prep" class="fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-stone-900 mb-4 flex items-center gap-3">
+                    <span>🌻</span> 시작하기 전, 준비물 챙기기
+                </h2>
+                <p class="text-lg text-stone-600 bg-white p-4 rounded-xl border border-stone-200 shadow-sm leading-relaxed">
+                    본 섹션에서는 영상 제작에 필요한 필수 도구 5가지의 접속 주소와, 초보자분들이 가장 어려워하시는 '영상 편집 전문 용어'를 요리에 비유하여 아주 쉽게 설명합니다. 항목을 눌러 내용을 확인해 보세요!
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-50 border-b border-stone-200 p-4">
+                        <h3 class="text-xl font-bold text-stone-800 flex items-center gap-2"><span>📥</span> 필수 가입/다운로드 툴</h3>
+                    </div>
+                    <div class="p-4 flex flex-col gap-3" id="tools-container"></div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-orange-50 border-b border-orange-100 p-4">
+                        <h3 class="text-xl font-bold text-orange-900 flex items-center gap-2"><span>🍲</span> 왕초보 영상 용어 번역기</h3>
+                    </div>
+                    <div class="p-4 flex flex-col gap-2" id="terms-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-workflow" class="hidden-section fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-stone-900 mb-4 flex items-center gap-3">
+                    <span>🗓️</span> 실전 3일 완성 워크플로우
+                </h2>
+                <p class="text-lg text-stone-600 bg-white p-4 rounded-xl border border-stone-200 shadow-sm leading-relaxed">
+                    이곳은 교재의 핵심인 실전 제작 과정입니다. 스토리 기획부터 AI 목소리, 자막, 배경음악을 넣고 하나의 영상으로 합치는 과정을 3일 차로 나누어 정리했습니다. 회색 박스 안의 <strong>'복사하기'</strong> 버튼을 누르면 AI에게 내릴 명령어가 쉽게 복사됩니다.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button onclick="switchDay('day1')" id="tab-day1" class="px-6 py-3 rounded-xl font-bold transition-all text-lg active-tab shadow-md">1일차: 기획 및 그림</button>
+                <button onclick="switchDay('day2')" id="tab-day2" class="px-6 py-3 rounded-xl font-bold transition-all text-lg inactive-tab hover:bg-white shadow-sm border">2일차: 동영상 변환</button>
+                <button onclick="switchDay('day3')" id="tab-day3" class="px-6 py-3 rounded-xl font-bold transition-all text-lg inactive-tab hover:bg-white shadow-sm border">3일차: 소리 및 완성</button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 lg:p-8" id="workflow-content"></div>
+        </section>
+
+        <section id="section-advanced" class="hidden-section fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-stone-900 mb-4 flex items-center gap-3">
+                    <span>📊</span> 요금제 분석 & 나만의 AI 비서
+                </h2>
+                <p class="text-lg text-stone-600 bg-white p-4 rounded-xl border border-stone-200 shadow-sm leading-relaxed">
+                    이 섹션에서는 다양한 스튜디오 요금제의 비디오 생성 한도를 차트로 한눈에 비교하고, 잘 나가는 유튜브 영상의 DNA를 분석하여 자동으로 감동적인 대본을 써주는 '나만의 젬스(Gems) 비서' 만드는 방법을 알아봅니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 flex flex-col">
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">비디오 생성 한도 비교 차트</h3>
+                    <p class="text-stone-500 mb-6">※ 2026년 4월 기준. 격차가 커서 로그 스케일(Log Scale)을 적용했습니다.</p>
+                    <div class="flex-grow flex items-center justify-center">
+                        <div class="chart-container">
+                            <canvas id="pricingChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3" id="pricing-details"></div>
+                </div>
+
+                <div class="flex flex-col gap-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6">
+                        <h3 class="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2"><span>🤖</span> 100만 뷰 스토리 자동화 4단계</h3>
+                        <p class="text-stone-600 mb-6">성공한 영상 20개를 NotebookLM에 공부시키고 제미나이에 나만의 비서를 만듭니다.</p>
+                        <div class="flex flex-col gap-4 relative" id="gems-container"></div>
+                    </div>
+
+                    <div class="bg-stone-800 rounded-2xl shadow-sm p-6 text-white">
+                        <h3 class="text-xl font-bold text-orange-400 mb-4 flex items-center gap-2"><span>✂️</span> 보너스: 플로우(Flow) 마법 기능</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="flow-features"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-200 text-stone-600 py-8 text-center mt-auto border-t border-stone-300">
+        <p class="font-bold mb-2">무지출 AI 영상 제작 마스터 코스 교재</p>
+        <p class="text-sm">어르신과 초보자를 위해 아주 쉽고 구체적으로 작성되었습니다.</p>
+    </footer>
+
+    <script>
+        const appData = {
+            tools: [
+                { id: 1, name: "구글 크롬 (Chrome)", desc: "인터넷을 여는 기본 창", action: "브라우저 다운로드 및 설치", url: "https://www.google.com/chrome/" },
+                { id: 2, name: "제미나이 (Gemini)", desc: "우리의 똑똑한 AI 비서", action: "구글 계정으로 로그인", url: "https://gemini.google.com/app" },
+                { id: 3, name: "플로우 (Flow)", desc: "예쁜 영상을 만들어줄 도구", action: "구글 계정으로 로그인", url: "https://labs.google/fx/ko/tools/flow" },
+                { id: 4, name: "브루 (Vrew)", desc: "자막을 자동으로 달아줍니다", action: "PC 버전 무료 다운로드", url: "https://vrew.ai/ko/" },
+                { id: 5, name: "캡컷 (Capcut)", desc: "영상을 자르고 붙이는 편집 가위", action: "Windows용 다운로드", url: "https://www.capcut.com/ko-kr/" }
+            ],
+            terms: [
+                { term: "타임라인 (Timeline)", desc: "작업대", analogy: "재료를 순서대로 올려두는 긴 조리대" },
+                { term: "플레이헤드 (Playhead)", desc: "지금 보는 선", analogy: "지금 어느 재료를 손질하고 있는지 보여주는 칼날 위치" },
+                { term: "키프레임 (Keyframe)", desc: "핵심 장면", analogy: "영상의 뼈대가 되는 '중요한 사진'" },
+                { term: "트랜지션 (Transition)", desc: "장면 연결 효과", analogy: "찌개에 고추기름을 넣어 맛이 자연스럽게 변하게 하기" },
+                { term: "레이어 / 오버레이", desc: "겹치기 / 쌓기", analogy: "밥 위에 계란 프라이를 올리듯 영상 위에 사진/글자 올리기" },
+                { term: "캡션 (Auto Captions)", desc: "자동 자막", analogy: "AI가 사람의 말소리를 듣고 자동으로 받아쓰기해 주는 것" },
+                { term: "프리즈 (Freeze)", desc: "일시정지! 찰칵", analogy: "시간아 멈춰라! 중요한 순간을 강조할 때 사용" },
+                { term: "멀티샷 (Multi-shot)", desc: "장면 연결하기", analogy: "끊기지 않고 자연스럽게 이어지는 동작" },
+                { term: "내보내기 (Export)", desc: "저장하기 / 완성", analogy: "요리를 다 해서 손님 상에 내놓는 것" }
+            ],
+            pricing: [
+                { tier: "무료 플랜 (Basic)", price: "0원", limit: 150, text: "최초 약 150개 제작", detail: "맛보기 및 학습용으로 최고!" },
+                { tier: "AI 플러스 (Plus)", price: "약 11,000원", limit: 200, text: "월 약 200개 제작", detail: "컴퓨터 용량 2TB 줌 + 사진 편집 기능" },
+                { tier: "구글 AI 프로 (Pro)", price: "29,000원", limit: 1000, text: "월 약 1,000개 제작", detail: "업무용으로 똑똑하게 활용 가능" },
+                { tier: "울트라 플랜 (Ultra)", price: "약 360,000원", limit: 25000, text: "월 약 25,000개 제작", detail: "엄청난 용량(30TB) + 유튜브 광고 없이 보기" }
+            ],
+            gems: [
+                { step: "1", title: "인터넷 자료 긁어오기", desc: "유튜브에서 '감동주는 영상' 검색 후 인기순 정렬. Instant Data Scraper로 20개 영상 링크 복사." },
+                { step: "2", title: "로봇에게 공부시키기", desc: "NotebookLM에 복사한 링크 20개를 붙여넣고 자막과 댓글을 학습시킵니다." },
+                { step: "3", title: "설계도 요청하기", desc: "제미나이에게 '3가지 기획안과 바이럴 확률을 제안하는 젬스 설계도'를 만들어달라고 명령합니다." },
+                { step: "4", title: "진짜 내 비서 완성!", desc: "제미나이 [Gem 만들기] 메뉴에 이름과 지침을 붙여넣고 저장합니다." }
+            ],
+            flowFeatures: [
+                { name: "확장 (Extend)", desc: "영상 끝부분에 영상을 자연스럽게 이어 붙여 길게 만듭니다." },
+                { name: "삽입 (Insert)", desc: "화면에 네모를 그리고 글씨를 쓰면 새로운 물체가 생겨납니다." },
+                { name: "삭제 (Remove)", desc: "화면에서 지우고 싶은 잡티나 사람을 마우스로 문지르면 지워집니다." },
+                { name: "카메라 (Camera)", desc: "화면을 점점 크게(줌인), 작게(줌아웃) 하는 효과를 줍니다." }
+            ],
+            workflow: {
+                day1: {
+                    title: "1일차: 기획 및 그림 (스토리 -> 캐릭터 -> 사진)",
+                    intro: "제미나이(Gemini) 프롬프트 입력창에 차례대로 아래 글들을 복사해서 붙여넣으세요.",
+                    steps: [
+                        {
+                            title: "Step 1. 스토리 넣어주기",
+                            desc: "AI에게 영상의 뼈대가 될 스토리를 알려줍니다.",
+                            prompt: "주인공 시점: 초등학생 아이를 키우며 직장 생활과 살림에 치여 친정으로 잠시 피신 온 40대 워킹맘의 시점\n핵심 가치: 행복의 빈도, 희생과 밥상, 자기 구원, 조건 없는 신뢰\n\n[도입: 결핍과 고난]\n아이의 받아쓰기 점수에 일희일비하고, 시댁 제사상에 올릴 나물 간을 맞추며, 회사에서는 후배들 눈치를 보는 마흔두 살. 내 삶은 마치 유통기한이 지난 통조림처럼 퍽퍽했다. 결국 몸과 마음이 고장 나 아이를 데리고 친정으로 도망치듯 내려왔다. \"엄마는 왜 맨날 화만 내?\"라는 아이의 질문에 대답할 기운조차 없었다. 아버지는 말없이 내 낡은 캐리어를 받아 드셨다.\n\n[전개: 일상적 노력과 반복]\n친정에서의 아침도 여전히 전쟁 같았다. 아이를 깨워 씻기고 밥을 먹이는 소란스러운 풍경 너머로, 베란다에서 들려오는 '드르륵-' 소리. 아버지는 매일 아침 8시 30분이면 낡은 수동 그라인더로 원두를 가셨다. 식탁 위에는 아이의 계란프라이 옆에 항상 노릇하게 구운 스팸 두 조각과 김이 모락모락 나는 커피 한 잔이 놓여 있었다. \"애 키우는 게 제일 큰 고시다. 일단 이거 먹고 정신 차려라.\" 아버지는 툭 내뱉고는 다시 신문을 보셨다.\n\n[절정: 숨겨진 진실과 깨달음]\n어느 날 밤, 아이를 재우고 물을 마시러 나왔다가 식탁 위에 놓인 아버지의 낡은 가계부를 보게 되었다. 거기엔 '우리 딸 커피값'이라는 항목으로 매달 소액의 현금이 인출된 내역이 빼곡했다. 그리고 갈피 사이에 끼워진 빛바랜 내 어린 시절 사진 뒤에 적힌 짧은 글귀. \"행복은 한 번의 큰 잔치가 아니라, 매일 아침 딸아이와 마시는 커피 한 잔의 빈도에 있다.\" 아버지는 내가 육아와 살림에 지쳐 '엄마'라는 역할에 매몰될 때, 나를 유일하게 '금지옥엽 내 딸'로 대우해주고 계셨다. 내가 나를 돌보지 못할 때, 아버지는 '행복도 셀프'라며 당신의 손목을 써가며 내 하루의 첫 행복을 직접 제조하고 계셨던 것이다.\n\n[결말: 깊은 여운과 위로]\n커피 한 잔을 다 비울 때쯤 깨달았다. 나는 누군가를 돌보는 사람이기 이전에, 여전히 누군가에게는 온 마음을 다해 지켜내고 싶은 소중한 존재라는 것을. 아버지가 갈아준 것은 원두가 아니라, 마흔의 무게에 짓눌려 있던 내 구겨진 마음이었다."
+                        },
+                        {
+                            title: "Step 2. 캐릭터 얼굴 확립 (이미지/사고모델 켜기)",
+                            desc: "주인공의 기준 얼굴 6방향(턴어라운드 시트)을 만듭니다. [+] 버튼으로 사진을 하나 올리고 아래 지시어를 넣으세요.",
+                            prompt: "1. 업로드한 이미지의 캐릭터 특징과 독특한 채색 기법을 정밀하게 분석해줘. 이 화풍을 100% 유지하면서 내가 고른 스토리의 캐릭터의 복장을 만들어줘. 이미지 비율은 16:9 비율이야.\n2. 복장이 변경된 캐릭터로 다음과 같은 캐릭터 시트를 만들어줘.\n6패널 컴포지트 캐릭터 시트 스튜디오 사진, 깨끗하고 평평한 흰색 배경. 고해상도. 부드러운 전문 스튜디오 조명.\n패널 1: 정면 상반신(바스트) 샷\n패널 2: 완전 오른쪽 측면 프로필 샷\n패널 3: 완전 왼쪽 측면 프로필 샷\n패널 4: 정면 얼굴 극단 클로즈업.\n패널 5: 정면 전신 샷.\n패널 6: 후면 전신샷.\n전체적인 디테일은 실사 8K급의 선명도를 유지하되, 반드시 원본의 그림체를 따라야 해. 이미지 비율은 16:9 비율이야."
+                        },
+                        {
+                            title: "Step 3. 키프레임 기획 (이미지 설정 끄기!)",
+                            desc: "한 번에 다 그리지 말고, 먼저 5개 장면에 대해 글로 묘사하라고 지시합니다.",
+                            prompt: "스토리와 앞서 만든 캐릭터 시트를 바탕으로, 영상에 들어갈 5개 장면(키프레임)의 시각적 묘사(Text Description)를 번호별로 작성해줘. 내용에는 반드시 얼굴이 포함되어야해. 인물의 복장과 구도, 배경의 분위기, 빛의 방향 등을 상세히 적어주되, 모든 장면이 동일한 세계관과 화풍 안에 있도록 기획해줘."
+                        },
+                        {
+                            title: "Step 4. 한 장씩 따로 그리기 (이미지 설정 다시 켜기!)",
+                            desc: "1번 그림이 완성되면 글씨칸에서 '1번'을 '2번'으로 지우고 고쳐서 다시 명령합니다. 5번까지 반복 후 사진을 내 컴퓨터에 저장하세요.",
+                            prompt: "위에서 기획한 1번 장면을 생성해줘. 이때 반드시 너가 만든 캐릭터 시트의 인물의 복장과 그림체를 한 치의 오차 없이 반영해야 해. 스타일은 8K 퀄리티야. 이미지 비율은 16:9 비율이야."
+                        }
+                    ]
+                },
+                day2: {
+                    title: "2일차: 동영상 변환 (생명력을 불어넣는 연출)",
+                    intro: "멈춰있는 5장의 사진을 움직이는 8초짜리 영상으로 만드는 과정입니다.",
+                    steps: [
+                        {
+                            title: "Step 1. 멀티샷 설계도 받기 (이미지 설정 끄기!)",
+                            desc: "제미나이에게 사진들이 어떻게 움직일지 상세한 계획을 짜달라고 합니다.",
+                            prompt: "확보된 5장의 키프레임 이미지를 바탕으로, 클링 3.0(Kling 3.0) 모델의 멀티샷 기능에 사용할 영상 생성 프롬프트를 작성해줘.\n[조건] 각 이미지당 8초 길이의 영상이 되어야 함. 한 이미지당 3개의 시간대별 프롬프트가 필요함 (0-2초 / 2-5초 / 5-8초 구간). 총 5장의 이미지이므로 전체 15개의 프롬프트를 리스트업해줘. 인물은 대사를 하지 않고 배경음악(BGM)은 제외할 것. 장면의 몰입감을 높이는 '생생한 현장 효과음(SFX)' 묘사를 반드시 포함할 것. 스타일은 '전체적인 디테일은 실사 8K급의 선명도를 유지하되, 반드시 원본의 그림체를 따라야 해.'"
+                        },
+                        {
+                            title: "Step 2. 플로우(Flow)에 접속하여 영상 만들기",
+                            desc: "플로우(Flow AI)에 접속해 5장 사진을 넣고 영상을 만듭니다. 가장 중요한 것은 아래의 '무음 모드' 지시어를 항상 맨 앞에 적는 것입니다.",
+                            prompt: "[오디오 설정] 현장 수음(ASMR) 스타일. 악기 소리나 멜로디가 전혀 없는 순수 환경음 모드, 인물은 대사를 하지 않는다.\n\n(이 문구 뒤에 제미나이가 짜준 시간대별 설명을 붙여넣으세요.)"
+                        }
+                    ]
+                },
+                day3: {
+                    title: "3일차: 소리 및 완성 (브루, 캡컷 활용)",
+                    intro: "목소리와 음악을 만들고, 캡컷에서 모든 재료를 합칩니다.",
+                    steps: [
+                        {
+                            title: "Step 1. 제미나이에서 나레이션 대본 받기",
+                            desc: "영상 길이에 딱 맞는 대본을 부탁합니다.",
+                            prompt: "지금까지 기획한 5개의 키프레임(각 8초) 흐름에 딱 맞는 40초짜리 유튜브 나레이션 스크립트를 작성해줘. 전체 길이는 읽었을 때 정확히 40초 내외여야 하며, 한 장면당 읽는 시간은 약 5~6초로 맞춰줘. 나레이션만 바로 복사해서 넣을 수 있게 문장을 줄바꿈해서 써줘."
+                        },
+                        {
+                            title: "Step 2. 제미나이에서 배경음악 만들기",
+                            desc: "제미나이 설정을 '음악'으로 바꾸고 분위기에 맞는 음악을 요청합니다.",
+                            prompt: "장면 1번부터 5번까지 맞는 배경음악을 만들어줘. 피아노와 현악기를 넣어서 생성해줘. 가사는 없어."
+                        },
+                        {
+                            title: "Step 3. 브루(Vrew)에서 목소리와 자막 빼기",
+                            desc: "브루 프로그램에서 '새로만들기 -> AI 목소리로 시작하기' 후 대본을 넣고, mp3(오디오)와 srt(자막) 파일을 저장합니다.",
+                            prompt: "※ 복사할 프롬프트가 없습니다. 프로그램 지시사항을 따르세요."
+                        },
+                        {
+                            title: "Step 4. 캡컷(CapCut)에서 몽땅 합치기",
+                            desc: "영상 5개, 목소리, 자막, 배경음악을 캡컷으로 불러와서 아래 타임라인(도마)에 순서대로 끌어다 놓습니다. 워터마크는 영상 크기를 115%로 키워 가립니다.",
+                            prompt: "※ 복사할 프롬프트가 없습니다. 프로그램 지시사항을 따르세요."
+                        }
+                    ]
+                }
+            }
+        };
+
+        let currentChart = null;
+
+        function init() {
+            renderTools();
+            renderTerms();
+            renderGems();
+            renderFlowFeatures();
+            switchDay('day1');
+        }
+
+        function navigate(sectionId) {
+            document.querySelectorAll('.hidden-section, #section-prep').forEach(el => el.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.className = 'px-4 py-2 rounded-full font-bold transition-colors inactive-tab hover:bg-stone-100';
+            });
+            const activeBtn = document.getElementById(sectionId.replace('section-', 'nav-'));
+            if(activeBtn) {
+                activeBtn.className = 'px-4 py-2 rounded-full font-bold transition-colors active-tab shadow-md';
+            }
+            
+            const selectEl = document.querySelector('select');
+            if(selectEl) selectEl.value = sectionId;
+
+            if(sectionId === 'section-advanced') {
+                setTimeout(renderPricingChart, 100);
+            }
+        }
+
+        function renderTools() {
+            const container = document.getElementById('tools-container');
+            container.innerHTML = appData.tools.map(tool => `
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white border border-stone-200 p-4 rounded-xl hover:border-orange-300 transition-colors">
+                    <div>
+                        <div class="font-bold text-lg text-stone-800">${tool.id}. ${tool.name}</div>
+                        <div class="text-sm text-stone-500">${tool.desc}</div>
+                    </div>
+                    <a href="${tool.url}" target="_blank" class="mt-3 sm:mt-0 w-full sm:w-auto text-center bg-stone-100 hover:bg-orange-50 text-stone-700 hover:text-orange-700 border border-stone-200 hover:border-orange-300 px-4 py-2 rounded-lg text-sm font-bold transition-colors">
+                        ${tool.action} &rarr;
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function renderTerms() {
+            const container = document.getElementById('terms-container');
+            container.innerHTML = appData.terms.map((term, index) => `
+                <div class="border border-stone-200 rounded-xl overflow-hidden bg-white">
+                    <button onclick="toggleTerm(${index})" class="w-full flex justify-between items-center p-4 hover:bg-orange-50 transition-colors">
+                        <span class="font-bold text-stone-800 text-left">${term.term}</span>
+                        <span id="term-icon-${index}" class="text-orange-400 font-black text-xl transition-transform">+</span>
+                    </button>
+                    <div id="term-content-${index}" class="hidden p-4 pt-0 border-t border-stone-100 bg-stone-50">
+                        <div class="mt-3 text-stone-700 font-bold">의미: ${term.desc}</div>
+                        <div class="mt-1 text-sm text-stone-500">🍳 요리 비유: <span class="text-orange-700 font-medium">${term.analogy}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleTerm(index) {
+            const content = document.getElementById(`term-content-${index}`);
+            const icon = document.getElementById(`term-icon-${index}`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '−';
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '+';
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function renderGems() {
+            const container = document.getElementById('gems-container');
+            container.innerHTML = appData.gems.map(gem => `
+                <div class="flex gap-4 p-4 border border-stone-200 rounded-xl bg-stone-50 items-center">
+                    <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black text-lg shrink-0 border border-orange-200 shadow-sm">
+                        ${gem.step}
+                    </div>
+                    <div>
+                        <div class="font-bold text-stone-800 mb-1">${gem.title}</div>
+                        <div class="text-sm text-stone-600 leading-snug">${gem.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFlowFeatures() {
+            const container = document.getElementById('flow-features');
+            container.innerHTML = appData.flowFeatures.map(feat => `
+                <div class="bg-stone-700 p-3 rounded-xl border border-stone-600">
+                    <div class="font-bold text-orange-300 text-sm mb-1">${feat.name}</div>
+                    <div class="text-xs text-stone-300 leading-relaxed">${feat.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function switchDay(dayId) {
+            ['day1', 'day2', 'day3'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                if(id === dayId) {
+                    btn.className = 'px-6 py-3 rounded-xl font-bold transition-all text-lg active-tab shadow-md';
+                } else {
+                    btn.className = 'px-6 py-3 rounded-xl font-bold transition-all text-lg inactive-tab hover:bg-stone-50 border';
+                }
+            });
+
+            const data = appData.workflow[dayId];
+            let stepsHtml = data.steps.map((step, index) => {
+                const isNoPrompt = step.prompt.startsWith('※');
+                return `
+                <div class="mb-8 border-l-4 border-orange-400 pl-4 py-1">
+                    <h4 class="text-xl font-black text-stone-800 mb-2">${step.title}</h4>
+                    <p class="text-stone-600 mb-4">${step.desc}</p>
+                    <div class="bg-stone-100 rounded-xl border border-stone-200 overflow-hidden">
+                        <div class="bg-stone-200 px-4 py-2 flex justify-between items-center border-b border-stone-300">
+                            <span class="text-xs font-bold text-stone-600 tracking-wider">명령어 (프롬프트)</span>
+                            ${!isNoPrompt ? `<button onclick="copyText('prompt-${dayId}-${index}')" class="bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors shadow-sm active:scale-95">복사하기</button>` : ''}
+                        </div>
+                        <div class="p-4 bg-white overflow-x-auto">
+                            <pre id="prompt-${dayId}-${index}" class="text-sm font-mono text-stone-700 whitespace-pre-wrap leading-relaxed ${isNoPrompt ? 'italic text-stone-500' : ''}">${step.prompt}</pre>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            document.getElementById('workflow-content').innerHTML = `
+                <div class="fade-in">
+                    <h3 class="text-2xl font-black text-stone-900 mb-2">${data.title}</h3>
+                    <p class="text-stone-500 mb-8 pb-4 border-b border-stone-200">${data.intro}</p>
+                    ${stepsHtml}
+                </div>
+            `;
+        }
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ 명령어가 복사되었습니다!\n제미나이 입력창에 마우스 오른쪽 버튼을 누르고 [붙여넣기] 하세요.');
+            }).catch(err => {
+                const ta = document.createElement("textarea");
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                alert('✅ 명령어가 복사되었습니다!\n제미나이 입력창에 마우스 오른쪽 버튼을 누르고 [붙여넣기] 하세요.');
+            });
+        }
+
+        function renderPricingChart() {
+            if(currentChart) currentChart.destroy();
+            
+            const ctx = document.getElementById('pricingChart').getContext('2d');
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: appData.pricing.map(p => p.tier),
+                    datasets: [{
+                        label: '비디오 생성 한도 (로그 스케일)',
+                        data: appData.pricing.map(p => p.limit),
+                        backgroundColor: [
+                            '#d6d3d1', // free
+                            '#fdba74', // plus
+                            '#f97316', // pro
+                            '#9a3412'  // ultra
+                        ],
+                        borderRadius: 6,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1c1917',
+                            padding: 12,
+                            titleFont: { size: 14, family: "'Noto Sans KR', sans-serif" },
+                            bodyFont: { size: 14, family: "'Noto Sans KR', sans-serif" },
+                            callbacks: {
+                                label: function(context) {
+                                    return `생성 한도: ${context.raw.toLocaleString()}개`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            title: { display: true, text: '생성 개수 (개/월)' },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    if (value === 10 || value === 100 || value === 1000 || value === 10000 || value === 25000) {
+                                        return value.toLocaleString();
+                                    }
+                                    return '';
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: { font: { family: "'Noto Sans KR', sans-serif", weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+
+            const detailsContainer = document.getElementById('pricing-details');
+            detailsContainer.innerHTML = appData.pricing.map((p, index) => {
+                const colors = ['text-stone-600', 'text-orange-500', 'text-orange-700', 'text-red-900'];
+                const bgColors = ['bg-stone-50', 'bg-orange-50', 'bg-orange-100', 'bg-red-50'];
+                return `
+                <div class="${bgColors[index]} border border-stone-200 p-4 rounded-xl">
+                    <div class="font-black text-stone-800 mb-1">${p.tier}</div>
+                    <div class="${colors[index]} font-bold mb-2">${p.price}</div>
+                    <div class="text-xs text-stone-600 mb-1"><strong>한도:</strong> ${p.text}</div>
+                    <div class="text-xs text-stone-600 leading-tight"><strong>특징:</strong> ${p.detail}</div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        window.onload = () => {
+            init();
+            navigate('section-prep'); // Ensure first section is visible
+        };
+    </script>
+</body>
+</html>

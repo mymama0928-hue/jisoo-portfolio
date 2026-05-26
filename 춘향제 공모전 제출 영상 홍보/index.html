@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제96회 남원 춘향제 — 웹툰처럼 시작되는 봄의 축제</title>
+  <meta name="description" content="봄밤, 춘향의 이야기가 다시 시작된다. 제96회 남원 춘향제 티저 영상을 확인하세요.">
+  <!-- 스크롤 복원 즉시 비활성화 (렌더 전) -->
+  <script>if('scrollRestoration'in history)history.scrollRestoration='manual';</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      background: #08091a;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* ── Blossom falling ── */
+    .blossom {
+      position: fixed;
+      top: -30px;
+      pointer-events: none;
+      z-index: 2;
+      user-select: none;
+      animation: blossom-fall linear forwards;
+    }
+    @keyframes blossom-fall {
+      0%   { transform: translateY(0) rotate(0deg) translateX(0);   opacity: 0.8; }
+      25%  { transform: translateY(25vh) rotate(90deg) translateX(20px); }
+      50%  { transform: translateY(50vh) rotate(180deg) translateX(-15px); }
+      75%  { transform: translateY(75vh) rotate(270deg) translateX(25px); }
+      100% { transform: translateY(110vh) rotate(360deg) translateX(0); opacity: 0; }
+    }
+
+    /* ── Play button pulse ── */
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(236,72,153,0.5); }
+      50%       { transform: scale(1.09); box-shadow: 0 0 0 18px rgba(236,72,153,0); }
+    }
+    .play-pulse { animation: pulse-glow 2.2s ease-in-out infinite; }
+
+    /* ── Float ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    .float-anim { animation: float 3s ease-in-out infinite; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── TOP & Music 버튼 ── */
+    #topBtn, #musicBtn {
+      display: none;          /* JS로 flex 전환 */
+      align-items: center;
+      justify-content: center;
+    }
+    #topBtn:hover  { transform: translateY(-3px); }
+    #musicBtn:hover { opacity: 0.85; }
+
+    /* 모바일: 하단 CTA 위 */
+    @media (max-width: 767px) {
+      #topBtn   { bottom: 90px !important; }
+      #musicBtn { bottom: 90px !important; }
+    }
+    /* 데스크톱: 하단 여유 공간 */
+    @media (min-width: 768px) {
+      #topBtn   { bottom: 32px !important; }
+      #musicBtn { bottom: 32px !important; }
+    }
+
+    /* 음악 꺼짐 상태 */
+    #musicBtn.muted { opacity: 0.45; }
+    #musicBtn.muted::after {
+      content: '';
+      position: absolute;
+      width: 2px; height: 28px;
+      background: rgba(255,255,255,0.6);
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+
+    /* ── Shimmer text ── */
+    @keyframes shimmer {
+      0%   { background-position: -300% center; }
+      100% { background-position: 300% center; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg, #fde68a, #ffffff, #f9a8d4, #fde68a);
+      background-size: 300% auto;
+      animation: shimmer 5s linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Gradient text helpers ── */
+    .grad-gold {
+      background: linear-gradient(135deg, #f5c842, #e8a020, #f5c842);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-pink {
+      background: linear-gradient(135deg, #f9a8d4, #ec4899, #be185d);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Cards ── */
+    .story-card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .story-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 48px rgba(236,72,153,0.25);
+    }
+    .story-card .card-img { transition: transform 0.5s ease; }
+    .story-card:hover .card-img { transform: scale(1.07); }
+
+    .char-card {
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .char-card:hover { transform: translateY(-8px); }
+
+    /* ── Speech bubble ── */
+    .speech {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: #1a1a3a;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      z-index: 20;
+    }
+    .speech::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-top-color: white;
+    }
+    .char-card.speak .speech { display: block; }
+
+    /* ── Gallery ── */
+    .gal-item { cursor: pointer; overflow: hidden; border-radius: 16px; }
+    .gal-item img { transition: transform 0.45s ease; display: block; width: 100%; }
+    .gal-item:hover img { transform: scale(1.07); }
+
+    /* ── Modals ── */
+    #videoModal, #lightbox {
+      display: flex;            /* 항상 flex — display 전환 금지 (비디오 렌더 트리 유지) */
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      /* 숨김은 opacity + visibility로만 처리 */
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    #videoModal.open, #lightbox.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* ── End screen ── */
+    #endScreen {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      border-radius: 16px;
+    }
+    #endScreen.show { display: flex; }
+
+    /* ── Nav ── */
+    #mainNav {
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    #mainNav.scrolled {
+      background: rgba(8,9,26,0.96) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 88px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #1e1b4b;
+      border: 1px solid rgba(236,72,153,0.4);
+      color: white;
+      font-size: 0.82rem;
+      padding: 10px 22px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 200;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    @media (min-width: 768px) {
+      #toast { bottom: 36px; }
+    }
+
+    /* ── Section divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(236,72,153,0.35), transparent);
+      margin: 0 32px;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #08091a; }
+    ::-webkit-scrollbar-thumb { background: #be185d; border-radius: 2px; }
+    /* 갤러리 썸네일 스크롤바 숨김 */
+    #galThumbs::-webkit-scrollbar { display: none; width: 0; }
+
+    /* ── Bottom fixed CTA (mobile) ── */
+    #bottomCta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      background: linear-gradient(to top, rgba(8,9,26,0.98), rgba(8,9,26,0.7));
+      backdrop-filter: blur(8px);
+      padding: 10px 16px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    @media (min-width: 768px) { #bottomCta { display: none !important; } }
+
+    /* ── Neon border ── */
+    .neon-border {
+      box-shadow: 0 0 0 1px rgba(236,72,153,0.3), 0 0 20px rgba(236,72,153,0.1);
+    }
+
+    /* ── Festival badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(236,72,153,0.12);
+      border: 1px solid rgba(236,72,153,0.3);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 0.75rem;
+      color: #f9a8d4;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     CHERRY BLOSSOMS CONTAINER
+════════════════════════════════ -->
+<div id="blossomContainer" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════
+     NAVIGATION
+════════════════════════════════ -->
+<nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 px-4 py-3">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#hero" class="flex items-center gap-2 no-underline">
+      <span class="text-pink-400 text-lg">🌸</span>
+      <span class="font-black text-sm md:text-base">
+        <span class="grad-gold">제96회</span>
+        <span class="text-white ml-1">남원 춘향제</span>
+      </span>
+    </a>
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-6 text-sm">
+      <a href="#story"      class="text-white/70 hover:text-pink-300 transition-colors">이야기</a>
+      <a href="#characters" class="text-white/70 hover:text-pink-300 transition-colors">캐릭터</a>
+      <a href="#gallery"    class="text-white/70 hover:text-pink-300 transition-colors">갤러리</a>
+      <a href="#festival"   class="text-white/70 hover:text-pink-300 transition-colors">축제정보</a>
+    </div>
+    <!-- Mobile hamburger -->
+    <button onclick="toggleNav()" class="md:hidden text-white p-1" aria-label="메뉴">
+      <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobileNav" class="hidden md:hidden mt-3 pt-3 border-t border-white/10 pb-2">
+    <div class="flex flex-col gap-4 text-sm">
+      <a href="#story"      onclick="toggleNav()" class="text-white/70 hover:text-pink-300 transition-colors">이야기</a>
+      <a href="#characters" onclick="toggleNav()" class="text-white/70 hover:text-pink-300 transition-colors">캐릭터</a>
+      <a href="#gallery"    onclick="toggleNav()" class="text-white/70 hover:text-pink-300 transition-colors">갤러리</a>
+      <a href="#festival"   onclick="toggleNav()" class="text-white/70 hover:text-pink-300 transition-colors">축제정보</a>
+      <a href="#share"      onclick="toggleNav()" class="text-white/70 hover:text-pink-300 transition-colors">공유하기</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════
+     A. HERO SECTION
+════════════════════════════════ -->
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+
+  <!-- BG glow blobs -->
+  <div aria-hidden="true" class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-pink-900/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                w-[700px] h-[700px] bg-purple-900/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 pt-24 pb-16 w-full">
+    <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+
+      <!-- LEFT: Copy -->
+      <div class="lg:flex-1 text-center lg:text-left order-2 lg:order-1">
+        <div class="badge mb-5 mx-auto lg:mx-0">
+          <span>✦</span> Chunhyang Festival 2025 <span>✦</span>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-5" style="line-height:1.45;">
+          <span class="shimmer-text">봄밤,</span><br>
+          <span class="text-white">춘향의 이야기가</span><br>
+          <span class="grad-pink">다시 시작된다</span>
+        </h1>
+
+        <p class="text-white/65 text-base md:text-lg mb-8 leading-relaxed">
+          조선 청춘들이 도심과 축제 속으로 뛰어든다.<br class="hidden md:block">
+          지금, 춘향제 티저 영상을 확인하세요.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+          <button onclick="openVideo()"
+            class="play-pulse bg-gradient-to-r from-pink-600 to-pink-500
+                   hover:from-pink-500 hover:to-pink-400
+                   text-white font-bold py-4 px-8 rounded-full text-lg
+                   shadow-lg transition-all flex items-center justify-center gap-3">
+            <span class="text-xl">▶</span> 티저 영상 보기
+          </button>
+          <a href="#gallery"
+            class="border border-white/25 hover:border-pink-400
+                   text-white/75 hover:text-pink-300 font-medium
+                   py-4 px-8 rounded-full text-base transition-all
+                   flex items-center justify-center gap-2">
+            🌸 갤러리 보기
+          </a>
+        </div>
+
+        <!-- Quick info -->
+        <div class="flex flex-wrap gap-5 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 text-white/50 text-sm">
+            <span class="text-pink-400">📅</span> 2025년 봄
+          </div>
+          <div class="flex items-center gap-2 text-white/50 text-sm">
+            <span class="text-pink-400">📍</span> 전북 남원시
+          </div>
+          <div class="flex items-center gap-2 text-white/50 text-sm">
+            <span class="text-pink-400">🎆</span> 제96회
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Inline Video Player -->
+      <div class="lg:flex-1 order-1 lg:order-2 flex justify-center w-full">
+        <div id="heroPlayerWrap" class="relative" style="max-width:340px; width:100%;">
+
+          <!-- Glow halo -->
+          <div class="absolute inset-0 -m-3 bg-pink-600/25 rounded-3xl blur-2xl
+                      transition-all duration-500" id="heroGlow" aria-hidden="true"></div>
+
+          <!-- 썸네일 + 비디오 스택 컨테이너 (aspect-ratio 고정) -->
+          <div id="heroStack"
+               class="relative rounded-2xl overflow-hidden neon-border shadow-2xl bg-black"
+               style="aspect-ratio:9/16; border:1px solid rgba(255,255,255,0.10);">
+
+            <!-- 비디오: playInline() 클릭 시 동적 생성 (정적 video 요소 없음) -->
+
+            <!-- 썸네일 오버레이 — 재생 전 표시 (z-index 높음) -->
+            <div id="heroThumb"
+                 class="absolute inset-0 cursor-pointer group z-10"
+                 onclick="playInline()">
+              <img loading="eager" src="썸네일.png" alt="제96회 남원 춘향제 공식 포스터"
+                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]">
+              <!-- Dark veil -->
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors"></div>
+              <!-- Play button -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="play-pulse w-20 h-20 rounded-full bg-white/15 backdrop-blur-sm
+                            border-2 border-white/60 flex items-center justify-center hover:bg-white/30 transition-colors">
+                  <span class="text-white text-3xl ml-1">▶</span>
+                </div>
+              </div>
+              <!-- Mobile hint -->
+              <div class="absolute bottom-4 inset-x-0 text-center md:hidden">
+                <span class="text-white/70 text-xs bg-black/50 px-3 py-1 rounded-full">Tap to Play</span>
+              </div>
+            </div>
+
+          </div><!-- /heroStack -->
+
+          <!-- 공유/닫기 버튼 — 재생 시만 표시 -->
+          <div id="heroActions" style="display:none;" class="mt-3 flex gap-2">
+            <button onclick="closeInline()"
+              class="flex items-center justify-center gap-1.5
+                     bg-white/10 hover:bg-white/20 text-white/80 hover:text-white
+                     text-xs font-medium py-2.5 px-3.5 rounded-xl border border-white/20
+                     transition-all active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              닫기
+            </button>
+            <button onclick="copyLink()"
+              class="flex-1 bg-white/8 hover:bg-white/15 text-white/80 hover:text-white
+                     text-xs font-medium py-2.5 px-3 rounded-xl border border-white/15
+                     flex items-center justify-center gap-1.5 transition-all">
+              🔗 공유하기
+            </button>
+            <a href="https://www.instagram.com/reel/DVWGfC4Ez4e/" target="_blank" rel="noopener"
+               class="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-85
+                      text-white text-xs font-bold py-2.5 px-3 rounded-xl
+                      flex items-center justify-center gap-1.5 transition-all">
+              📱 Instagram
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll arrow -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 float-anim text-white/35 flex flex-col items-center gap-1">
+    <span class="text-[10px] tracking-widest uppercase">scroll</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     C. STORY SECTION
+════════════════════════════════ -->
+<section id="story" class="py-20 px-4">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <p class="badge mb-4 mx-auto">Story</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        춘향제에 나타난 두 청춘
+      </h2>
+      <p class="text-white/55 max-w-xl mx-auto leading-relaxed">
+        전통 한복을 입은 두 인물이 현대 도시를 달리고,<br class="hidden md:block">
+        벚꽃길과 축제장 속에서 춘향제의 새로운 이야기를 만난다.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="story-card bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-white/8 reveal neon-border"
+           style="transition-delay:.08s">
+        <div class="aspect-[9/13] overflow-hidden">
+          <img loading="eager" src="첫_1.png" alt="도심 질주" class="card-img w-full h-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-xs font-bold shrink-0">1</span>
+            <h3 class="text-lg font-bold text-white">도심 질주</h3>
+          </div>
+          <p class="text-white/55 text-sm leading-relaxed">
+            현대 도시에서 시작되는 특별한 여정.<br>
+            네온사인이 빛나는 밤, 컨버터블을 타고 달리는 두 청춘.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="story-card bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-white/8 reveal neon-border"
+           style="transition-delay:.18s">
+        <div class="aspect-[9/13] overflow-hidden">
+          <img loading="eager" src="첫_4.png" alt="벚꽃의 약속" class="card-img w-full h-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</span>
+            <h3 class="text-lg font-bold text-white">벚꽃의 약속</h3>
+          </div>
+          <p class="text-white/55 text-sm leading-relaxed">
+            춘향의 설렘을 닮은 봄날의 장면.<br>
+            흩날리는 꽃잎 속, 두 손이 맞닿는 순간.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="story-card bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-white/8 reveal neon-border"
+           style="transition-delay:.28s">
+        <div class="aspect-[9/13] overflow-hidden">
+          <img loading="eager" src="freepik__-96-extreme-wide-shot-96-916-__9810.png"
+               alt="축제의 밤" class="card-img w-full h-full object-cover object-center">
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</span>
+            <h3 class="text-lg font-bold text-white">축제의 밤</h3>
+          </div>
+          <p class="text-white/55 text-sm leading-relaxed">
+            전통과 청춘이 만나는 화려한 축제.<br>
+            불꽃이 터지는 밤, 광한루원의 이야기.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     D. CHARACTER SECTION
+════════════════════════════════ -->
+<section id="characters" class="py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <p class="badge mb-4 mx-auto">Characters</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">이야기의 주인공들</h2>
+      <p class="text-white/55">카드를 클릭하면 캐릭터의 대사를 들을 수 있어요</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Char 1: 이몽룡 -->
+      <div class="char-card reveal bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-blue-500/25
+                  shadow-xl shadow-blue-950/40"
+           style="transition-delay:.08s" onclick="toggleSpeech(this)">
+        <div class="speech">자, 춘향제로 출발하자! 🎆</div>
+        <!-- 이미지 -->
+        <div class="aspect-[3/4] overflow-hidden">
+          <img loading="eager" src="freepik__-lowangle-hero-shot-char1-img1-char1-916-motion-bl__9809.png"
+               alt="이몽룡" class="w-full h-full object-cover object-top
+                                  transition-transform duration-500 hover:scale-105">
+        </div>
+        <!-- 텍스트 — 이미지와 분리, 충분한 패딩 -->
+        <div class="px-6 pt-6 pb-7 border-t border-blue-500/15">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">🎩</span>
+            <h3 class="text-lg font-bold text-white">이몽룡</h3>
+          </div>
+          <p class="text-blue-300 text-xs mb-3 tracking-wide">조선풍 히어로</p>
+          <p class="text-white/60 text-sm leading-relaxed">
+            차분하지만 강렬한 존재감.<br>춘향제의 분위기를 이끄는 조선풍 히어로.
+          </p>
+        </div>
+      </div>
+
+      <!-- Char 2: 방자 -->
+      <div class="char-card reveal bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-teal-500/25
+                  shadow-xl shadow-teal-950/40"
+           style="transition-delay:.18s" onclick="toggleSpeech(this)">
+        <div class="speech">어서 와, 춘향제 처음이지? 🌸</div>
+        <!-- 이미지 -->
+        <div class="aspect-[3/4] overflow-hidden">
+          <img loading="eager" src="첫_5.png" alt="방자"
+               class="w-full h-full object-cover object-top
+                      transition-transform duration-500 hover:scale-105">
+        </div>
+        <!-- 텍스트 -->
+        <div class="px-6 pt-6 pb-7 border-t border-teal-500/15">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">🎋</span>
+            <h3 class="text-lg font-bold text-white">방자</h3>
+          </div>
+          <p class="text-teal-300 text-xs mb-3 tracking-wide">유쾌한 안내자</p>
+          <p class="text-white/60 text-sm leading-relaxed">
+            유쾌하고 인간적인 매력.<br>관객을 축제 속으로 데려가는 안내자.
+          </p>
+        </div>
+      </div>
+
+      <!-- Char 3: 벚꽃 신발 -->
+      <div class="char-card reveal bg-gradient-to-b from-[#161630] to-[#0c0c1e]
+                  rounded-2xl overflow-hidden border border-pink-500/25
+                  shadow-xl shadow-pink-950/40"
+           style="transition-delay:.28s" onclick="playInline()">
+        <div class="speech">숨겨진 영상이 있어요! ▶ 클릭!</div>
+        <!-- 이미지 -->
+        <div class="aspect-[3/4] overflow-hidden bg-[#12122a] flex items-center justify-center">
+          <img id="sneakerImg"
+               src="freepik__digital-illustration-a-white-hightop-sneaker-with-__56239.png"
+               alt="벚꽃 신발"
+               loading="eager"
+               class="w-full h-full transition-transform duration-500 hover:scale-105"
+               style="object-fit:cover; display:block;"
+               onerror="this.style.display='none';document.getElementById('sneakerFallback').style.display='flex';">
+          <div id="sneakerFallback"
+               style="display:none;flex-direction:column;align-items:center;justify-content:center;
+                      width:100%;height:100%;color:rgba(249,168,212,0.7);font-size:3rem;gap:12px;">
+            👟<span style="font-size:0.8rem;letter-spacing:0.1em;">벚꽃 신발</span>
+          </div>
+        </div>
+        <!-- 텍스트 -->
+        <div class="px-6 pt-6 pb-7 border-t border-pink-500/15">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">👟</span>
+            <h3 class="text-lg font-bold text-white">벚꽃 신발</h3>
+          </div>
+          <p class="text-pink-300 text-xs mb-3 tracking-wide">이야기의 열쇠</p>
+          <p class="text-white/60 text-sm leading-relaxed">
+            봄, 설렘, 만남을 상징하는 단서.<br>클릭하면 영상으로 연결됩니다.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     F. GALLERY SECTION — CAROUSEL
+════════════════════════════════ -->
+<section id="gallery" class="py-20 px-4">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-10 reveal">
+      <p class="badge mb-4 mx-auto">Gallery</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">장면 모아보기</h2>
+      <p class="text-white/55">스와이프 또는 화살표로 이동 · 이미지를 탭하면 크게 보기</p>
+    </div>
+
+    <!-- ── Carousel ── -->
+    <div class="max-w-sm mx-auto reveal">
+
+      <!-- 메인 스테이지 -->
+      <div id="galTrack"
+           class="relative rounded-2xl overflow-hidden shadow-2xl"
+           style="aspect-ratio:3/4; background:#000;
+                  border:1px solid rgba(236,72,153,0.25);
+                  box-shadow:0 0 0 1px rgba(236,72,153,0.15), 0 24px 48px rgba(0,0,0,0.6);">
+
+        <!-- 현재 이미지 -->
+        <img id="galImg" src="" alt=""
+             class="absolute inset-0 w-full h-full object-cover cursor-pointer"
+             style="transition:opacity 0.35s ease;"
+             onclick="openLightbox(galIdx)">
+
+        <!-- 캡션 그라디언트 -->
+        <div class="absolute bottom-0 inset-x-0 pointer-events-none"
+             style="background:linear-gradient(to top,rgba(0,0,0,0.78) 0%,transparent 100%);
+                    padding:52px 16px 16px;">
+          <p id="galCap" class="text-white text-sm font-semibold leading-snug"></p>
+        </div>
+
+        <!-- 카운터 배지 -->
+        <div class="absolute top-3 right-3 bg-black/55 backdrop-blur-sm
+                    text-white/80 text-xs px-3 py-1 rounded-full">
+          <span id="galCnt">1 / 12</span>
+        </div>
+
+        <!-- 왼쪽 화살표 -->
+        <button onclick="galMove(-1)"
+          class="absolute left-2 top-1/2 -translate-y-1/2 z-10
+                 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm
+                 hover:bg-pink-600/80 active:scale-95
+                 flex items-center justify-center text-white text-2xl
+                 transition-all duration-200 shadow-lg">
+          ‹
+        </button>
+
+        <!-- 오른쪽 화살표 -->
+        <button onclick="galMove(1)"
+          class="absolute right-2 top-1/2 -translate-y-1/2 z-10
+                 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm
+                 hover:bg-pink-600/80 active:scale-95
+                 flex items-center justify-center text-white text-2xl
+                 transition-all duration-200 shadow-lg">
+          ›
+        </button>
+
+      </div><!-- /galTrack -->
+
+      <!-- 프로그레스 바 -->
+      <div class="mt-3 h-0.5 rounded-full bg-white/10 overflow-hidden">
+        <div id="galProgress"
+             class="h-full rounded-full"
+             style="background:linear-gradient(90deg,#be185d,#ec4899);
+                    width:8.33%; transition:width 0.35s ease;">
+        </div>
+      </div>
+
+      <!-- 닷 인디케이터 -->
+      <div id="galDots" class="flex justify-center gap-2 mt-3 flex-wrap"></div>
+
+      <!-- 썸네일 스트립 -->
+      <div id="galThumbs"
+           class="mt-3 flex gap-2 overflow-x-auto pb-1"
+           style="-webkit-overflow-scrolling:touch; scrollbar-width:none;">
+      </div>
+
+    </div><!-- /carousel wrap -->
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     E. FESTIVAL INFO SECTION
+════════════════════════════════ -->
+<section id="festival" class="py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <p class="badge mb-4 mx-auto">Festival Info</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        제96회 남원 춘향제
+      </h2>
+      <p class="text-white/55 leading-relaxed">
+        낮에는 벚꽃과 전통 체험, 밤에는 불꽃과 조명이 어우러지는<br class="hidden md:block">
+        춘향제의 순간을 만나보세요.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 mb-12">
+
+      <div class="bg-gradient-to-br from-[#161630] to-[#0c0c1e]
+                  rounded-2xl p-6 border border-white/8 reveal neon-border">
+        <div class="text-3xl mb-3">📅</div>
+        <h3 class="text-white font-bold text-lg mb-2">축제 일정</h3>
+        <p class="text-white/65 mb-1">2025년 봄</p>
+        <p class="text-pink-400/80 text-xs">※ 정확한 날짜는 공식 홈페이지를 확인하세요</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#161630] to-[#0c0c1e]
+                  rounded-2xl p-6 border border-white/8 reveal neon-border"
+           style="transition-delay:.08s">
+        <div class="text-3xl mb-3">📍</div>
+        <h3 class="text-white font-bold text-lg mb-2">축제 장소</h3>
+        <p class="text-white/65 mb-1">전라북도 남원시 일원</p>
+        <p class="text-white/40 text-sm">광한루원 및 남원시 주요 거리</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#161630] to-[#0c0c1e]
+                  rounded-2xl p-6 border border-white/8 reveal neon-border"
+           style="transition-delay:.16s">
+        <div class="text-3xl mb-3">🎭</div>
+        <h3 class="text-white font-bold text-lg mb-2">주요 프로그램</h3>
+        <ul class="text-white/60 text-sm space-y-1">
+          <li>• 춘향국악대전</li>
+          <li>• 춘향제 퍼레이드</li>
+          <li>• 전통 공연 및 체험</li>
+          <li>• 야간 불꽃 행사</li>
+        </ul>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#161630] to-[#0c0c1e]
+                  rounded-2xl p-6 border border-white/8 reveal neon-border"
+           style="transition-delay:.24s">
+        <div class="text-3xl mb-3">📸</div>
+        <h3 class="text-white font-bold text-lg mb-2">특별 체험</h3>
+        <ul class="text-white/60 text-sm space-y-1">
+          <li>• 한복 체험 및 포토존</li>
+          <li>• 춘향 테마 포토월</li>
+          <li>• 광한루원 야경 산책</li>
+          <li>• 지역 먹거리 장터</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="flex flex-wrap gap-4 justify-center reveal">
+      <button onclick="openVideo()"
+        class="bg-gradient-to-r from-pink-600 to-pink-500
+               hover:from-pink-500 hover:to-pink-400
+               text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg
+               flex items-center gap-2">
+        ▶ 영상 보기
+      </button>
+      <a href="https://www.chunhyang.org" target="_blank" rel="noopener noreferrer"
+         class="bg-white/8 hover:bg-white/15 text-white/80 font-medium
+                py-3 px-6 rounded-full transition-all border border-white/15
+                flex items-center gap-2">
+        🌐 공식 홈페이지
+      </a>
+      <a href="https://map.kakao.com/?q=남원+광한루원" target="_blank" rel="noopener noreferrer"
+         class="bg-yellow-500/15 hover:bg-yellow-500/25 text-yellow-300 font-medium
+                py-3 px-6 rounded-full transition-all border border-yellow-500/25
+                flex items-center gap-2">
+        📍 길찾기
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     G. SHARE / ENDING SECTION
+════════════════════════════════ -->
+<section id="share" class="py-20 px-4 pb-32 md:pb-20">
+  <div class="max-w-2xl mx-auto text-center">
+    <div class="reveal">
+      <p class="badge mb-5 mx-auto">Share</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        봄밤의 축제,<br>
+        <span class="grad-pink">친구에게도 보여주세요</span>
+      </h2>
+      <p class="text-white/55 mb-10 leading-relaxed">
+        당신의 SNS에 춘향제 티저를 공유하고<br class="hidden md:block"> 함께 축제를 즐겨요
+      </p>
+
+      <div class="flex flex-wrap gap-4 justify-center">
+
+        <button onclick="openVideo()"
+          class="bg-gradient-to-r from-pink-600 to-pink-500
+                 hover:from-pink-500 hover:to-pink-400
+                 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg
+                 flex items-center gap-2">
+          <span>▶</span> 영상 다시보기
+        </button>
+
+        <button onclick="copyLink()"
+          class="bg-white/8 hover:bg-white/15 text-white font-medium
+                 py-3 px-6 rounded-full transition-all border border-white/15
+                 flex items-center gap-2">
+          <span>🔗</span> 링크 복사
+        </button>
+
+        <button onclick="downloadPoster()"
+          class="bg-gradient-to-r from-purple-700 to-pink-700
+                 hover:from-purple-600 hover:to-pink-600
+                 text-white font-medium py-3 px-6 rounded-full transition-all
+                 flex items-center gap-2">
+          <span>📥</span> 포스터 저장
+        </button>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-10 px-4 border-t border-white/6 text-center">
+  <p class="text-white/30 text-sm">© 2025 제96회 남원 춘향제 홍보페이지</p>
+  <p class="text-white/20 text-xs mt-1">전라북도 남원시 | Chunhyang Festival</p>
+</footer>
+
+<!-- ── 배경음악 ── -->
+<audio id="bgMusic" loop preload="auto" src="bg.mp3"></audio>
+
+<!-- ── TOP 버튼 ── -->
+<button id="topBtn" onclick="scrollToTop()"
+  title="맨 위로"
+  style="display:none; position:fixed; bottom:88px; right:20px; z-index:60;
+         width:44px; height:44px; border-radius:50%;
+         background:linear-gradient(135deg,#be185d,#7c3aed);
+         border:none; cursor:pointer; box-shadow:0 4px 16px rgba(190,24,93,0.5);
+         transition:opacity 0.3s ease, transform 0.3s ease;
+         color:white; font-size:18px; line-height:1;
+         display:none; align-items:center; justify-content:center;">
+  ▲
+</button>
+
+<!-- ── 배경음악 토글 버튼 ── -->
+<button id="musicBtn" onclick="toggleMusic()"
+  title="배경음악"
+  style="display:none; position:fixed; bottom:88px; right:72px; z-index:60;
+         width:44px; height:44px; border-radius:50%;
+         background:rgba(30,27,75,0.85); backdrop-filter:blur(8px);
+         border:1px solid rgba(236,72,153,0.3); cursor:pointer;
+         box-shadow:0 4px 16px rgba(0,0,0,0.4);
+         transition:opacity 0.3s ease;
+         color:white; font-size:16px; line-height:1;
+         display:none; align-items:center; justify-content:center;">
+  🎵
+</button>
+
+<!-- ── Mobile Bottom CTA ── -->
+<div id="bottomCta">
+  <button onclick="openVideo()"
+    class="w-full bg-gradient-to-r from-pink-600 to-pink-500
+           text-white font-bold py-3 rounded-full
+           flex items-center justify-center gap-2 shadow-xl">
+    <span class="text-lg">▶</span> 영상 보기
+  </button>
+</div>
+
+<!-- ════════════════════════════════
+     VIDEO MODAL (로컬 영상)
+════════════════════════════════ -->
+<div id="videoModal" onclick="handleModalClick(event)">
+
+  <!-- 전체 컨테이너: 세로 중앙 정렬 -->
+  <div class="relative mx-auto flex flex-col items-center gap-3"
+       style="width:100%; max-width:min(380px, 90vw);" onclick="event.stopPropagation()">
+
+    <!-- 비디오 래퍼 -->
+    <div id="modalVideoWrap" class="relative w-full bg-black rounded-2xl overflow-hidden shadow-2xl"
+         style="aspect-ratio:9/16; max-height:72vh;">
+      <!-- 비디오: openVideo() 클릭 시 동적 생성 -->
+
+      <!-- 재생 차단 시 오버레이 -->
+      <div id="modalPlayOverlay"
+           style="display:none;"
+           class="absolute inset-0 flex flex-col items-center justify-center
+                  bg-black/70 cursor-pointer z-10"
+           onclick="forcePlay()">
+        <div class="w-16 h-16 rounded-full bg-pink-600/90 flex items-center
+                    justify-center text-white text-2xl mb-2 shadow-lg">▶</div>
+        <span class="text-white/80 text-sm">탭하여 재생</span>
+      </div>
+    </div>
+
+    <!-- 공유 버튼 행 -->
+    <div class="flex gap-2 w-full">
+      <button onclick="copyLink()"
+        class="flex-1 bg-white/10 hover:bg-white/20 text-white text-xs font-medium
+               py-2.5 px-3 rounded-xl border border-white/20
+               flex items-center justify-center gap-1.5 transition-all">
+        🔗 공유하기
+      </button>
+      <a href="https://www.instagram.com/reel/DVWGfC4Ez4e/" target="_blank" rel="noopener"
+         class="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-90
+                text-white text-xs font-bold py-2.5 px-3 rounded-xl
+                flex items-center justify-center gap-1.5 transition-all">
+        📱 Instagram
+      </a>
+    </div>
+
+    <!-- 닫기 버튼 — 하단 중앙, 전체 너비 -->
+    <button onclick="closeVideo()"
+      class="w-full flex items-center justify-center gap-2
+             bg-white/8 hover:bg-white/15
+             border border-white/20 hover:border-white/40
+             text-white/70 hover:text-white
+             font-semibold text-sm py-3 rounded-2xl
+             transition-all duration-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+      닫기
+    </button>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     LIGHTBOX
+════════════════════════════════ -->
+<div id="lightbox" onclick="closeLightbox()">
+
+  <!-- 좌우 화살표 -->
+  <button onclick="prevImg(event)" aria-label="이전"
+    class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2
+           w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 active:scale-95
+           flex items-center justify-center text-white text-2xl z-10 transition-all">
+    ‹
+  </button>
+  <button onclick="nextImg(event)" aria-label="다음"
+    class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2
+           w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 active:scale-95
+           flex items-center justify-center text-white text-2xl z-10 transition-all">
+    ›
+  </button>
+
+  <!-- 이미지 + 캡션 + 닫기 버튼 (세로 배치) -->
+  <div class="flex flex-col items-center gap-4 w-full max-w-sm md:max-w-md mx-auto px-10"
+       onclick="event.stopPropagation()">
+
+    <img id="lbImg" src="" alt=""
+         class="w-full rounded-xl shadow-2xl object-contain"
+         style="max-height:72vh;">
+
+    <p id="lbCaption" class="text-white/60 text-sm text-center leading-snug"></p>
+    <p id="lbCounter" class="text-white/35 text-xs text-center -mt-2"></p>
+
+    <!-- 닫기 버튼 — 하단 중앙, 크고 잘 보이게 -->
+    <button onclick="closeLightbox()"
+      class="w-full flex items-center justify-center gap-2
+             bg-white/12 hover:bg-white/22 active:scale-95
+             border border-white/25 hover:border-white/50
+             text-white font-semibold text-sm py-3.5 rounded-2xl
+             transition-all duration-200 shadow-lg"
+      style="backdrop-filter:blur(8px);">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+      닫기
+    </button>
+
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div id="toast">🔗 링크가 복사되었습니다! 친구에게 춘향제를 공유해보세요.</div>
+
+<!-- ════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════ -->
+<script>
+// ── 페이지 로드 시 항상 맨 위에서 시작 ────────────────
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+// load 이벤트 이후 강제 이동 (갤러리 초기화 완료 후 덮어씀)
+window.addEventListener('load', () => { window.scrollTo(0, 0); });
+
+// ── Data ──────────────────────────────────────────────
+const GALLERY = [
+  { src: '썸네일.png',                                                              cap: '제96회 남원 춘향제 — 공식 포스터' },
+  { src: '첫.png',                                                                  cap: '야경 드라이브 — 두 청춘의 출발' },
+  { src: 'freepik__-lowangle-hero-shot-char1-img1-char1-916-motion-bl__9809.png',  cap: '히어로 등장 — 춘향제를 향해' },
+  { src: '첫_1.png',                                                                cap: '컨버터블과 군중 — 도심의 화제' },
+  { src: '첫_2.png',                                                                cap: '신발을 신겨주는 장면 — 현대판 신데렐라' },
+  { src: '첫_3.png',                                                                cap: '벚꽃 로맨스 — 설레는 만남' },
+  { src: '첫_4.png',                                                                cap: '손잡은 봄날 — 춘향과 몽룡' },
+  { src: '첫_5.png',                                                                cap: '두 청춘 — 벚꽃길을 함께 걷다' },
+  { src: '첫__1.png',                                                               cap: '긴장의 순간 — 도심을 질주하며' },
+  { src: '첫__1_1.png',                                                             cap: '극적인 클로즈업 — 감정의 절정' },
+  { src: 'freepik__-96-extreme-wide-shot-96-916-__9810.png',                       cap: '축제 입장 — 광한루원의 밤' },
+  { src: 'freepik__digital-illustration-a-white-hightop-sneaker-with-__56239.png', cap: '벚꽃 신발 — 이야기의 열쇠' },
+];
+
+let lbIndex = 0;
+let lbStartX = 0;
+
+// ── Cherry blossoms ────────────────────────────────────
+(function spawnBlossoms() {
+  const container = document.getElementById('blossomContainer');
+  const petals = ['🌸', '🌺', '✿', '❀', '🌷'];
+
+  function drop() {
+    const el = document.createElement('div');
+    el.className = 'blossom';
+    el.textContent = petals[Math.floor(Math.random() * petals.length)];
+    el.style.left     = Math.random() * 100 + 'vw';
+    el.style.fontSize = (Math.random() * 12 + 10) + 'px';
+    const dur         = (Math.random() * 6 + 6);
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay   = (Math.random() * 2) + 's';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 2.5) * 1000);
+  }
+  drop();
+  setInterval(drop, 900);
+})();
+
+// ── Nav scroll ─────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav')
+    .classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+function toggleNav() {
+  document.getElementById('mobileNav').classList.toggle('hidden');
+}
+
+// ── Scroll reveal ──────────────────────────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── Character speech bubbles ───────────────────────────
+function toggleSpeech(card) {
+  const isOpen = card.classList.contains('speak');
+  document.querySelectorAll('.char-card').forEach(c => c.classList.remove('speak'));
+  if (!isOpen) card.classList.add('speak');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.char-card'))
+    document.querySelectorAll('.char-card').forEach(c => c.classList.remove('speak'));
+});
+
+// ══════════════════════════════════════════════════════
+// ── 동적 비디오 생성 헬퍼
+// 원본 8K(H.265) → ffmpeg로 1080p H.264 변환 완료
+// chunhyang_1080p.mp4 사용 (35MB, Chrome 완벽 재생)
+// ══════════════════════════════════════════════════════
+function makeVideo(id, onEnd) {
+  const v = document.createElement('video');
+  v.id       = id;
+  v.controls = true;
+  v.setAttribute('playsinline', '');
+  v.setAttribute('autoplay', '');
+  v.muted    = true;               // autoplay 정책 충족 (삽입 후 unmute)
+  v.src      = 'chunhyang_1080p.mp4';
+  v.style.cssText =
+    'background:#000; position:absolute; inset:0;' +
+    'width:100%; height:100%; object-fit:contain; z-index:1;';
+  if (onEnd) v.addEventListener('ended', onEnd);
+  return v;
+}
+
+// ── 인라인 히어로 영상 ─────────────────────────────────
+function playInline() {
+  pauseBgMusic();
+
+  document.getElementById('heroThumb').style.display     = 'none';
+  document.getElementById('heroActions').style.display   = 'flex';
+  document.getElementById('heroGlow').style.background   = 'rgba(236,72,153,0.4)';
+  document.getElementById('heroStack').style.borderColor = 'rgba(236,72,153,0.4)';
+
+  // 기존 비디오 정리
+  const old = document.getElementById('heroVideo');
+  if (old) { old.pause(); old.src = ''; old.remove(); }
+
+  const v = makeVideo('heroVideo', closeInline);
+  v.addEventListener('pause', () => {
+    setTimeout(() => { if (v.paused && !v.ended) startBgMusic(); }, 300);
+  });
+  document.getElementById('heroStack').insertBefore(v, document.getElementById('heroThumb'));
+  v.muted = false;
+}
+
+function closeInline() {
+  const v = document.getElementById('heroVideo');
+  if (v) { v.pause(); v.src = ''; v.remove(); }
+  document.getElementById('heroThumb').style.display     = 'block';
+  document.getElementById('heroActions').style.display   = 'none';
+  document.getElementById('heroGlow').style.background   = 'rgba(236,72,153,0.25)';
+  document.getElementById('heroStack').style.borderColor = 'rgba(255,255,255,0.10)';
+  startBgMusic();
+}
+
+// ── 영상 모달 ──────────────────────────────────────────
+function openVideo() {
+  pauseBgMusic();
+  document.getElementById('videoModal').classList.add('open');
+  document.getElementById('modalPlayOverlay').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+
+  // 기존 비디오 정리
+  const old = document.getElementById('mainVideo');
+  if (old) { old.pause(); old.src = ''; old.remove(); }
+
+  const v = makeVideo('mainVideo', closeVideo);
+  document.getElementById('modalVideoWrap').insertBefore(
+    v, document.getElementById('modalPlayOverlay')
+  );
+  v.muted = false;
+}
+
+function closeVideo() {
+  document.getElementById('videoModal').classList.remove('open');
+  document.body.style.overflow = '';
+  const v = document.getElementById('mainVideo');
+  if (v) { v.pause(); v.src = ''; v.remove(); }
+  document.getElementById('modalPlayOverlay').style.display = 'none';
+  startBgMusic();
+}
+
+// 모달 오버레이 탭 → 직접 재생
+function forcePlay() {
+  const v = document.getElementById('mainVideo');
+  if (!v) return;
+  document.getElementById('modalPlayOverlay').style.display = 'none';
+  v.muted = false;
+  v.play().catch(() => {});
+}
+
+function handleModalClick(e) {
+  // 모달 배경 클릭 시 닫기 (항상 display:flex이므로 open 클래스 체크 추가)
+  if (e.target === document.getElementById('videoModal') &&
+      document.getElementById('videoModal').classList.contains('open')) {
+    closeVideo();
+  }
+}
+
+// ── Lightbox ───────────────────────────────────────────
+function openLightbox(i) {
+  lbIndex = i;
+  renderLb();
+  const lb = document.getElementById('lightbox');
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderLb() {
+  document.getElementById('lbImg').src       = GALLERY[lbIndex].src;
+  document.getElementById('lbCaption').textContent = GALLERY[lbIndex].cap;
+  document.getElementById('lbCounter').textContent = `${lbIndex + 1} / ${GALLERY.length}`;
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function prevImg(e) {
+  e.stopPropagation();
+  lbIndex = (lbIndex - 1 + GALLERY.length) % GALLERY.length;
+  renderLb();
+}
+
+function nextImg(e) {
+  e.stopPropagation();
+  lbIndex = (lbIndex + 1) % GALLERY.length;
+  renderLb();
+}
+
+// Touch swipe in lightbox
+document.getElementById('lightbox').addEventListener('touchstart', e => {
+  lbStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+document.getElementById('lightbox').addEventListener('touchend', e => {
+  const diff = lbStartX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 40) {
+    diff > 0 ? nextImg(e) : prevImg(e);
+  }
+});
+
+// ── Gallery Carousel ───────────────────────────────────
+let galIdx       = 0;
+let galAutoTimer = null;
+let galSwipeX    = 0;
+
+function galRender(instant) {
+  const item = GALLERY[galIdx];
+  const img  = document.getElementById('galImg');
+
+  if (instant) {
+    img.src = item.src;
+    img.alt = item.cap;
+  } else {
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = item.src;
+      img.alt = item.cap;
+      img.style.opacity = '1';
+    }, 200);
+  }
+
+  // 캡션 · 카운터
+  document.getElementById('galCap').textContent = item.cap;
+  document.getElementById('galCnt').textContent = `${galIdx + 1} / ${GALLERY.length}`;
+
+  // 프로그레스 바
+  document.getElementById('galProgress').style.width =
+    ((galIdx + 1) / GALLERY.length * 100).toFixed(1) + '%';
+
+  // 닷 업데이트
+  document.querySelectorAll('#galDots .gal-dot').forEach((d, i) => {
+    d.style.width      = i === galIdx ? '24px' : '8px';
+    d.style.background = i === galIdx ? 'rgba(236,72,153,1)' : 'rgba(255,255,255,0.25)';
+  });
+
+  // 썸네일 업데이트 (scrollIntoView 금지 — 페이지 세로 스크롤 유발)
+  const thumbsCont = document.getElementById('galThumbs');
+  document.querySelectorAll('#galThumbs .gal-th').forEach((t, i) => {
+    t.style.borderColor = i === galIdx ? 'rgba(236,72,153,0.9)' : 'transparent';
+    t.style.opacity     = i === galIdx ? '1' : '0.5';
+    if (i === galIdx && thumbsCont) {
+      // 썸네일 스트립 안에서 가로 스크롤만 (페이지 세로 위치 절대 변경 안 함)
+      const scrollLeft = t.offsetLeft - (thumbsCont.offsetWidth / 2) + (t.offsetWidth / 2);
+      thumbsCont.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+    }
+  });
+}
+
+function galMove(dir) {
+  galIdx = (galIdx + dir + GALLERY.length) % GALLERY.length;
+  galRender();
+  galResetAuto();
+}
+
+function galGoto(i) {
+  galIdx = i;
+  galRender();
+  galResetAuto();
+}
+
+function galResetAuto() {
+  clearInterval(galAutoTimer);
+  galAutoTimer = setInterval(() => galMove(1), 4500);
+}
+
+// 초기화
+(function initGallery() {
+  const dots   = document.getElementById('galDots');
+  const thumbs = document.getElementById('galThumbs');
+
+  GALLERY.forEach((item, i) => {
+    // 닷 버튼
+    const dot = document.createElement('button');
+    dot.className = 'gal-dot h-2 rounded-full';
+    dot.style.cssText =
+      `width:${i === 0 ? '24' : '8'}px;` +
+      `background:${i === 0 ? 'rgba(236,72,153,1)' : 'rgba(255,255,255,0.25)'};` +
+      'border:none; cursor:pointer; padding:0; transition:width 0.3s ease, background 0.3s ease;';
+    dot.onclick = () => galGoto(i);
+    dots.appendChild(dot);
+
+    // 썸네일
+    const th = document.createElement('img');
+    th.src       = item.src;
+    th.alt       = item.cap;
+    th.className = 'gal-th rounded-lg object-cover cursor-pointer border-2';
+    th.style.cssText =
+      'width:54px; height:72px; flex-shrink:0;' +
+      `border-color:${i === 0 ? 'rgba(236,72,153,0.9)' : 'transparent'};` +
+      `opacity:${i === 0 ? '1' : '0.5'};` +
+      'transition:border-color 0.2s ease, opacity 0.2s ease;';
+    th.onclick = () => galGoto(i);
+    thumbs.appendChild(th);
+  });
+
+  galRender(true);
+  galResetAuto();
+})();
+
+// 스와이프 지원
+const galTrack = document.getElementById('galTrack');
+galTrack.addEventListener('touchstart', e => {
+  galSwipeX = e.changedTouches[0].screenX;
+  galResetAuto();
+}, { passive: true });
+galTrack.addEventListener('touchend', e => {
+  const diff = galSwipeX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 40) galMove(diff > 0 ? 1 : -1);
+}, { passive: true });
+
+// ── Keyboard shortcuts ─────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowLeft')  prevImg(e);
+    if (e.key === 'ArrowRight') nextImg(e);
+    if (e.key === 'Escape')     closeLightbox();
+  } else if (document.getElementById('videoModal').classList.contains('open')) {
+    if (e.key === 'Escape') closeVideo();
+  } else {
+    // 라이트박스/모달이 닫혀 있으면 캐러셀 이동
+    if (e.key === 'ArrowLeft')  galMove(-1);
+    if (e.key === 'ArrowRight') galMove(1);
+  }
+});
+
+// ── Copy link ──────────────────────────────────────────
+async function copyLink() {
+  const url = window.location.href;
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  } catch (err) { console.warn('copy failed', err); }
+  showToast();
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── Download poster ────────────────────────────────────
+function downloadPoster() {
+  const a = document.createElement('a');
+  a.href     = '썸네일.png';
+  a.download = '제96회_남원_춘향제_포스터.png';
+  a.click();
+}
+
+// ══════════════════════════════════════════════════════
+// ── 배경음악 ────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const bgMusic   = document.getElementById('bgMusic');
+const musicBtn  = document.getElementById('musicBtn');
+let   musicOn   = false;   // 최초엔 꺼짐(브라우저 정책)
+let   userMuted = false;   // 사용자가 직접 껐는지
+
+// 배경음악 시작 헬퍼
+function startBgMusic() {
+  if (userMuted) return;
+  bgMusic.volume = 0.35;
+  bgMusic.play().then(() => {
+    musicOn = true;
+    musicBtn.classList.remove('muted');
+  }).catch(() => {});
+}
+
+// 배경음악 일시정지 헬퍼 (영상 재생 시)
+function pauseBgMusic() {
+  if (!bgMusic.paused) {
+    bgMusic.pause();
+    musicOn = false;
+  }
+}
+
+// 사용자가 직접 토글
+function toggleMusic() {
+  if (bgMusic.paused) {
+    userMuted = false;
+    startBgMusic();
+  } else {
+    userMuted = true;
+    bgMusic.pause();
+    musicOn = false;
+    musicBtn.classList.add('muted');
+  }
+}
+
+// 첫 클릭/터치 시 자동재생 시도 (브라우저 정책 우회)
+function onFirstInteraction() {
+  startBgMusic();
+  document.removeEventListener('click',     onFirstInteraction);
+  document.removeEventListener('touchstart', onFirstInteraction);
+}
+document.addEventListener('click',     onFirstInteraction, { once: true });
+document.addEventListener('touchstart', onFirstInteraction, { once: true });
+
+// 음악 연동은 playInline / closeInline / openVideo / closeVideo 함수 내부에 직접 포함됨
+// (래퍼 패치 불필요 — 동적 생성 방식으로 단순화)
+
+// ══════════════════════════════════════════════════════
+// ── TOP 버튼 ────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const topBtn   = document.getElementById('topBtn');
+
+window.addEventListener('scroll', () => {
+  const show = window.scrollY > 300;
+
+  // TOP 버튼
+  topBtn.style.display = show ? 'flex' : 'none';
+
+  // 음악 버튼 (항상 표시)
+  musicBtn.style.display = 'flex';
+}, { passive: true });
+
+// 페이지 로드 시 음악 버튼 바로 표시
+musicBtn.style.display = 'flex';
+musicBtn.classList.add('muted'); // 처음엔 꺼진 상태 표시
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
