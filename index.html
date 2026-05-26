@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김지수 | JIsooLab 포트폴리오</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root { --teal:#2BBAC5; --folder:#E8D5A3; --tab:#D4C085; --paper:#FAFAF8; --sticky:#FFFDE7; }
+    * { scroll-behavior: smooth; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #F0EAD6;
+      background-image: linear-gradient(rgba(0,0,0,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.055) 1px, transparent 1px);
+      background-size: 30px 30px;
+      min-height: 100vh;
+    }
+    h1,h2,h3 { font-family:'Noto Serif KR',serif; font-weight:900; letter-spacing:-0.05em; }
+    .hw { font-family:'Nanum Pen Script',cursive; }
+
+    /* ── FOLDER NAV ── */
+    .fnav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:var(--tab); display:flex; align-items:flex-end;
+      padding:0 16px; gap:4px; box-shadow:0 2px 8px rgba(0,0,0,0.18);
+    }
+    .fnav-logo {
+      padding:10px 18px; font-family:'Noto Serif KR',serif; font-weight:900;
+      font-size:1rem; color:var(--teal); letter-spacing:-0.02em;
+      border-right:1px solid rgba(0,0,0,0.1); margin-right:6px; flex-shrink:0;
+    }
+    .ftab {
+      padding:7px 13px; border-radius:8px 8px 0 0;
+      background:rgba(255,255,255,0.35); color:#5c4a1e;
+      font-size:0.78rem; font-weight:600; cursor:pointer;
+      text-decoration:none; border:1px solid rgba(0,0,0,0.1); border-bottom:none;
+      transition:all 0.2s; white-space:nowrap;
+    }
+    .ftab:hover,.ftab.on { background:#F0EAD6; color:var(--teal); }
+    .mnav {
+      display:none; background:rgba(255,255,255,0.7);
+      border:1px solid rgba(0,0,0,0.12); border-radius:6px;
+      padding:6px 10px; font-size:0.82rem; color:#5c4a1e; font-weight:600; flex:1;
+    }
+    @media(max-width:640px){
+      .tab-row{display:none!important;}
+      .mnav{display:block!important;}
+      .fnav{padding:8px 12px; gap:8px;}
+    }
+
+    /* ── FOLDER WRAPPER ── */
+    .fwrap { max-width:960px; margin:70px auto 40px; padding:0 16px; }
+    .fbody {
+      background:var(--folder); border-radius:0 20px 20px 20px;
+      box-shadow:0 10px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1);
+      overflow:hidden;
+    }
+
+    /* ── PAPER ── */
+    .paper {
+      background:var(--paper); margin:20px; border-radius:4px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:36px 40px;
+      position:relative; transition:box-shadow 0.3s;
+    }
+    .paper::before {
+      content:''; position:absolute; top:22px; left:-7px;
+      width:14px; height:14px; background:var(--folder);
+      border-radius:50%; box-shadow:inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .paper::after {
+      content:''; position:absolute; top:50px; left:-7px;
+      width:14px; height:14px; background:var(--folder);
+      border-radius:50%; box-shadow:inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .paper:hover { box-shadow:0 8px 28px rgba(43,186,197,0.14); }
+    @media(max-width:640px){ .paper{margin:12px; padding:20px 18px;} .paper::before,.paper::after{display:none;} }
+
+    /* ── STICKY NOTE ── */
+    .sticky {
+      background:var(--sticky); border-radius:2px; padding:18px;
+      box-shadow:3px 3px 10px rgba(0,0,0,0.13); position:relative;
+      font-family:'Nanum Pen Script',cursive;
+    }
+    .sticky.teal { background:#DFF6F7; }
+    .sticky.pink { background:#FDEAF1; }
+    .sticky.green { background:#E8F5E9; }
+    .sticky:hover { transform:rotate(0deg)!important; box-shadow:4px 4px 16px rgba(0,0,0,0.18); transition:all 0.3s; }
+    .clip {
+      position:absolute; top:-10px; left:18px;
+      width:20px; height:38px; border:3px solid #aaa;
+      border-radius:10px 10px 0 0; border-bottom:none;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: #E8D5A3;
+      padding:40px;
+      display:flex; align-items:center; justify-content:space-between; gap:24px;
+      position:relative; overflow:hidden;
+    }
+    @keyframes mobius1 {
+      0%   { transform: rotateX(72deg) rotateZ(0deg); }
+      25%  { transform: rotateX(4deg)  rotateZ(90deg); }
+      50%  { transform: rotateX(-72deg) rotateZ(180deg); }
+      75%  { transform: rotateX(4deg)  rotateZ(270deg); }
+      100% { transform: rotateX(72deg) rotateZ(360deg); }
+    }
+    @keyframes mobius2 {
+      0%   { transform: rotateX(-65deg) rotateZ(0deg); }
+      25%  { transform: rotateX(-3deg)  rotateZ(-90deg); }
+      50%  { transform: rotateX(65deg)  rotateZ(-180deg); }
+      75%  { transform: rotateX(-3deg)  rotateZ(-270deg); }
+      100% { transform: rotateX(-65deg) rotateZ(-360deg); }
+    }
+    @keyframes mobius3 {
+      0%   { transform: rotateX(52deg)  rotateZ(0deg); }
+      25%  { transform: rotateX(-2deg)  rotateZ(90deg); }
+      50%  { transform: rotateX(-52deg) rotateZ(180deg); }
+      75%  { transform: rotateX(-2deg)  rotateZ(270deg); }
+      100% { transform: rotateX(52deg)  rotateZ(360deg); }
+    }
+    .pf-text {
+      font-family:'Noto Serif KR',serif; font-weight:900;
+      font-size:clamp(2.8rem,8vw,5.5rem); color:var(--teal);
+      line-height:0.88; letter-spacing:-0.08em; opacity:0.82;
+      user-select:none; flex-shrink:0; text-align:right;
+    }
+    @media(max-width:640px){ .cover{flex-direction:column;padding:24px;} .pf-text{font-size:3rem;align-self:flex-end;} }
+
+    /* ── STAT BOX ── */
+    .stat {
+      background:rgba(43,186,197,0.09); border:1px solid rgba(43,186,197,0.22);
+      border-radius:12px; padding:12px 8px; text-align:center;
+    }
+    .stat-n { font-family:'Noto Serif KR',serif; font-weight:900; font-size:1.25rem; color:var(--teal); line-height:1; }
+
+    /* ── SKILL BAR ── */
+    .pbar { height:6px; background:#E0F5F7; border-radius:999px; overflow:hidden; margin-top:5px; }
+    .pfill { height:100%; background:linear-gradient(90deg,#2BBAC5,#5DE0EA); border-radius:999px; width:0; transition:width 1.2s ease; }
+
+    /* ── TAGS ── */
+    .tag {
+      display:inline-block; padding:4px 13px; border:1.5px solid var(--teal);
+      border-radius:999px; color:var(--teal); font-size:0.78rem; font-weight:500;
+      cursor:default; transition:all 0.2s; margin:3px;
+    }
+    .tag:hover { background:var(--teal); color:#fff; }
+
+    /* ── CARDS ── */
+    .ccard {
+      background:#fff; border:1.5px solid #DDF2F4; border-radius:14px;
+      padding:24px; cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .ccard:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(43,186,197,0.16); border-color:var(--teal); }
+    .pjcard { border-left:4px solid var(--teal); background:#fff; border-radius:0 12px 12px 0; padding:20px 24px; transition:all 0.3s; }
+    .pjcard:hover { box-shadow:4px 4px 20px rgba(43,186,197,0.13); }
+    .vcard { border-radius:16px; padding:22px; transition:all 0.3s; cursor:pointer; position:relative; overflow:hidden; }
+    .vcard:hover { transform:translateY(-4px); }
+    .acard { border-radius:14px; padding:22px; transition:all 0.3s; cursor:pointer; }
+    .acard:hover { transform:translateY(-3px); }
+    .cntcard {
+      background:#fff; border-radius:16px; padding:22px; text-align:center;
+      transition:all 0.3s; cursor:pointer; border:1.5px solid #e8e8e8; text-decoration:none; display:block;
+    }
+    .cntcard:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(43,186,197,0.15); border-color:var(--teal); }
+
+    /* ── RIPPLE ── */
+    .rpl { position:absolute; border-radius:50%; background:rgba(43,186,197,0.28); animation:rpl 0.6s linear forwards; pointer-events:none; }
+    @keyframes rpl { to { transform:scale(4); opacity:0; } }
+
+    /* ── FADE UP ── */
+    .fup { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .fup.vis { opacity:1; transform:translateY(0); }
+
+    /* ── BGM BTN ── */
+    #bgmb {
+      position:fixed; bottom:24px; right:24px; width:52px; height:52px;
+      border-radius:50%; background:var(--teal); color:#fff; border:none;
+      cursor:pointer; font-size:1.4rem; z-index:200;
+      box-shadow:0 4px 18px rgba(43,186,197,0.42);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform 0.3s;
+    }
+    #bgmb:hover { transform:scale(1.12); }
+    #bgmb.on { animation:spin 3s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ── TOP BTN ── */
+    #topb {
+      position:fixed; bottom:86px; right:24px; width:48px; height:48px;
+      border-radius:50%; background:#fff; color:var(--teal);
+      border:2px solid var(--teal); cursor:pointer; font-size:1.3rem;
+      font-weight:900; z-index:200;
+      box-shadow:0 4px 14px rgba(43,186,197,0.28);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none;
+      transition:opacity 0.3s, transform 0.3s, background 0.2s;
+    }
+    #topb.show { opacity:1; pointer-events:auto; }
+    #topb:hover { background:var(--teal); color:#fff; transform:translateY(-3px); }
+
+    /* ── SECTION LABEL ── */
+    .slbl { font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--teal); }
+    .award-badge { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#1a1a1a; font-size:0.72rem; font-weight:700; padding:3px 11px; border-radius:999px; display:inline-flex; align-items:center; gap:3px; }
+
+    /* ── COURSE MODAL ── */
+    .modal-card {
+      display:flex; align-items:center; gap:16px; padding:20px;
+      border:1.5px solid #DDF2F4; border-radius:16px;
+      text-decoration:none; color:inherit; transition:all 0.25s; background:#fff;
+    }
+    .modal-card:hover { border-color:var(--teal); background:#F0FBFC; transform:translateX(5px); box-shadow:0 6px 20px rgba(43,186,197,0.14); }
+
+    /* ── CONTACT QUICK ITEMS ── */
+    .cnt-item { cursor:default; border-radius:8px; padding:4px 6px; margin:-4px -6px; transition:background 0.2s; }
+    .cnt-item:hover { background:rgba(43,186,197,0.07); }
+    .reveal { font-size:0.78rem; font-weight:700; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.4s ease, opacity 0.35s ease; margin-top:3px; }
+    .cnt-item:hover .reveal { max-height:24px; opacity:1; }
+    .cnt-link { text-decoration:none; color:inherit; display:flex; gap:8px; border-radius:8px; padding:4px 6px; margin:-4px -6px; transition:background 0.2s; }
+    .cnt-link:hover { background:rgba(43,186,197,0.07); }
+    .cnt-link:hover strong { color:var(--teal); }
+
+    /* ── STEP FLOW ── */
+    .step { display:flex; align-items:flex-start; gap:14px; }
+    .sdot { width:32px; height:32px; border-radius:50%; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; flex-shrink:0; }
+
+    /* ── QUOTE BANNER ── */
+    .qbanner { background:linear-gradient(135deg,#0e4f5c,#2BBAC5); padding:40px; text-align:center; }
+
+    /* ── HW DECO ── */
+    .hd { font-family:'Nanum Pen Script',cursive; font-size:1.1rem; color:#999; display:inline-block; }
+
+    /* ── GRID 2 ── */
+    .g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    @media(max-width:640px){ .g2,.g3,.g4{grid-template-columns:1fr;} }
+    @media(max-width:768px) and (min-width:641px){ .g3,.g4{grid-template-columns:1fr 1fr;} }
+  </style>
+</head>
+<body>
+
+<!-- TOP + BGM -->
+<audio id="bgm" loop preload="none"><source src="bg.mp3" type="audio/mpeg"></audio>
+<button id="topb" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로">↑</button>
+<button id="bgmb" onclick="toggleBGM()" title="배경음악">♪</button>
+
+<!-- ═══ FOLDER NAV ═══ -->
+<nav class="fnav">
+  <div class="fnav-logo">JIsooLab</div>
+  <div class="tab-row" style="display:flex;align-items:flex-end;gap:4px;flex:1;overflow-x:auto;">
+    <a href="#about" class="ftab">소개</a>
+    <a href="#courses" class="ftab">강의</a>
+    <a href="#projects" class="ftab">프로젝트</a>
+    <a href="#vibe" class="ftab">바이브코딩</a>
+    <a href="#awards" class="ftab">수상</a>
+    <a href="#contact" class="ftab">문의</a>
+  </div>
+  <select class="mnav" onchange="location.hash=this.value">
+    <option value="#about">소개</option>
+    <option value="#courses">강의</option>
+    <option value="#projects">프로젝트</option>
+    <option value="#vibe">바이브코딩</option>
+    <option value="#awards">수상</option>
+    <option value="#contact">문의</option>
+  </select>
+</nav>
+
+<!-- ═══ FOLDER BODY ═══ -->
+<div class="fwrap">
+<div class="fbody">
+
+  <!-- ── COVER ── -->
+  <div id="hero" class="cover" style="flex-direction:column;align-items:center;text-align:center;gap:0;padding:32px 40px;">
+
+    <!-- 배경 장식: 회전 링 -->
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;perspective:700px;perspective-origin:50% 50%;">
+
+      <!-- 뫼비우스 링 1 -->
+      <div style="position:absolute;top:50%;left:50%;margin:-240px 0 0 -240px;width:480px;height:480px;border-radius:50%;border:1.5px solid rgba(43,186,197,0.48);animation:mobius1 28s ease-in-out infinite;"></div>
+
+      <!-- 뫼비우스 링 2 -->
+      <div style="position:absolute;top:50%;left:50%;margin:-315px 0 0 -315px;width:630px;height:630px;border-radius:50%;border:1px solid rgba(43,186,197,0.28);animation:mobius2 42s ease-in-out infinite;"></div>
+
+      <!-- 뫼비우스 링 3 -->
+      <div style="position:absolute;top:50%;left:50%;margin:-395px 0 0 -395px;width:790px;height:790px;border-radius:50%;border:0.5px solid rgba(43,186,197,0.14);animation:mobius3 60s ease-in-out infinite;"></div>
+
+    </div>
+
+    <!-- Top row: sticky note left + PORT FOLIO right -->
+    <div style="width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+      <div class="sticky" style="max-width:240px;transform:rotate(-1.5deg);display:inline-block;text-align:left;">
+        <div class="clip"></div>
+        <p class="hw" style="font-size:2.2rem;color:#1a1a1a;line-height:1.1;margin-bottom:6px;">김지수</p>
+        <p class="hw" style="font-size:1.05rem;color:#555;margin-bottom:4px;">SNS 마케터 &amp; 콘텐츠 크리에이터</p>
+        <p class="hw" style="font-size:0.95rem;color:#888;">Nov. 2025 ~ 26</p>
+        <p class="hw" style="font-size:1rem;color:#2BBAC5;margin-top:4px;">@jisoo_lab ✦</p>
+      </div>
+      <div class="pf-text" style="align-self:flex-start;">PORT<br/>FOLIO</div>
+    </div>
+
+    <!-- Large centered photo -->
+    <div style="width:330px;height:420px;border-radius:20px;overflow:hidden;box-shadow:6px 6px 28px rgba(0,0,0,0.22);margin:0 auto 20px;">
+      <img src="image/main.png" alt="김지수" style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+    </div>
+
+    <!-- Text info below photo -->
+    <p class="slbl" style="margin-bottom:6px;">AI 콘텐츠 강사 · 일산동구, 고양시</p>
+    <p style="font-size:0.85rem;color:#666;line-height:1.65;margin-bottom:12px;">브랜드와 고객을 연결하는 콘텐츠 전략가</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+      <span style="background:#DFF6F7;color:#1a8fa0;font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:999px;">5.0 당근코칭</span>
+      <span style="background:#FFF9C4;color:#8B6914;font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:999px;">최우수상</span>
+      <span style="background:#F3E5F5;color:#7B1FA2;font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:999px;">편집디자이너</span>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ── -->
+  <section id="about" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">ABOUT ME</div>
+    <h2 style="font-size:clamp(1.5rem,4vw,2.3rem);margin-bottom:22px;">브랜드와 고객을 <span style="color:#2BBAC5;">연결하는</span> 사람</h2>
+    <div class="g2">
+      <div>
+        <p style="color:#555;line-height:1.85;margin-bottom:12px;">안녕하세요! <strong>SNS 마케터 &amp; 콘텐츠 크리에이터 김지수</strong>입니다. 오프라인 매장 운영부터 블로그·유튜브·인스타그램까지, 다양한 업종에서 마케팅을 기획하고 실행해왔습니다.</p>
+        <p style="color:#555;line-height:1.85;margin-bottom:20px;">현재는 <strong>AI 도구를 활용한 콘텐츠 제작</strong>을 교육하며, 누구나 크리에이터가 될 수 있는 환경을 만들고 있습니다.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#2BBAC5;flex-shrink:0;font-size:1.1rem;">✓</span><p style="color:#444;"><strong>보험설계사</strong> SNS &amp; AI 마케팅 실전 교육</p></div>
+          <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#2BBAC5;flex-shrink:0;font-size:1.1rem;">✓</span><p style="color:#444;"><strong>0원으로 시작하는</strong> AI 영상 제작 마스터 코스</p></div>
+          <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#2BBAC5;flex-shrink:0;font-size:1.1rem;">✓</span><p style="color:#444;">당근마켓 5.0 <strong>1:1 맞춤 코칭</strong></p></div>
+          <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#2BBAC5;flex-shrink:0;font-size:1.1rem;">✓</span><p style="color:#444;"><strong>바이브 코딩</strong>으로 업무도구 &amp; 공모전 페이지 직접 제작</p></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="sticky teal" style="transform:rotate(1.5deg);">
+          <p style="font-size:1.4rem;color:#1a8fa0;margin-bottom:4px;">일산동구, 고양시</p>
+          <p style="font-size:1rem;color:#555;">경기도 기반 활동 중</p>
+        </div>
+        <div class="sticky" style="transform:rotate(-2deg);">
+          <p style="font-size:1.3rem;margin-bottom:6px;">나의 철학</p>
+          <p style="font-size:0.95rem;color:#555;line-height:1.7;">"진심을 담은 콘텐츠는<br/>마음을 움직이고,<br/>행동을 만든다."</p>
+        </div>
+        <div class="sticky pink" style="transform:rotate(1.2deg);">
+          <p style="font-size:1.3rem;color:#c2185b;margin-bottom:4px;">2026 목표</p>
+          <p style="font-size:0.9rem;color:#555;line-height:1.7;">AI 교육 확대<br/>바이브코딩 강의 오픈</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── COURSES ── -->
+  <section id="courses" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">COURSES</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;">지금 운영 중인 강의</h2>
+    <div class="g3" style="margin-bottom:28px;">
+
+      <!-- 카드 1: AI 영상 제작 코스 -->
+      <div class="ccard">
+        <span class="award-badge" style="margin-bottom:12px;display:inline-flex;">인기강의</span>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">0원 AI 영상 제작<br/>마스터 코스</h3>
+        <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">ChatGPT·Gemini·Flow AI·Vrew·CapCut — 무료 툴만으로 시네마틱 AI 영상을 완성하는 실전 코스.</p>
+        <div style="flex:1;"></div>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
+          <p>한양문고 주업점 (총 3회 진행)</p>
+          <p>Gemini · Flow · Vrew · CapCut</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2QEw4gfm2qBef5Mov2qBTmRuB1b4i8E5PuzKv2Uy2EADKvQ/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#2BBAC5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">강의 문의하기 →</a>
+      </div>
+
+      <!-- 카드 2: 보험설계사 SNS 강의 -->
+      <div class="ccard">
+        <span style="background:#FFF3E0;color:#e65100;font-size:0.72rem;font-weight:700;padding:4px 12px;border-radius:999px;margin-bottom:12px;display:inline-block;">실무 특화</span>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">보험설계사를 위한<br/>SNS &amp; AI 마케팅</h3>
+        <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">인스타그램 브랜딩부터 AI 프로필·카드뉴스·디지털 명함까지 보험설계사 맞춤 실전 교육.</p>
+        <div style="flex:1;"></div>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
+          <p>맞춤형 출강 / 온라인 가능</p>
+          <p>ChatGPT · Canva · Gemini</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7ySyRO2011KIssfxw2KWlWemHH7d6e7PAgcSe9fF49o4Q0A/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#2BBAC5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">강의 문의하기 →</a>
+      </div>
+
+      <!-- 카드 3: 1:1 코칭 -->
+      <div class="ccard">
+        <span style="background:#F3E5F5;color:#7B1FA2;font-size:0.72rem;font-weight:700;padding:4px 12px;border-radius:999px;margin-bottom:12px;display:inline-block;">1:1 맞춤</span>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">JIsooLab<br/>1:1 맞춤 코칭</h3>
+        <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">인스타그램 성장 전략부터 AI 영상·SNS 콘텐츠까지 목표에 맞는 개인 맞춤 코칭.</p>
+        <div style="flex:1;"></div>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
+          <p>온라인 / 대면 모두 가능</p>
+          <p>맞춤형 커리큘럼 제공</p>
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScDwIT81fA7CwWlaWyNjG4RYmiH1tsjR8B2vQo2s0nQN3SW8w/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#2BBAC5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">코칭 신청하기 →</a>
+      </div>
+
+    </div>
+    <!-- AI 영상 flow -->
+    <div style="background:#1a2e30;border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h3 style="color:#fff;font-size:1.1rem;margin-bottom:6px;">AI 영상 제작 코스 흐름</h3>
+      <p style="color:#9ca3af;font-size:0.8rem;margin-bottom:18px;">무료 툴만으로 완성하는 4단계</p>
+      <div class="g4">
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(43,186,197,0.2);border:1px solid #2BBAC5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#2BBAC5;margin:0 auto 8px;">1</div><p style="color:#2BBAC5;font-size:0.65rem;font-weight:700;">STEP 1</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">스토리 기획</p><p style="color:#9ca3af;font-size:0.7rem;">Gemini</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(43,186,197,0.2);border:1px solid #2BBAC5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#2BBAC5;margin:0 auto 8px;">2</div><p style="color:#2BBAC5;font-size:0.65rem;font-weight:700;">STEP 2</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">이미지 생성</p><p style="color:#9ca3af;font-size:0.7rem;">Gemini 이미지</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(43,186,197,0.2);border:1px solid #2BBAC5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#2BBAC5;margin:0 auto 8px;">3</div><p style="color:#2BBAC5;font-size:0.65rem;font-weight:700;">STEP 3</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">영상 &amp; 나레이션</p><p style="color:#9ca3af;font-size:0.7rem;">Flow AI + Vrew</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(43,186,197,0.2);border:1px solid #2BBAC5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#2BBAC5;margin:0 auto 8px;">4</div><p style="color:#2BBAC5;font-size:0.65rem;font-weight:700;">STEP 4</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">편집 완성</p><p style="color:#9ca3af;font-size:0.7rem;">CapCut</p></div>
+      </div>
+    </div>
+
+    <!-- 보험설계사 SNS 마케팅 flow -->
+    <div style="background:#1e1206;border-radius:16px;padding:24px;">
+      <h3 style="color:#fff;font-size:1.1rem;margin-bottom:6px;">보험설계사 SNS &amp; AI 마케팅 흐름</h3>
+      <p style="color:#9ca3af;font-size:0.8rem;margin-bottom:18px;">인스타 브랜딩부터 디지털 명함까지 4단계</p>
+      <div class="g4">
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(230,81,0,0.18);border:1px solid #e65100;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#ff8a50;margin:0 auto 8px;">1</div><p style="color:#ff8a50;font-size:0.65rem;font-weight:700;">STEP 1</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">컨셉 &amp; 브랜딩</p><p style="color:#9ca3af;font-size:0.7rem;">ChatGPT</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(230,81,0,0.18);border:1px solid #e65100;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#ff8a50;margin:0 auto 8px;">2</div><p style="color:#ff8a50;font-size:0.65rem;font-weight:700;">STEP 2</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">AI 프로필 제작</p><p style="color:#9ca3af;font-size:0.7rem;">Canva + Gemini</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(230,81,0,0.18);border:1px solid #e65100;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#ff8a50;margin:0 auto 8px;">3</div><p style="color:#ff8a50;font-size:0.65rem;font-weight:700;">STEP 3</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">카드뉴스 콘텐츠</p><p style="color:#9ca3af;font-size:0.7rem;">Canva</p></div>
+        <div style="text-align:center;"><div style="width:44px;height:44px;background:rgba(230,81,0,0.18);border:1px solid #e65100;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#ff8a50;margin:0 auto 8px;">4</div><p style="color:#ff8a50;font-size:0.65rem;font-weight:700;">STEP 4</p><p style="color:#fff;font-size:0.8rem;font-weight:700;">디지털 명함</p><p style="color:#9ca3af;font-size:0.7rem;">Canva / 카카오톡 명함</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">PROJECTS</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;">주요 프로젝트</h2>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="pjcard">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
+          <div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025.4–8 · 인스타그램 마케팅</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">어린이 의사체험센타 '드림닥터' 마케팅 &amp; 편집디자인</h3></div>
+        </div>
+        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">브랜드 친밀도 강화를 위한 어린이 맞춤형 콘텐츠 기획·제작. 기획-디자인-편집 전 과정 단독 수행.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"><span class="tag" style="font-size:0.72rem;">Photoshop</span><span class="tag" style="font-size:0.72rem;">Illustrator</span><span class="tag" style="font-size:0.72rem;">Premiere Pro</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;"><span style="font-size:0.78rem;color:#2BBAC5;font-weight:700;">+83% 팔로워</span><span style="font-size:0.78rem;color:#2BBAC5;font-weight:700;">12만 조회수</span><span style="font-size:0.78rem;color:#2BBAC5;font-weight:700;">+66% 비팔로워 유입</span></div>
+      </div>
+      <div class="pjcard">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
+          <div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · 경기콘텐츠진흥원 AI 콘텐츠 창작 아카데미</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">SASM — Smart AI Subscription Management</h3></div>
+        </div>
+        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">AI 구독 서비스 최적화 플랫폼. 카드뉴스·홍보영상·UX 데모·홈페이지 단독 제작.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"><span class="tag" style="font-size:0.72rem;">Canva</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">Lovable.dev</span><span class="tag" style="font-size:0.72rem;">imweb</span></div>
+        <span class="award-badge">최우수상 · 경기콘텐츠진흥원</span>
+      </div>
+      <div class="pjcard">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · 한국경제신문 K디지털 트레이닝</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">K-DRAMA 기사 &amp; 재생건축 리포트 기사작성</h3></div></div>
+        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">생성형 AI 활용 미디어 콘텐츠 크리에이터 캠프. K-드라마 글로벌 확산 분석 기사 기획·집필.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">MidJourney</span><span class="tag" style="font-size:0.72rem;">Perplexity</span><span class="tag" style="font-size:0.72rem;">NotebookLM</span></div>
+      </div>
+      <div class="pjcard">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · AI 영상·다큐 협업</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">AI 다큐멘터리 "시간을 빚는 손 — 안동에서 미래로" (14분)</h3></div></div>
+        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
+        <p style="font-size:0.8rem;color:#2BBAC5;font-style:italic;margin-bottom:10px;">"AI는 전통을 배우고, 인간은 기술을 빚는다."</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VIBE CODING ── -->
+  <section id="vibe" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">VIBE CODING</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:8px;">바이브 코딩 프로젝트</h2>
+    <p style="color:#777;font-size:0.85rem;margin-bottom:22px;">AI와 함께 직접 개발한 실전 웹 도구들</p>
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="vcard" style="background:linear-gradient(135deg,#FFF8F0,#FFE8D6);border:1.5px solid #FFCC99;">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#FFF0E0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#e65100;font-family:'Noto Serif KR',serif;">보</div><div><p style="font-size:0.7rem;color:#e65100;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">업무 자동화 도구</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">보험 콘텐츠 도우미</h3></div></div>
+        <p style="font-size:0.8rem;color:#666;line-height:1.7;margin-bottom:12px;">보험설계사용 AI 마케팅 6단계 워크플로우. ChatGPT 연동, 프롬프트 원클릭 복사.</p>
+        <div><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">HTML/CSS</span><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">ChatGPT 연동</span><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">바이브코딩</span></div>
+      </div>
+      <div class="vcard" style="background:linear-gradient(135deg,#FFF0F5,#FFD6E8);border:1.5px solid #FFB3CC;">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#FFE0EE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#c2185b;font-family:'Noto Serif KR',serif;">춘</div><div><p style="font-size:0.7rem;color:#c2185b;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">공모전 출품 페이지</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">제96회 춘향제 AI 영상 홍보</h3></div></div>
+        <p style="font-size:0.8rem;color:#666;line-height:1.7;margin-bottom:12px;">공모전 제출용 AI 영상 홍보 웹페이지. MP4 임베드 + BGM 연동 몰입형 설계.</p>
+        <div><span class="tag" style="font-size:0.72rem;border-color:#c2185b;color:#c2185b;">HTML/CSS</span><span class="tag" style="font-size:0.72rem;border-color:#c2185b;color:#c2185b;">AI 영상</span><span class="tag" style="font-size:0.72rem;border-color:#c2185b;color:#c2185b;">바이브코딩</span></div>
+      </div>
+      <div class="vcard" style="background:linear-gradient(135deg,#F0FAFB,#DDF5F7);border:1.5px solid #99E0E8;">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#D0F0F5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#1a8fa0;font-family:'Noto Serif KR',serif;">블</div><div><p style="font-size:0.7rem;color:#1a8fa0;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">개인 블로그</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">JIsooLab 블로그 페이지</h3></div></div>
+        <p style="font-size:0.8rem;color:#666;line-height:1.7;margin-bottom:12px;">AI·마케팅 노하우를 기록하는 포트폴리오형 개인 블로그. 이미지·영상 임베드 포함.</p>
+        <div><span class="tag" style="font-size:0.72rem;">HTML/CSS</span><span class="tag" style="font-size:0.72rem;">바이브코딩</span></div>
+      </div>
+      <div class="vcard" style="background:linear-gradient(135deg,#F5F0FF,#E8D6FF);border:1.5px solid #C9A6FF;">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#EDD6FF;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#7c3aed;font-family:'Noto Serif KR',serif;">무</div><div><p style="font-size:0.7rem;color:#7c3aed;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">수업 학습 도구</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">무지출 AI 영상 수업<br/>인터랙티브 가이드</h3></div></div>
+        <p style="font-size:0.8rem;color:#666;line-height:1.7;margin-bottom:12px;">3일 커리큘럼 탭 방식 + Chart.js 요금 비교 차트 + 프롬프트 복사 기능. 시니어 친화 UI.</p>
+        <div><span class="tag" style="font-size:0.72rem;border-color:#7c3aed;color:#7c3aed;">HTML/CSS</span><span class="tag" style="font-size:0.72rem;border-color:#7c3aed;color:#7c3aed;">Chart.js</span><span class="tag" style="font-size:0.72rem;border-color:#7c3aed;color:#7c3aed;">바이브코딩</span></div>
+      </div>
+    </div>
+    <!-- Callout -->
+    <div style="background:#1a2e30;border-radius:14px;padding:22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <h3 style="color:#fff;font-size:1rem;margin-bottom:5px;">AI로 코딩도 직접 합니다</h3>
+        <p style="color:#9ca3af;font-size:0.8rem;line-height:1.65;">Claude·ChatGPT와 대화하며 웹 도구를 직접 만드는 <strong style="color:#fff;">바이브 코딩</strong>을 실천합니다. 수강생들에게도 이 방법을 가르칩니다.</p>
+      </div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScTvWfp6v9kXqhF_pOAjjcN41bq-0VRhilY3xXqbsDmsauTBQ/viewform?usp=publish-editor" target="_blank" style="background:#2BBAC5;color:#fff;font-weight:700;padding:10px 20px;border-radius:999px;font-size:0.82rem;text-decoration:none;white-space:nowrap;flex-shrink:0;">교육 문의 →</a>
+    </div>
+  </section>
+
+  <!-- ── AWARDS ── -->
+  <section id="awards" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">AWARDS &amp; COMPETITIONS</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;">수상 &amp; 공모전 출품</h2>
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="acard" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3);">
+        <div style="display:flex;gap:12px;align-items:flex-start;"><div><span class="award-badge" style="margin-bottom:8px;">최우수상</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">SASM: Smart AI Subscription Management</h3><p style="font-size:0.78rem;color:#888;">2025 AI 콘텐츠 창작 아카데미 전문가 과정</p><p style="font-size:0.78rem;color:#f59e0b;font-weight:600;margin-top:4px;">경기콘텐츠진흥원</p></div></div>
+      </div>
+      <div class="acard" style="background:linear-gradient(135deg,rgba(43,186,197,0.08),rgba(93,224,234,0.06));border:1px solid rgba(43,186,197,0.25);">
+        <div style="display:flex;gap:12px;align-items:flex-start;"><div><span style="background:rgba(43,186,197,0.15);color:#2BBAC5;font-size:0.72rem;font-weight:700;padding:3px 11px;border-radius:999px;margin-bottom:8px;display:inline-block;">인기상 입선</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">OK저축은행 29역숏폼왕 2관 입선</h3><p style="font-size:0.78rem;color:#888;">세상의 모든 웃맨 / 금융영웅 (2026.04)</p><p style="font-size:0.78rem;color:#2BBAC5;font-weight:600;margin-top:4px;">OK저축은행</p></div></div>
+      </div>
+      <div class="acard" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;">
+        <div style="display:flex;gap:12px;"><div><span style="font-size:0.72rem;font-weight:600;color:#999;border:1px solid #ddd;padding:3px 10px;border-radius:999px;margin-bottom:8px;display:inline-block;">공모전 출품</span><h3 style="font-weight:700;font-size:0.9rem;margin-bottom:3px;">경기관광 국제 AI 영상 공모전</h3><p style="font-size:0.78rem;color:#888;">Let's GG — 이미지·영상편집 담당 (2026.01)</p></div></div>
+      </div>
+      <div class="acard" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;">
+        <div style="display:flex;gap:12px;"><div><span style="font-size:0.72rem;font-weight:600;color:#999;border:1px solid #ddd;padding:3px 10px;border-radius:999px;margin-bottom:8px;display:inline-block;">공모전 다수</span><h3 style="font-weight:700;font-size:0.9rem;margin-bottom:3px;">AI 영상 공모전 다수 참가 (2025–26)</h3><p style="font-size:0.78rem;color:#888;">해양환경공단, 사천, 시흥, 춘향제, 매경 등</p></div></div>
+      </div>
+    </div>
+    <!-- Certs -->
+    <div style="border-top:1px solid #e8e8e8;padding-top:18px;">
+      <p style="font-size:0.82rem;font-weight:700;color:#555;margin-bottom:14px;">자격증</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:12px 16px;">
+          <div><p style="font-weight:700;font-size:0.85rem;">GTQ 그래픽기술자격 1급</p><p style="font-size:0.72rem;color:#999;">한국생산성본부</p></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #DDF2F4;border-radius:12px;padding:12px 16px;">
+          <div><p style="font-weight:700;font-size:0.85rem;">인디자인 1급 자격증</p><p style="font-size:0.72rem;color:#2BBAC5;">편집디자인 전문</p></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:12px 16px;">
+          <div><p style="font-weight:700;font-size:0.85rem;">SNS 마케팅</p><p style="font-size:0.72rem;color:#999;">수료</p></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:12px 16px;">
+          <div><p style="font-weight:700;font-size:0.85rem;">영상홍보마케팅</p><p style="font-size:0.72rem;color:#999;">수료</p></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:12px 16px;">
+          <div><p style="font-weight:700;font-size:0.85rem;">공공디자인</p><p style="font-size:0.72rem;color:#999;">수료</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUOTE BANNER ── -->
+  <div class="qbanner">
+    <p class="hw" style="font-size:clamp(1.6rem,5vw,2.8rem);color:#fff;line-height:1.5;margin-bottom:10px;">"진심을 담은 콘텐츠는<br/>마음을 움직이고, 행동을 만든다."</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:0.85rem;">— 김지수의 콘텐츠 철학</p>
+    <button onclick="openCourseModal()" style="display:inline-block;margin-top:20px;background:#fff;color:#1a8fa0;font-weight:800;font-family:'Noto Serif KR',serif;padding:12px 32px;border-radius:999px;font-size:0.9rem;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.18)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">지금 바로 시작하기 →</button>
+  </div>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact" class="paper fup">
+    <div class="slbl" style="margin-bottom:8px;">CONTACT</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:6px;">함께 시작해요</h2>
+    <p style="color:#888;font-size:0.85rem;margin-bottom:22px;">강의 문의, 협업 제안, 1:1 코칭 신청까지 편하게 연락 주세요</p>
+    <div class="g4" style="margin-bottom:22px;">
+      <a href="https://www.instagram.com/jisoo_lab" target="_blank" class="cntcard">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">Instagram</p>
+        <p style="color:#9b59b6;font-size:0.78rem;">@jisoo_lab</p>
+      </a>
+      <a href="https://www.daangn.com/kr/local-profile/ssr9q5nmipcq/" target="_blank" class="cntcard">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">당근마켓</p>
+        <p style="color:#f97316;font-size:0.78rem;">5.0 · 코칭 예약</p>
+      </a>
+      <a href="mailto:mymama09@naver.com" class="cntcard">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">이메일</p>
+        <p style="color:#2BBAC5;font-size:0.75rem;">mymama09@naver.com</p>
+      </a>
+      <div class="cntcard" style="cursor:pointer;position:relative;" onclick="toggleCopyPopup(event)">
+        <p style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">전화 문의</p>
+        <p style="color:#16a34a;font-size:0.78rem;">010-2820-8928</p>
+        <div id="copyPopup" style="display:none;position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:50;">
+          <button onclick="copyPhone(event)" style="background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:0.78rem;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,0.28);font-family:'Noto Sans KR',sans-serif;">번호 복사하기</button>
+          <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #1a1a1a;"></div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#f8f8f6;border-radius:14px;padding:22px;">
+      <h3 style="font-size:0.95rem;font-weight:800;margin-bottom:14px;">빠른 문의 안내</h3>
+      <div class="g2">
+
+        <!-- 강의 의뢰: 호버하면 전화번호 표시 -->
+        <div class="cnt-item" style="display:flex;gap:8px;">
+          <span style="color:#2BBAC5;font-size:1rem;flex-shrink:0;">→</span>
+          <div>
+            <strong style="color:#333;font-size:0.82rem;">강의 의뢰</strong>
+            <p style="font-size:0.82rem;color:#666;">기관·기업 출강은 이메일 또는 전화로</p>
+            <p class="reveal" style="color:#16a34a;">010-2820-8928</p>
+          </div>
+        </div>
+
+        <!-- 1:1 코칭: 구글폼 링크 -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScDwIT81fA7CwWlaWyNjG4RYmiH1tsjR8B2vQo2s0nQN3SW8w/viewform?usp=publish-editor" target="_blank" class="cnt-link">
+          <span style="color:#2BBAC5;font-size:1rem;flex-shrink:0;">→</span>
+          <div>
+            <strong style="color:#333;font-size:0.82rem;">1:1 코칭 신청</strong>
+            <p style="font-size:0.82rem;color:#666;">클릭하면 신청 폼이 열립니다</p>
+          </div>
+        </a>
+
+        <!-- 콘텐츠 협업: 이메일 항상 표시 -->
+        <div style="display:flex;gap:8px;">
+          <span style="color:#2BBAC5;font-size:1rem;flex-shrink:0;">→</span>
+          <div>
+            <strong style="color:#333;font-size:0.82rem;">콘텐츠 협업</strong>
+            <p style="font-size:0.82rem;color:#666;">브랜드 콘텐츠 제작 협업은 이메일로</p>
+            <p style="font-size:0.78rem;color:#2BBAC5;font-weight:700;margin-top:3px;">mymama09@naver.com</p>
+          </div>
+        </div>
+
+        <!-- 보험설계사 교육: 구글폼 링크 -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7ySyRO2011KIssfxw2KWlWemHH7d6e7PAgcSe9fF49o4Q0A/viewform?usp=publish-editor" target="_blank" class="cnt-link">
+          <span style="color:#2BBAC5;font-size:1rem;flex-shrink:0;">→</span>
+          <div>
+            <strong style="color:#333;font-size:0.82rem;">보험설계사 교육</strong>
+            <p style="font-size:0.82rem;color:#666;">클릭하면 문의 폼이 열립니다</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <!-- Handwriting sign-off -->
+    <div style="text-align:center;margin-top:22px;">
+      <span class="hw" style="font-size:1.8rem;color:#2BBAC5;">감사합니다 ♡</span>
+    </div>
+  </section>
+
+</div><!-- /fbody -->
+</div><!-- /fwrap -->
+
+<footer style="text-align:center;padding:20px 16px;font-family:'Nanum Pen Script',cursive;color:#aaa;font-size:1rem;">
+  © 2026 김지수 · JIsooLab &nbsp;·&nbsp; "진심을 담은 콘텐츠는 마음을 움직이고, 행동을 만든다."
+</footer>
+
+<!-- ═══ COURSE SELECT MODAL ═══ -->
+<div id="courseModal" style="display:none;position:fixed;inset:0;background:rgba(10,30,35,0.68);z-index:600;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
+  <div style="background:#fff;border-radius:24px;max-width:620px;width:100%;padding:36px 32px;box-shadow:0 28px 70px rgba(0,0,0,0.3);position:relative;max-height:90vh;overflow-y:auto;">
+
+    <button onclick="closeCourseModal()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:2rem;color:#bbb;cursor:pointer;line-height:1;">&times;</button>
+
+    <div class="slbl" style="margin-bottom:6px;">COURSES</div>
+    <h2 style="font-family:'Noto Serif KR',serif;font-weight:900;font-size:1.5rem;letter-spacing:-0.04em;margin-bottom:5px;">강의를 선택해주세요</h2>
+    <p style="color:#aaa;font-size:0.82rem;margin-bottom:26px;">원하시는 강의를 클릭하면 신청 폼으로 바로 연결됩니다</p>
+
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <!-- 강의 01 -->
+      <a class="modal-card" href="https://docs.google.com/forms/d/e/1FAIpQLSf2QEw4gfm2qBef5Mov2qBTmRuB1b4i8E5PuzKv2Uy2EADKvQ/viewform?usp=publish-editor" target="_blank">
+        <div style="width:50px;height:50px;background:#DFF6F7;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.88rem;color:#2BBAC5;font-family:'Noto Serif KR',serif;flex-shrink:0;">01</div>
+        <div style="flex:1;min-width:0;">
+          <div style="margin-bottom:5px;"><span class="award-badge" style="font-size:0.65rem;">인기강의</span></div>
+          <p style="font-weight:800;font-size:0.95rem;color:#1a1a1a;margin-bottom:3px;">0원 AI 영상 제작 마스터 코스</p>
+          <p style="font-size:0.78rem;color:#aaa;">ChatGPT · Gemini · Flow AI · Vrew · CapCut</p>
+        </div>
+        <span style="color:#2BBAC5;font-weight:700;font-size:0.82rem;white-space:nowrap;flex-shrink:0;">신청하기 →</span>
+      </a>
+
+      <!-- 강의 02 -->
+      <a class="modal-card" href="https://docs.google.com/forms/d/e/1FAIpQLSd7ySyRO2011KIssfxw2KWlWemHH7d6e7PAgcSe9fF49o4Q0A/viewform?usp=publish-editor" target="_blank">
+        <div style="width:50px;height:50px;background:#FFF3E0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.88rem;color:#e65100;font-family:'Noto Serif KR',serif;flex-shrink:0;">02</div>
+        <div style="flex:1;min-width:0;">
+          <div style="margin-bottom:5px;"><span style="background:#FFF3E0;color:#e65100;font-size:0.65rem;font-weight:700;padding:2px 9px;border-radius:999px;">실무 특화</span></div>
+          <p style="font-weight:800;font-size:0.95rem;color:#1a1a1a;margin-bottom:3px;">보험설계사를 위한 SNS &amp; AI 마케팅</p>
+          <p style="font-size:0.78rem;color:#aaa;">인스타그램 브랜딩 · AI 프로필 · 카드뉴스 · 디지털 명함</p>
+        </div>
+        <span style="color:#2BBAC5;font-weight:700;font-size:0.82rem;white-space:nowrap;flex-shrink:0;">신청하기 →</span>
+      </a>
+
+      <!-- 강의 03 -->
+      <a class="modal-card" href="https://docs.google.com/forms/d/e/1FAIpQLScDwIT81fA7CwWlaWyNjG4RYmiH1tsjR8B2vQo2s0nQN3SW8w/viewform?usp=publish-editor" target="_blank">
+        <div style="width:50px;height:50px;background:#F3E5F5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.88rem;color:#7B1FA2;font-family:'Noto Serif KR',serif;flex-shrink:0;">03</div>
+        <div style="flex:1;min-width:0;">
+          <div style="margin-bottom:5px;"><span style="background:#F3E5F5;color:#7B1FA2;font-size:0.65rem;font-weight:700;padding:2px 9px;border-radius:999px;">1:1 맞춤</span></div>
+          <p style="font-weight:800;font-size:0.95rem;color:#1a1a1a;margin-bottom:3px;">JIsooLab 1:1 맞춤 코칭</p>
+          <p style="font-size:0.78rem;color:#aaa;">인스타그램 성장 · AI 영상 · 개인 맞춤 커리큘럼</p>
+        </div>
+        <span style="color:#2BBAC5;font-weight:700;font-size:0.82rem;white-space:nowrap;flex-shrink:0;">신청하기 →</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─ AUDIO ENGINE ─ */
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playSound(type) {
+  try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    const t = ctx.currentTime;
+    switch(type) {
+      case 'hover':
+        osc.type='sine'; osc.frequency.setValueAtTime(880,t); osc.frequency.exponentialRampToValueAtTime(440,t+0.15);
+        gain.gain.setValueAtTime(0.07,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+        osc.start(t); osc.stop(t+0.2); break;
+      case 'click':
+        osc.type='sine'; osc.frequency.setValueAtTime(550,t); osc.frequency.exponentialRampToValueAtTime(220,t+0.1);
+        gain.gain.setValueAtTime(0.14,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.14);
+        osc.start(t); osc.stop(t+0.14); break;
+      case 'proximity':
+        osc.type='sine'; osc.frequency.setValueAtTime(1100,t);
+        gain.gain.setValueAtTime(0.04,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+        osc.start(t); osc.stop(t+0.1); break;
+      case 'reveal':
+        osc.type='sine'; osc.frequency.setValueAtTime(350,t); osc.frequency.exponentialRampToValueAtTime(600,t+0.28);
+        gain.gain.setValueAtTime(0.05,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+        osc.start(t); osc.stop(t+0.35); break;
+    }
+  } catch(e){}
+}
+
+/* ─ BGM ─ */
+let bgmOn = false;
+function toggleBGM() {
+  const a = document.getElementById('bgm');
+  const b = document.getElementById('bgmb');
+  if (bgmOn) { a.pause(); a.currentTime = 0; b.textContent='♪'; b.classList.remove('on'); }
+  else { a.play().catch(()=>{}); b.textContent='♬'; b.classList.add('on'); }
+  bgmOn = !bgmOn;
+  playSound('click');
+}
+
+/* ─ RIPPLE ─ */
+function addRipple(el, e) {
+  const rect = el.getBoundingClientRect();
+  const r = document.createElement('span');
+  r.className = 'rpl';
+  const s = Math.max(rect.width, rect.height);
+  r.style.cssText = `width:${s}px;height:${s}px;top:${e.clientY-rect.top-s/2}px;left:${e.clientX-rect.left-s/2}px;`;
+  el.appendChild(r);
+  setTimeout(()=>r.remove(), 650);
+}
+
+/* ─ CLICK SOUND + RIPPLE on cards ─ */
+document.querySelectorAll('.ccard,.vcard,.acard,.cntcard,.pjcard').forEach(el=>{
+  el.addEventListener('click', e=>{ playSound('click'); addRipple(el,e); });
+});
+
+/* ─ HOVER SOUND ─ */
+let lastHover = 0;
+document.querySelectorAll('.ccard,.vcard,.cntcard,.tag,.ftab').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{
+    const now = Date.now();
+    if (now - lastHover > 300) { playSound('hover'); lastHover = now; }
+  });
+});
+
+/* ─ PROXIMITY SOUND ─ */
+let lastProx = 0;
+document.addEventListener('mousemove', e=>{
+  const now = Date.now();
+  if (now - lastProx < 800) return;
+  document.querySelectorAll('.pjcard,.sticky,.stat').forEach(el=>{
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width/2, cy = r.top + r.height/2;
+    const dist = Math.hypot(e.clientX-cx, e.clientY-cy);
+    if (dist < 80) { playSound('proximity'); lastProx = now; }
+  });
+});
+
+/* ─ SCROLL REVEAL ─ */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if (en.isIntersecting) {
+      en.target.classList.add('vis');
+      playSound('reveal');
+      en.target.querySelectorAll('.pfill').forEach(b=>{ b.style.width = b.dataset.w || '0%'; });
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fup').forEach(el=>obs.observe(el));
+
+/* ─ ACTIVE NAV TAB on scroll + TOP 버튼 ─ */
+const sections = document.querySelectorAll('section[id],div[id]');
+const tabs = document.querySelectorAll('.ftab');
+window.addEventListener('scroll', ()=>{
+  let cur = '';
+  sections.forEach(s=>{ if (scrollY >= s.offsetTop - 120) cur = s.id; });
+  tabs.forEach(t=>{ t.classList.toggle('on', t.getAttribute('href')==='#'+cur); });
+  document.getElementById('topb').classList.toggle('show', scrollY > 300);
+}, { passive:true });
+
+/* ─ PHONE COPY ─ */
+function toggleCopyPopup(e) {
+  e.stopPropagation();
+  const p = document.getElementById('copyPopup');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+}
+function copyPhone(e) {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  const num = '010-2820-8928';
+  (navigator.clipboard ? navigator.clipboard.writeText(num) : Promise.reject())
+    .catch(() => {
+      const el = document.createElement('textarea');
+      el.value = num; document.body.appendChild(el); el.select();
+      document.execCommand('copy'); document.body.removeChild(el);
+    })
+    .then(() => {})
+    .finally(() => {
+      btn.textContent = '복사됐어요 ✓';
+      btn.style.background = '#2BBAC5';
+      setTimeout(() => {
+        document.getElementById('copyPopup').style.display = 'none';
+        btn.textContent = '번호 복사하기';
+        btn.style.background = '#1a1a1a';
+      }, 1600);
+    });
+}
+document.addEventListener('click', () => {
+  const p = document.getElementById('copyPopup');
+  if (p) p.style.display = 'none';
+});
+
+/* ─ COURSE MODAL ─ */
+function openCourseModal() {
+  const m = document.getElementById('courseModal');
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeCourseModal() {
+  document.getElementById('courseModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.getElementById('courseModal').addEventListener('click', function(e) {
+  if (e.target === this) closeCourseModal();
+});
+
+/* ─ STICKY NOTE tilt on hover ─ */
+document.querySelectorAll('.sticky').forEach(el=>{
+  const orig = el.style.transform || 'rotate(-1.5deg)';
+  el.addEventListener('mouseenter',()=>{ el.style.transform='rotate(0deg)'; el.style.transition='transform 0.3s'; });
+  el.addEventListener('mouseleave',()=>{ el.style.transform=orig; });
+});
+</script>
+</body>
+</html>
