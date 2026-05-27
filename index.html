@@ -43,6 +43,8 @@
     }
     .ftab:hover { background:rgba(122,197,197,0.12); color:var(--teal); border-color:rgba(122,197,197,0.3); }
     .ftab.on { background:var(--teal); color:#fff; border-color:var(--teal); }
+    .page-section { display:none; }
+    .page-section.ps-active { display:block; }
     .mnav {
       display:none; background:rgba(255,255,255,0.7);
       border:1px solid rgba(122,197,197,0.25); border-radius:6px;
@@ -276,20 +278,18 @@
 <nav class="fnav">
   <div class="fnav-logo">JIsooLab</div>
   <div class="tab-row" style="display:flex;align-items:flex-end;gap:4px;flex:1;overflow-x:auto;">
-    <a href="#about" class="ftab">소개</a>
-    <a href="#courses" class="ftab">강의</a>
-    <a href="#projects" class="ftab">프로젝트</a>
-    <a href="#vibe" class="ftab">바이브코딩</a>
-    <a href="#awards" class="ftab">수상</a>
-    <a href="#contact" class="ftab">문의</a>
+    <a href="javascript:void(0)" data-page="about" class="ftab on" onclick="showPage('about')">소개</a>
+    <a href="javascript:void(0)" data-page="courses" class="ftab" onclick="showPage('courses')">강의</a>
+    <a href="javascript:void(0)" data-page="projects" class="ftab" onclick="showPage('projects')">프로젝트 & 수상</a>
+    <a href="javascript:void(0)" data-page="vibe" class="ftab" onclick="showPage('vibe')">바이브코딩</a>
+    <a href="javascript:void(0)" data-page="contact" class="ftab" onclick="showPage('contact')">문의</a>
   </div>
-  <select class="mnav" onchange="location.hash=this.value">
-    <option value="#about">소개</option>
-    <option value="#courses">강의</option>
-    <option value="#projects">프로젝트</option>
-    <option value="#vibe">바이브코딩</option>
-    <option value="#awards">수상</option>
-    <option value="#contact">문의</option>
+  <select class="mnav" onchange="showPage(this.value)">
+    <option value="about">소개</option>
+    <option value="courses">강의</option>
+    <option value="projects">프로젝트 & 수상</option>
+    <option value="vibe">바이브코딩</option>
+    <option value="contact">문의</option>
   </select>
 </nav>
 
@@ -298,7 +298,7 @@
 <div class="fbody">
 
   <!-- ── COVER ── -->
-  <div id="hero" class="cover" style="flex-direction:column;align-items:center;text-align:center;gap:0;padding:160px 40px 32px;overflow:visible;">
+  <div id="hero" class="cover page-section ps-active" data-pg="about" style="flex-direction:column;align-items:center;text-align:center;gap:0;padding:160px 40px 32px;overflow:visible;">
 
     <!-- Sticky note: hero 상단 영역에 직접 배치 (fbody 클리핑 방지) -->
     <div id="hero-sticky-note" class="sticky" style="position:absolute;top:20px;left:max(10px,calc(50% - 290px));z-index:5;max-width:290px;transform:rotate(-4deg);text-align:left;">
@@ -329,7 +329,7 @@
   </div>
 
   <!-- ── ABOUT ── -->
-  <section id="about" class="paper fup">
+  <section id="about" class="paper fup page-section ps-active" data-pg="about">
     <div class="slbl" style="margin-bottom:8px;">ABOUT ME</div>
     <h2 style="font-size:clamp(1.5rem,4vw,2.3rem);margin-bottom:22px;">브랜드와 고객을 <span style="white-space:nowrap"><span style="color:#7AC5C5;">연결하는</span> 사람</span></h2>
     <div class="g2">
@@ -385,7 +385,7 @@
 
 
   <!-- ── COURSES ── -->
-  <section id="courses" class="paper fup">
+  <section id="courses" class="paper fup page-section" data-pg="courses">
     <div class="slbl" style="margin-bottom:8px;">COURSES</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;"><span class="u-mint">지금 운영 중인 강의</span></h2>
     <div class="g3" style="margin-bottom:28px;">
@@ -456,7 +456,7 @@
   </section>
 
   <!-- ── PROJECTS ── -->
-  <section id="projects" class="paper fup">
+  <section id="projects" class="paper fup page-section" data-pg="projects">
     <div class="slbl" style="margin-bottom:8px;">PROJECTS</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;"><span class="u-mint">주요 프로젝트</span></h2>
     <div style="display:flex;flex-direction:column;gap:14px;">
@@ -496,7 +496,7 @@
   </section>
 
   <!-- ── VIBE CODING ── -->
-  <section id="vibe" class="paper fup">
+  <section id="vibe" class="paper fup page-section" data-pg="vibe">
     <div class="slbl" style="margin-bottom:8px;">VIBE CODING</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:8px;"><span class="u-mint">바이브 코딩 프로젝트</span></h2>
     <p style="color:#777;font-size:0.85rem;margin-bottom:22px;">AI와 함께 직접 개발한 실전 웹 도구들</p>
@@ -553,7 +553,7 @@
   </section>
 
   <!-- ── AWARDS ── -->
-  <section id="awards" class="paper fup">
+  <section id="awards" class="paper fup page-section" data-pg="projects">
     <div class="slbl" style="margin-bottom:8px;">AWARDS &amp; COMPETITIONS</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;"><span class="u-mint">수상 &amp; 공모전 출품</span></h2>
     <div class="g2" style="margin-bottom:20px;">
@@ -605,7 +605,7 @@
   </div>
 
   <!-- ── CONTACT ── -->
-  <section id="contact" class="paper fup">
+  <section id="contact" class="paper fup page-section" data-pg="contact">
     <div class="slbl" style="margin-bottom:8px;">CONTACT</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:6px;"><span class="u-mint">함께 시작해요</span></h2>
     <p style="color:#888;font-size:0.85rem;margin-bottom:22px;">강의 문의, 협업 제안, 1:1 코칭 신청까지 편하게 연락 주세요</p>
@@ -939,15 +939,22 @@ const obs = new IntersectionObserver(entries=>{
 }, { threshold: 0.12 });
 document.querySelectorAll('.fup').forEach(el=>obs.observe(el));
 
-/* ─ ACTIVE NAV TAB on scroll + TOP 버튼 ─ */
-const sections = document.querySelectorAll('section[id],div[id]');
-const tabs = document.querySelectorAll('.ftab');
+/* ─ PAGE NAVIGATION ─ */
+function showPage(pageId) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('ps-active'));
+  document.querySelectorAll('.page-section[data-pg="' + pageId + '"]').forEach(s => s.classList.add('ps-active'));
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+  const activeTab = document.querySelector('.ftab[data-page="' + pageId + '"]');
+  if (activeTab) activeTab.classList.add('on');
+  const sel = document.querySelector('.mnav');
+  if (sel) sel.value = pageId;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+/* ─ TOP 버튼 ─ */
 window.addEventListener('scroll', ()=>{
-  let cur = '';
-  sections.forEach(s=>{ if (scrollY >= s.offsetTop - 120) cur = s.id; });
-  tabs.forEach(t=>{ t.classList.toggle('on', t.getAttribute('href')==='#'+cur); });
   document.getElementById('topb').classList.toggle('show', scrollY > 300);
 }, { passive:true });
+showPage('about');
 
 /* ─ PHONE COPY ─ */
 function toggleCopyPopup(e) {
