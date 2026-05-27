@@ -181,14 +181,12 @@
     .pjcard:hover .proj-preview { transform:scale(1.04); }
     .pj-body { flex:1; min-width:0; }
     .vid-preview {
-      position:absolute; right:-10px; top:50%; transform:translateY(-50%) scale(0.94);
-      object-fit:cover; border-radius:10px;
-      box-shadow:0 8px 28px rgba(0,0,0,0.28); opacity:0; pointer-events:none;
-      transition:opacity 0.25s ease, transform 0.25s ease; z-index:10;
+      width:96px; height:76px; object-fit:cover; border-radius:8px;
+      flex-shrink:0; box-shadow:0 3px 10px rgba(0,0,0,0.13);
+      transition:transform 0.25s ease; position:static; opacity:1; pointer-events:auto;
     }
-    .vid-preview.landscape { width:220px; height:124px; }
-    .vid-preview.portrait  { width:110px; height:196px; }
-    .acard:hover .vid-preview { opacity:1; transform:translateY(-50%) scale(1); }
+    .vid-preview.portrait { width:64px; height:76px; }
+    .acard:hover .vid-preview { transform:scale(1.04); }
     .vcard { border-radius:16px; padding:22px; transition:all 0.3s; cursor:pointer; position:relative; overflow:visible; }
     .vcard:hover { transform:translateY(-4px); }
     .vcard-thumb {
@@ -199,16 +197,15 @@
       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
     }
     .vcard:hover .vcard-thumb { opacity:1; transform:translateY(-50%) scale(1); }
-    .acard { border-radius:14px; padding:22px; transition:all 0.3s; cursor:pointer; position:relative; overflow:visible; }
-    .acard:hover { transform:translateY(-3px); }
-    .insta-hover {
-      position:absolute; inset:0; border-radius:14px;
-      background:rgba(122,197,197,0.92); color:#fff;
-      display:flex; align-items:center; justify-content:center;
-      font-weight:700; font-size:0.85rem; gap:6px;
-      opacity:0; transition:opacity 0.22s; pointer-events:none;
+    .acard { border-radius:0 12px 12px 0; border-left:4px solid var(--teal); background:#fff; padding:16px 20px; transition:all 0.3s; cursor:pointer; position:relative; display:flex; gap:16px; align-items:flex-start; }
+    .acard:hover { transform:translateX(2px); box-shadow:4px 4px 20px rgba(122,197,197,0.18); }
+    .acard-thumb-placeholder {
+      width:96px; height:76px; border-radius:8px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:2rem;
+      box-shadow:0 3px 10px rgba(0,0,0,0.13); transition:transform 0.25s ease;
     }
-    .acard:hover .insta-hover { opacity:1; }
+    .acard:hover .acard-thumb-placeholder { transform:scale(1.04); }
+    .acard-body { flex:1; min-width:0; }
     .cntcard {
       background:#fff; border-radius:16px; padding:22px; text-align:center;
       transition:all 0.3s; cursor:pointer; border:1.5px solid #e8e8e8; text-decoration:none; display:block;
@@ -591,21 +588,42 @@
   <section id="awards" class="paper fup page-section" data-pg="projects">
     <div class="slbl" style="margin-bottom:8px;">AWARDS &amp; COMPETITIONS</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;"><span class="u-mint">수상 &amp; 공모전 출품</span></h2>
-    <div class="g2" style="margin-bottom:20px;">
-      <div id="award-sasm-card" class="acard" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3);">
-        <div style="display:flex;gap:12px;align-items:flex-start;"><div><span class="award-badge" style="margin-bottom:8px;">최우수상</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">SASM: Smart AI Subscription Management</h3><p style="font-size:0.78rem;color:#888;">2025 AI 콘텐츠 창작 아카데미 전문가 과정</p><p style="font-size:0.78rem;color:#f59e0b;font-weight:600;margin-top:4px;">경기콘텐츠진흥원</p></div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+      <div id="award-sasm-card" class="acard">
+        <img class="vid-preview" src="image/sasm.png" alt="SASM 미리보기" />
+        <div class="acard-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2025 · AI 콘텐츠 창작 아카데미 전문가 과정</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">SASM: Smart AI&nbsp;Subscription Management</h3>
+          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">경기콘텐츠진흥원</p>
+          <span class="award-badge">🏆 최우수상</span>
+        </div>
       </div>
-      <div class="acard" id="ok-card" style="background:linear-gradient(135deg,rgba(122,197,197,0.08),rgba(93,224,234,0.06));border:1px solid rgba(122,197,197,0.25);">
+      <div class="acard" id="ok-card">
         <video class="vid-preview portrait" id="ok-vid" src="ok_video.mp4" muted loop playsinline></video>
-        <div style="display:flex;gap:12px;align-items:flex-start;"><div><span style="background:rgba(122,197,197,0.15);color:#7AC5C5;font-size:0.72rem;font-weight:700;padding:3px 11px;border-radius:999px;margin-bottom:8px;display:inline-block;">인기상 입선</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">OK저축은행 29역숏폼왕 2관 입선</h3><p style="font-size:0.78rem;color:#888;">세상의 모든 웃맨 / 금융영웅 (2026.04)</p><p style="font-size:0.78rem;color:#7AC5C5;font-weight:600;margin-top:4px;">OK저축은행</p></div></div>
+        <div class="acard-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2026.04 · 숏폼 공모전</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">OK저축은행 29역&nbsp;숏폼왕 2관 입선</h3>
+          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">세상의 모든 웃맨 / 금융영웅</p>
+          <span class="award-badge">🥈 인기상 입선</span>
+        </div>
       </div>
-      <div class="acard" id="gg-card" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;">
-        <img class="vid-preview landscape" id="gg-thumb" src="https://img.youtube.com/vi/58XxIdKdBiI/hqdefault.jpg" alt="Let's GG 미리보기" />
-        <div style="display:flex;gap:12px;"><div><span style="font-size:0.72rem;font-weight:600;color:#999;border:1px solid #ddd;padding:3px 10px;border-radius:999px;margin-bottom:8px;display:inline-block;">공모전 출품</span><h3 style="font-weight:700;font-size:0.9rem;margin-bottom:3px;">경기관광 국제 AI 영상 공모전</h3><p style="font-size:0.78rem;color:#888;">Let's GG — 이미지·영상편집 담당 (2026.01)</p></div></div>
+      <div class="acard" id="gg-card">
+        <img class="vid-preview" src="https://img.youtube.com/vi/58XxIdKdBiI/hqdefault.jpg" alt="Let's GG 미리보기" />
+        <div class="acard-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2026.01 · 국제 AI 영상 공모전</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">경기관광 국제 AI&nbsp;영상 공모전</h3>
+          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">Let's GG — 이미지·영상편집 담당</p>
+          <span class="award-badge">📽 공모전 출품</span>
+        </div>
       </div>
-      <a href="https://www.instagram.com/jisoo_lab" target="_blank" class="acard" style="background:rgba(255,255,255,0.7);border:1px solid #e8e8e8;display:block;text-decoration:none;color:inherit;">
-        <div class="insta-hover">📷 인스타그램에서 보기</div>
-        <div style="display:flex;gap:12px;"><div><span style="font-size:0.72rem;font-weight:600;color:#999;border:1px solid #ddd;padding:3px 10px;border-radius:999px;margin-bottom:8px;display:inline-block;">공모전 다수</span><h3 style="font-weight:700;font-size:0.9rem;margin-bottom:3px;">AI 영상 공모전 다수 참가 (2025–26)</h3><p style="font-size:0.78rem;color:#888;">해양환경공단, 사천, 시흥, 춘향제, 매경 등</p></div></div>
+      <a href="https://www.instagram.com/jisoo_lab" target="_blank" class="acard" style="text-decoration:none;color:inherit;">
+        <div class="acard-thumb-placeholder" style="background:linear-gradient(135deg,#833AB4,#C13584,#E1306C);">📷</div>
+        <div class="acard-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2025–26 · AI 영상 공모전</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">AI 영상 공모전 다수&nbsp;참가</h3>
+          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">해양환경공단, 사천, 시흥, 춘향제, 매경 등</p>
+          <span class="award-badge">🎬 공모전 다수</span>
+        </div>
       </a>
     </div>
     <!-- Certs -->
