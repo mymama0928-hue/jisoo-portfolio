@@ -171,15 +171,15 @@
       display:flex; flex-direction:column;
     }
     .ccard:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(122,197,197,0.16); border-color:var(--teal); }
-    .pjcard { border-left:4px solid var(--teal); background:#fff; border-radius:0 12px 12px 0; padding:20px 24px; transition:all 0.3s; position:relative; }
-    .pjcard:hover { box-shadow:4px 4px 20px rgba(122,197,197,0.13); }
+    .pjcard { display:flex; gap:16px; align-items:flex-start; border-left:4px solid var(--teal); background:#fff; border-radius:0 12px 12px 0; padding:16px 20px; transition:all 0.3s; position:relative; cursor:pointer; }
+    .pjcard:hover { box-shadow:4px 4px 20px rgba(122,197,197,0.18); transform:translateX(2px); }
     .proj-preview {
-      position:absolute; right:20px; top:50%; transform:translateY(-50%) scale(0.94);
-      width:190px; height:130px; object-fit:cover; border-radius:10px;
-      box-shadow:0 8px 28px rgba(0,0,0,0.22); opacity:0; pointer-events:none;
-      transition:opacity 0.25s ease, transform 0.25s ease; z-index:10;
+      width:96px; height:76px; object-fit:cover; border-radius:8px;
+      flex-shrink:0; box-shadow:0 3px 10px rgba(0,0,0,0.13);
+      transition:transform 0.25s ease; position:static; opacity:1; pointer-events:auto;
     }
-    .pjcard:hover .proj-preview, .acard:hover .proj-preview { opacity:1; transform:translateY(-50%) scale(1); }
+    .pjcard:hover .proj-preview { transform:scale(1.04); }
+    .pj-body { flex:1; min-width:0; }
     .vid-preview {
       position:absolute; right:-10px; top:50%; transform:translateY(-50%) scale(0.94);
       object-fit:cover; border-radius:10px;
@@ -489,35 +489,43 @@
     <div style="display:flex;flex-direction:column;gap:14px;">
       <div class="pjcard">
         <img class="proj-preview" src="image/dreamdoctor.png" alt="드림닥터 미리보기" />
-        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
-          <div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025.4–8 · 인스타그램 마케팅</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">어린이 의사체험센타 '드림닥터' 마케팅 &amp; 편집디자인</h3></div>
+        <div class="pj-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:3px;">2025.4–8 · 인스타그램 마케팅</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">어린이 의사체험센타 '드림닥터' 마케팅 &amp; 편집디자인</h3>
+          <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:8px;">브랜드 친밀도 강화를 위한 어린이 맞춤형 콘텐츠 기획·제작.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;"><span class="tag" style="font-size:0.72rem;">Photoshop</span><span class="tag" style="font-size:0.72rem;">Illustrator</span><span class="tag" style="font-size:0.72rem;">Premiere Pro</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="font-size:0.75rem;color:#7AC5C5;font-weight:700;">+83% 팔로워</span><span style="font-size:0.75rem;color:#7AC5C5;font-weight:700;">12만 조회수</span><span style="font-size:0.75rem;color:#7AC5C5;font-weight:700;">+66% 비팔로워 유입</span></div>
         </div>
-        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">브랜드 친밀도 강화를 위한 어린이 맞춤형 콘텐츠 기획·제작. 기획-디자인-편집 전 과정 단독 수행.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"><span class="tag" style="font-size:0.72rem;">Photoshop</span><span class="tag" style="font-size:0.72rem;">Illustrator</span><span class="tag" style="font-size:0.72rem;">Premiere Pro</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span></div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;"><span style="font-size:0.78rem;color:#7AC5C5;font-weight:700;">+83% 팔로워</span><span style="font-size:0.78rem;color:#7AC5C5;font-weight:700;">12만 조회수</span><span style="font-size:0.78rem;color:#7AC5C5;font-weight:700;">+66% 비팔로워 유입</span></div>
       </div>
-      <div class="pjcard">
+      <div class="pjcard" id="sasm-card">
         <img class="proj-preview" src="image/sasm.png" alt="SASM 미리보기" />
-        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
-          <div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · 경기콘텐츠진흥원 AI 콘텐츠 창작 아카데미</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">SASM — Smart AI Subscription Management</h3></div>
+        <div class="pj-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:3px;">2025 · 경기콘텐츠진흥원 AI 콘텐츠 창작 아카데미</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">SASM — Smart AI Subscription Management</h3>
+          <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:8px;">AI 구독 서비스 최적화 플랫폼. 카드뉴스·홍보영상·UX 데모·홈페이지 단독 제작.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;"><span class="tag" style="font-size:0.72rem;">Canva</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">Lovable.dev</span><span class="tag" style="font-size:0.72rem;">imweb</span></div>
+          <span class="award-badge">최우수상 · 경기콘텐츠진흥원</span>
         </div>
-        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">AI 구독 서비스 최적화 플랫폼. 카드뉴스·홍보영상·UX 데모·홈페이지 단독 제작.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"><span class="tag" style="font-size:0.72rem;">Canva</span><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">Lovable.dev</span><span class="tag" style="font-size:0.72rem;">imweb</span></div>
-        <span class="award-badge">최우수상 · 경기콘텐츠진흥원</span>
       </div>
       <div class="pjcard">
         <img class="proj-preview" src="image/k_deama.png" alt="K-DRAMA 미리보기" />
-        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · 한국경제신문 K디지털 트레이닝</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">K-DRAMA 기사 &amp; 재생건축 리포트 기사작성</h3></div></div>
-        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:10px;">생성형 AI 활용 미디어 콘텐츠 크리에이터 캠프. K-드라마 글로벌 확산 분석 기사 기획·집필.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">MidJourney</span><span class="tag" style="font-size:0.72rem;">Perplexity</span><span class="tag" style="font-size:0.72rem;">NotebookLM</span></div>
+        <div class="pj-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:3px;">2025 · 한국경제신문 K디지털 트레이닝</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">K-DRAMA 기사 &amp; 재생건축 리포트 기사작성</h3>
+          <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:8px;">생성형 AI 활용 미디어 콘텐츠 크리에이터 캠프. K-드라마 글로벌 확산 분석 기사 기획·집필.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;"><span class="tag" style="font-size:0.72rem;">ChatGPT</span><span class="tag" style="font-size:0.72rem;">MidJourney</span><span class="tag" style="font-size:0.72rem;">Perplexity</span><span class="tag" style="font-size:0.72rem;">NotebookLM</span></div>
+        </div>
       </div>
       <div class="pjcard" id="andong-card">
-        <img class="proj-preview" src="image/안동.png" alt="안동 미리보기" style="cursor:pointer;" />
-        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;"><div><p style="font-size:0.72rem;color:#aaa;font-weight:600;">2025 · AI 영상·다큐 협업</p><h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;">AI 다큐멘터리 "시간을 빚는 손 — 안동에서 미래로" (14분)</h3></div></div>
-        <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
-        <p style="font-size:0.8rem;color:#7AC5C5;font-style:italic;margin-bottom:10px;">"AI는 전통을 배우고, 인간은 기술을 빚는다."</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
-        <p style="font-size:0.75rem;color:#aaa;margin-top:6px;">🎬 클릭하면 이미지 확인 후 영상을 볼 수 있어요</p>
+        <img class="proj-preview" src="image/안동.png" alt="안동 미리보기" />
+        <div class="pj-body">
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:3px;">2025 · AI 영상·다큐 협업</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">AI 다큐멘터리 "시간을 빚는 손 — 안동에서 미래로" (14분)</h3>
+          <p style="font-size:0.82rem;color:#666;line-height:1.7;margin-bottom:6px;">전통 양조의 "기다림의 시간"을 AI 제작기법으로 시각화. 1막 연출 &amp; 발표 PPT 담당.</p>
+          <p style="font-size:0.78rem;color:#7AC5C5;font-style:italic;margin-bottom:7px;">"AI는 전통을 배우고, 인간은 기술을 빚는다."</p>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;"><span class="tag" style="font-size:0.72rem;">Runway</span><span class="tag" style="font-size:0.72rem;">Kling</span><span class="tag" style="font-size:0.72rem;">Google Veo</span><span class="tag" style="font-size:0.72rem;">ElevenLabs</span></div>
+          <p style="font-size:0.72rem;color:#aaa;margin-top:6px;">🎬 클릭하면 영상을 볼 수 있어요</p>
+        </div>
       </div>
     </div>
   </section>
@@ -584,8 +592,7 @@
     <div class="slbl" style="margin-bottom:8px;">AWARDS &amp; COMPETITIONS</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:22px;"><span class="u-mint">수상 &amp; 공모전 출품</span></h2>
     <div class="g2" style="margin-bottom:20px;">
-      <div id="sasm-card" class="acard" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3);">
-        <img class="proj-preview" src="image/sasm.png" alt="SASM 미리보기" />
+      <div id="award-sasm-card" class="acard" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3);">
         <div style="display:flex;gap:12px;align-items:flex-start;"><div><span class="award-badge" style="margin-bottom:8px;">최우수상</span><h3 style="font-weight:800;font-size:0.95rem;margin-bottom:4px;">SASM: Smart AI Subscription Management</h3><p style="font-size:0.78rem;color:#888;">2025 AI 콘텐츠 창작 아카데미 전문가 과정</p><p style="font-size:0.78rem;color:#f59e0b;font-weight:600;margin-top:4px;">경기콘텐츠진흥원</p></div></div>
       </div>
       <div class="acard" id="ok-card" style="background:linear-gradient(135deg,rgba(122,197,197,0.08),rgba(93,224,234,0.06));border:1px solid rgba(122,197,197,0.25);">
