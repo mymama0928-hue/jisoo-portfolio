@@ -543,12 +543,12 @@
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:8px;"><span class="u-mint">바이브 코딩 프로젝트</span></h2>
     <p style="color:#777;font-size:0.85rem;margin-bottom:22px;">AI와 함께 직접 개발한 실전 웹 도구들</p>
     <div class="g2" style="margin-bottom:20px;">
-      <a href="Insure-CopyChat.html" target="_blank" class="vcard" style="background:linear-gradient(135deg,#FFF8F0,#FFE8D6);border:1.5px solid #FFCC99;text-decoration:none;color:inherit;display:block;">
-        <span class="vcard-ext-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+      <div onclick="showPrivateToast()" class="vcard" style="background:linear-gradient(135deg,#FFF8F0,#FFE8D6);border:1.5px solid #FFCC99;color:inherit;display:block;cursor:pointer;">
+        <span style="position:absolute;top:12px;right:14px;background:rgba(230,81,0,0.1);color:#e65100;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid rgba(230,81,0,0.25);">🔒 비공개</span>
         <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#FFF0E0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#e65100;font-family:'Noto Serif KR',serif;">보</div><div><p style="font-size:0.7rem;color:#e65100;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">업무 자동화 도구</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">보험 콘텐츠 도우미</h3></div></div>
         <p style="font-size:0.8rem;color:#666;line-height:1.7;margin-bottom:12px;">보험설계사용 AI 마케팅 6단계 워크플로우. ChatGPT 연동, 프롬프트 원클릭 복사.</p>
         <div><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">HTML/CSS</span><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">ChatGPT 연동</span><span class="tag" style="font-size:0.72rem;border-color:#e65100;color:#e65100;">바이브코딩</span></div>
-      </a>
+      </div>
       <a href="춘향제 공모전 제출 영상 홍보/index.html" target="_blank" class="vcard" style="background:linear-gradient(135deg,#FFF0F5,#FFD6E8);border:1.5px solid #FFB3CC;text-decoration:none;color:inherit;display:block;">
         <span class="vcard-ext-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="#7AC5C5" stroke-width="2.2" stroke-linecap="round"/></svg></span>
         <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;"><div style="width:44px;height:44px;background:#FFE0EE;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:#7a6000;font-family:'Noto Serif KR',serif;">춘</div><div><p style="font-size:0.7rem;color:#7a6000;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">공모전 출품 페이지</p><h3 style="font-size:0.95rem;font-weight:800;line-height:1.3;">제96회 춘향제 AI 영상 홍보</h3></div></div>
@@ -1015,6 +1015,21 @@ document.addEventListener('click', () => {
   const list = document.getElementById('mnav-list');
   if (list) list.style.display = 'none';
 });
+/* ─ 비공개 카드 토스트 ─ */
+function showPrivateToast() {
+  let t = document.getElementById('private-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'private-toast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:14px 24px;border-radius:999px;font-size:0.88rem;font-weight:600;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.3);display:flex;align-items:center;gap:10px;white-space:nowrap;opacity:0;transition:opacity 0.3s;';
+    t.innerHTML = '🔒 현재 비공개 자료입니다 &nbsp;·&nbsp; <span onclick="showPage(\'contact\')" style="color:#7AC5C5;cursor:pointer;text-decoration:underline;font-weight:700;">문의하기 →</span>';
+    document.body.appendChild(t);
+  }
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 3000);
+}
+
 /* ─ TOP 버튼 ─ */
 window.addEventListener('scroll', ()=>{
   document.getElementById('topb').classList.toggle('show', scrollY > 300);
