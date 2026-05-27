@@ -43,8 +43,9 @@
     }
     .ftab:hover { background:rgba(122,197,197,0.12); color:var(--teal); border-color:rgba(122,197,197,0.3); }
     .ftab.on { background:var(--teal); color:#fff; border-color:var(--teal); }
-    .page-section { display:none; }
-    .page-section.ps-active { display:block; }
+    .page-section { display:none !important; }
+    .page-section.ps-active { display:block !important; }
+    .cover.page-section.ps-active { display:flex !important; }
     .mnav {
       display:none; background:rgba(255,255,255,0.7);
       border:1px solid rgba(122,197,197,0.25); border-radius:6px;
