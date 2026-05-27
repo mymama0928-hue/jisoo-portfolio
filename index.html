@@ -46,11 +46,31 @@
     .page-section { display:none !important; }
     .page-section.ps-active { display:block !important; }
     .cover.page-section.ps-active { display:flex !important; }
-    .mnav {
-      display:none; background:rgba(255,255,255,0.7);
-      border:1px solid rgba(122,197,197,0.25); border-radius:6px;
-      padding:6px 10px; font-size:0.82rem; color:#555; font-weight:600; flex:1;
+    /* ── MOBILE CUSTOM DROPDOWN ── */
+    .mnav { display:none; position:relative; flex:1; }
+    .mnav-btn {
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      width:100%; padding:8px 16px;
+      background:rgba(255,251,232,0.7); backdrop-filter:blur(10px);
+      border:1.5px solid rgba(122,197,197,0.4); border-radius:999px;
+      font-family:'Noto Serif KR',serif; font-size:0.88rem; font-weight:700;
+      color:#1a6868; cursor:pointer;
     }
+    .mnav-list {
+      position:absolute; top:calc(100% + 8px); left:0; right:0; z-index:300;
+      background:rgba(255,251,232,0.92); backdrop-filter:blur(16px);
+      border:1.5px solid rgba(122,197,197,0.35); border-radius:18px;
+      overflow:hidden; box-shadow:0 8px 32px rgba(122,197,197,0.25);
+    }
+    .mnav-item {
+      display:block; width:100%; padding:15px 20px;
+      text-align:left; background:transparent;
+      border:none; border-bottom:1px solid rgba(122,197,197,0.15);
+      font-family:'Noto Sans KR',sans-serif; font-size:1rem; font-weight:600;
+      color:#444; cursor:pointer; transition:background 0.15s;
+    }
+    .mnav-item:last-child { border-bottom:none; }
+    .mnav-item:hover, .mnav-item.on { background:rgba(122,197,197,0.15); color:#1a6868; }
     @media(max-width:640px){
       .tab-row{display:none!important;}
       .mnav{display:block!important;}
@@ -285,13 +305,19 @@
     <a href="javascript:void(0)" data-page="vibe" class="ftab" onclick="showPage('vibe')">바이브코딩</a>
     <a href="javascript:void(0)" data-page="contact" class="ftab" onclick="showPage('contact')">문의</a>
   </div>
-  <select class="mnav" onchange="showPage(this.value)">
-    <option value="about">소개</option>
-    <option value="courses">강의</option>
-    <option value="projects">프로젝트 & 수상</option>
-    <option value="vibe">바이브코딩</option>
-    <option value="contact">문의</option>
-  </select>
+  <div class="mnav" id="custom-mnav">
+    <button class="mnav-btn" onclick="toggleMnav(event)">
+      <span id="mnav-label">소개</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#7AC5C5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="mnav-list" id="mnav-list" style="display:none;">
+      <button class="mnav-item on" onclick="selectMnav('about','소개')">소개</button>
+      <button class="mnav-item" onclick="selectMnav('courses','강의')">강의</button>
+      <button class="mnav-item" onclick="selectMnav('projects','프로젝트 &amp; 수상')">프로젝트 &amp; 수상</button>
+      <button class="mnav-item" onclick="selectMnav('vibe','바이브코딩')">바이브코딩</button>
+      <button class="mnav-item" onclick="selectMnav('contact','문의')">문의</button>
+    </div>
+  </div>
 </nav>
 
 <!-- ═══ FOLDER BODY ═══ -->
@@ -941,16 +967,35 @@ const obs = new IntersectionObserver(entries=>{
 document.querySelectorAll('.fup').forEach(el=>obs.observe(el));
 
 /* ─ PAGE NAVIGATION ─ */
+const _mnavLabels = {about:'소개', courses:'강의', projects:'프로젝트 & 수상', vibe:'바이브코딩', contact:'문의'};
 function showPage(pageId) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('ps-active'));
   document.querySelectorAll('.page-section[data-pg="' + pageId + '"]').forEach(s => s.classList.add('ps-active'));
   document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
   const activeTab = document.querySelector('.ftab[data-page="' + pageId + '"]');
   if (activeTab) activeTab.classList.add('on');
-  const sel = document.querySelector('.mnav');
-  if (sel) sel.value = pageId;
+  // update custom mobile nav
+  const labelEl = document.getElementById('mnav-label');
+  if (labelEl) labelEl.textContent = _mnavLabels[pageId] || pageId;
+  document.querySelectorAll('.mnav-item').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.mnav-item').forEach(b => {
+    if (b.textContent.trim() === (_mnavLabels[pageId]||pageId)) b.classList.add('on');
+  });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+function toggleMnav(e) {
+  e.stopPropagation();
+  const list = document.getElementById('mnav-list');
+  list.style.display = list.style.display === 'none' ? 'block' : 'none';
+}
+function selectMnav(pageId, label) {
+  document.getElementById('mnav-list').style.display = 'none';
+  showPage(pageId);
+}
+document.addEventListener('click', () => {
+  const list = document.getElementById('mnav-list');
+  if (list) list.style.display = 'none';
+});
 /* ─ TOP 버튼 ─ */
 window.addEventListener('scroll', ()=>{
   document.getElementById('topb').classList.toggle('show', scrollY > 300);
