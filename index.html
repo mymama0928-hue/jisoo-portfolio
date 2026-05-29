@@ -6,6 +6,7 @@
   <title>김지수 | JIsooLab 포트폴리오</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231a3838'/><text x='52' y='72' font-size='62' font-family='Georgia,serif' font-style='italic' text-anchor='middle' fill='%237AC5C5'>Js</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Great+Vibes&display=swap" rel="stylesheet" />
   <style>
     :root { --teal:#7AC5C5; --folder:#FFFBE8; --tab:#F5E260; --paper:#FFFFFF; --sticky:#FFFEF5; }
@@ -438,11 +439,12 @@
         <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">0원 AI 영상 제작<br/>마스터 코스</h3>
         <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">ChatGPT·Gemini·Flow AI·Vrew·CapCut — 무료 툴만으로 시네마틱 AI 영상을 완성하는 실전 코스.</p>
         <div style="flex:1;"></div>
-        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
-          <p>한양문고 주업점 (총 3회 진행)</p>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:10px;">
+          <p>3회 패키지 · 회당 2시간</p>
           <p>Gemini · Flow · Vrew · CapCut</p>
         </div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf2QEw4gfm2qBef5Mov2qBTmRuB1b4i8E5PuzKv2Uy2EADKvQ/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">강의 문의하기 →</a>
+        <div style="font-size:1.15rem;font-weight:800;color:#1a3838;margin-bottom:12px;">89,000원</div>
+        <button class="enroll-btn" data-cid="ai-video-master" style="display:block;width:100%;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;border:none;cursor:pointer;">수강 신청하기 →</button>
       </div>
 
       <!-- 카드 2: 보험설계사 SNS 강의 -->
@@ -451,11 +453,12 @@
         <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">보험설계사를 위한<br/>SNS &amp; AI 마케팅</h3>
         <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">인스타그램 브랜딩부터 AI 프로필·카드뉴스·디지털 명함까지 보험설계사 맞춤 실전 교육.</p>
         <div style="flex:1;"></div>
-        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
-          <p>맞춤형 출강 / 온라인 가능</p>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:10px;">
+          <p>1회 3시간 · 출강 / 온라인</p>
           <p>ChatGPT · Canva · Gemini</p>
         </div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7ySyRO2011KIssfxw2KWlWemHH7d6e7PAgcSe9fF49o4Q0A/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">강의 문의하기 →</a>
+        <div style="font-size:1.15rem;font-weight:800;color:#1a3838;margin-bottom:12px;">300,000원</div>
+        <button class="enroll-btn" data-cid="insurance-sns-ai" style="display:block;width:100%;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;border:none;cursor:pointer;">수강 신청하기 →</button>
       </div>
 
       <!-- 카드 3: 1:1 코칭 -->
@@ -464,11 +467,12 @@
         <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:10px;line-height:1.35;">JIsooLab<br/>1:1 맞춤 코칭</h3>
         <p style="font-size:0.8rem;color:#666;line-height:1.75;margin-bottom:14px;">인스타그램 성장 전략부터 AI 영상·SNS 콘텐츠까지 목표에 맞는 개인 맞춤 코칭.</p>
         <div style="flex:1;"></div>
-        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:16px;">
-          <p>온라인 / 대면 모두 가능</p>
-          <p>맞춤형 커리큘럼 제공</p>
+        <div style="font-size:0.75rem;color:#888;line-height:1.8;margin-bottom:10px;">
+          <p>2회 세션 · 회당 2시간</p>
+          <p>개인 맞춤 커리큘럼</p>
         </div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScDwIT81fA7CwWlaWyNjG4RYmiH1tsjR8B2vQo2s0nQN3SW8w/viewform?usp=publish-editor" target="_blank" style="display:block;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;text-decoration:none;">코칭 신청하기 →</a>
+        <div style="font-size:1.15rem;font-weight:800;color:#1a3838;margin-bottom:12px;">200,000원</div>
+        <button class="enroll-btn" data-cid="jisoolab-1on1" style="display:block;width:100%;text-align:center;background:#7AC5C5;color:#fff;font-weight:700;padding:11px;border-radius:999px;font-size:0.85rem;border:none;cursor:pointer;">수강 신청하기 →</button>
       </div>
 
     </div>
@@ -495,6 +499,29 @@
         <div style="text-align:center;"><div style="width:44px;height:44px;background:#F5E260;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#1a1a1a;margin:0 auto 8px;">4</div><p style="color:#7a6000;font-size:0.65rem;font-weight:700;margin-bottom:3px;">STEP 4</p><p style="color:#1a1a1a;font-size:0.8rem;font-weight:700;">디지털 명함</p><p style="color:#999;font-size:0.7rem;">Canva / 카카오톡 명함</p></div>
       </div>
     </div>
+    <!-- 내 수강 내역 -->
+    <div id="my-enroll-section" style="margin-top:24px;background:#F0FAFA;border:1.5px solid #C4E8E8;border-radius:16px;padding:20px 24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <h3 style="font-size:1rem;font-weight:800;color:#1a3838;margin:0;">💼 내 수강 내역</h3>
+        <button id="enroll-login-btn" style="background:#1a3838;color:#fff;border:none;padding:7px 18px;border-radius:999px;font-size:0.8rem;font-weight:700;cursor:pointer;display:none;">🔐 로그인</button>
+        <div id="enroll-user-chip" style="display:none;align-items:center;gap:8px;font-size:0.8rem;color:#555;">
+          <span id="enroll-user-email" style="font-weight:600;"></span>
+          <button id="enroll-logout-btn" style="background:none;border:1px solid #ccc;padding:3px 10px;border-radius:999px;font-size:0.75rem;cursor:pointer;color:#888;">로그아웃</button>
+        </div>
+      </div>
+      <div id="enroll-gate-msg" style="font-size:0.82rem;color:#888;padding:8px 0;">
+        로그인하면 수강 내역과 누적 수강료를 확인할 수 있어요.
+        <button onclick="openEnrollLoginModal()" style="margin-left:8px;background:none;border:none;color:#7AC5C5;font-weight:700;cursor:pointer;font-size:0.82rem;">로그인하기 →</button>
+      </div>
+      <div id="enroll-panel" style="display:none;">
+        <div id="enroll-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #C4E8E8;">
+          <span style="font-size:0.82rem;font-weight:700;color:#555;">누적 수강료</span>
+          <span id="enroll-total" style="font-size:1.1rem;font-weight:800;color:#1a3838;">0원</span>
+        </div>
+      </div>
+    </div>
+
     <img src="image/logo.png" alt="" class="sec-logo" />
   </section>
 
@@ -1101,6 +1128,276 @@ document.querySelectorAll('.sticky').forEach(el=>{
   el.addEventListener('mouseenter',()=>{ el.style.transform='rotate(0deg)'; el.style.transition='transform 0.3s'; });
   el.addEventListener('mouseleave',()=>{ el.style.transform=orig; });
 });
+
+/* ════════════════════════════════
+   SUPABASE 수강 신청 시스템
+════════════════════════════════ */
+(function() {
+  const SB_URL = 'https://awotgtopqomliepimaan.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3b3RndG9wcW9tbGllcGltYWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwMTczNTMsImV4cCI6MjA5NTU5MzM1M30.XgD1CRoZm4jXt464O7l2Fk6IMI7_3zLQ2rlBwvZTofs';
+
+  const sb = supabase.createClient(SB_URL, SB_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
+
+  const COURSES = {
+    'ai-video-master':   { name: '0원 AI 영상 제작 마스터 코스', amount: 89000,  sessions: '3회 패키지 · 회당 2시간', emoji: '🎬' },
+    'insurance-sns-ai':  { name: '보험설계사 SNS & AI 마케팅',   amount: 300000, sessions: '1회 3시간 · 출강 / 온라인', emoji: '📱' },
+    'jisoolab-1on1':     { name: 'JIsooLab 1:1 맞춤 코칭',       amount: 200000, sessions: '2회 세션 · 회당 2시간',     emoji: '🎯' },
+    'vibe-coding':       { name: 'AI 바이브 코딩 교육',           amount: 120000, sessions: '1회 3시간 · 그룹 실습',     emoji: '💻' },
+  };
+
+  const fmt = n => n.toLocaleString('ko-KR') + '원';
+  const $ = id => document.getElementById(id);
+  let _user = null;
+  let _enrollments = [];
+
+  /* ── 인증 상태 UI ─ */
+  async function refreshAuthUI(user) {
+    _user = user;
+    const loginBtn   = $('enroll-login-btn');
+    const userChip   = $('enroll-user-chip');
+    const gateMsg    = $('enroll-gate-msg');
+    const panel      = $('enroll-panel');
+    const emailEl    = $('enroll-user-email');
+
+    if (user) {
+      if (loginBtn)  loginBtn.style.display  = 'none';
+      if (userChip)  { userChip.style.display = 'flex'; if (emailEl) emailEl.textContent = user.email; }
+      if (gateMsg)   gateMsg.style.display   = 'none';
+      if (panel)     panel.style.display     = '';
+      await loadEnrollments();
+      renderEnrollments();
+      updateEnrollBtns();
+    } else {
+      if (loginBtn)  loginBtn.style.display  = 'inline-block';
+      if (userChip)  userChip.style.display  = 'none';
+      if (gateMsg)   gateMsg.style.display   = '';
+      if (panel)     panel.style.display     = 'none';
+      _enrollments = [];
+      updateEnrollBtns();
+    }
+  }
+
+  /* ── 수강 버튼 상태 ─ */
+  function updateEnrollBtns() {
+    const enrolled = new Set(_enrollments.map(e => e.course_id));
+    document.querySelectorAll('.enroll-btn').forEach(btn => {
+      const cid = btn.dataset.cid;
+      if (enrolled.has(cid)) {
+        btn.textContent = '✅ 수강 중';
+        btn.style.background = 'rgba(122,197,197,0.18)';
+        btn.style.color = '#1a6868';
+        btn.style.border = '1.5px solid rgba(122,197,197,0.5)';
+        btn.disabled = true;
+      } else {
+        btn.textContent = '수강 신청하기 →';
+        btn.style.background = '#7AC5C5';
+        btn.style.color = '#fff';
+        btn.style.border = 'none';
+        btn.disabled = false;
+      }
+    });
+  }
+
+  /* ── 내 수강 내역 렌더 ─ */
+  async function loadEnrollments() {
+    if (!_user) { _enrollments = []; return; }
+    try {
+      const { data, error } = await sb.from('enrollments').select('*').eq('status','active').order('enrolled_at',{ascending:false});
+      if (error) throw error;
+      _enrollments = data || [];
+    } catch(e) { _enrollments = []; }
+  }
+
+  function renderEnrollments() {
+    const list  = $('enroll-list');
+    const total = $('enroll-total');
+    if (!list) return;
+    if (!_enrollments.length) {
+      list.innerHTML = '<p style="font-size:0.82rem;color:#aaa;padding:4px 0;">아직 수강 신청한 강의가 없습니다.</p>';
+      if (total) total.textContent = '0원';
+      return;
+    }
+    const sum = _enrollments.reduce((s,e) => s + (e.amount||0), 0);
+    if (total) total.textContent = fmt(sum);
+    list.innerHTML = _enrollments.map(e => {
+      const c = COURSES[e.course_id];
+      const date = new Date(e.enrolled_at).toLocaleDateString('ko-KR');
+      return `<div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #e0f0f0;">
+        <span style="font-size:1.2rem;">${c?.emoji||'📚'}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.85rem;font-weight:700;color:#1a1a1a;">${e.course_name}</div>
+          <div style="font-size:0.72rem;color:#999;">${date} · ${fmt(e.amount)}</div>
+        </div>
+        <button onclick="cancelEnroll('${e.id}')" style="background:none;border:1px solid #fcc;color:#e88;font-size:0.72rem;padding:3px 9px;border-radius:999px;cursor:pointer;">취소</button>
+      </div>`;
+    }).join('');
+  }
+
+  window.cancelEnroll = async function(id) {
+    const e = _enrollments.find(x => x.id === id);
+    if (!e || !confirm(`'${e.course_name}' 수강을 취소할까요?`)) return;
+    await sb.from('enrollments').update({status:'cancelled'}).eq('id',id);
+    await loadEnrollments();
+    renderEnrollments();
+    updateEnrollBtns();
+  };
+
+  /* ── 수강 신청 흐름 ─ */
+  window.handleEnrollClick = async function(cid) {
+    if (!_user) { openEnrollLoginModal(); return; }
+    const c = COURSES[cid];
+    if (!c) return;
+    $('ec-name').textContent    = c.name;
+    $('ec-amount').textContent  = fmt(c.amount);
+    $('ec-sessions').textContent = c.sessions;
+    $('ec-overlay').dataset.cid = cid;
+    $('ec-overlay').style.display = 'flex';
+  };
+
+  window.closeEnrollConfirm = function() {
+    $('ec-overlay').style.display = 'none';
+  };
+
+  window.submitEnroll = async function() {
+    const cid  = $('ec-overlay').dataset.cid;
+    const c    = COURSES[cid];
+    if (!c) return;
+    const btn  = $('ec-confirm-btn');
+    btn.disabled = true; btn.textContent = '신청 중...';
+    try {
+      const { error } = await sb.from('enrollments').insert({ course_id: cid, course_name: c.name, amount: c.amount });
+      if (error) {
+        const dup = error.code === '23505';
+        alert(dup ? '이미 수강 신청된 강의입니다.' : '신청 실패: ' + error.message);
+        return;
+      }
+      closeEnrollConfirm();
+      await loadEnrollments();
+      renderEnrollments();
+      updateEnrollBtns();
+      showEnrollToast(c.name);
+    } finally {
+      btn.disabled = false; btn.textContent = '신청하기';
+    }
+  };
+
+  /* ── 로그인 모달 ─ */
+  window.openEnrollLoginModal = function() { $('el-overlay').style.display='flex'; setTimeout(()=>$('el-email')?.focus(),50); };
+  window.closeEnrollLoginModal = function() { $('el-overlay').style.display='none'; $('el-msg').textContent=''; };
+
+  $('el-overlay')?.addEventListener('click', e => { if (e.target===$('el-overlay')) closeEnrollLoginModal(); });
+  $('el-close')?.addEventListener('click', closeEnrollLoginModal);
+  $('el-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = $('el-email').value.trim();
+    const pw    = $('el-pw').value;
+    const isSignup = this.dataset.mode === 'signup';
+    const btn   = $('el-submit');
+    btn.disabled = true;
+    $('el-msg').textContent = '';
+    try {
+      if (isSignup) {
+        const { data, error } = await sb.auth.signUp({ email, password: pw, options:{ emailRedirectTo: location.origin } });
+        if (error) throw error;
+        if (data?.session) { closeEnrollLoginModal(); }
+        else { $('el-msg').textContent = '✉️ 확인 메일을 보냈습니다. 인증 후 로그인하세요.'; $('el-msg').style.color='#7AC5C5'; }
+      } else {
+        const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+        if (error) throw error;
+        closeEnrollLoginModal();
+      }
+    } catch(err) {
+      const m = (err.message||'').toLowerCase();
+      $('el-msg').textContent = m.includes('invalid')?'이메일 또는 비밀번호가 올바르지 않습니다.':
+        m.includes('already')?'이미 가입된 이메일입니다.':
+        m.includes('weak')||m.includes('least')?'비밀번호는 8자 이상이어야 합니다.': err.message;
+      $('el-msg').style.color = '#e55';
+    } finally { btn.disabled = false; }
+  });
+  $('el-switch')?.addEventListener('click', function() {
+    const form = $('el-form');
+    const isSignup = form.dataset.mode === 'signup';
+    form.dataset.mode = isSignup ? '' : 'signup';
+    $('el-submit').textContent = isSignup ? '로그인' : '회원가입';
+    this.textContent = isSignup ? '처음이신가요? 회원가입 →' : '이미 계정이 있으신가요? 로그인 →';
+    $('el-msg').textContent = '';
+  });
+
+  $('enroll-logout-btn')?.addEventListener('click', async () => { await sb.auth.signOut(); });
+
+  /* ── 수강 버튼 이벤트 연결 ─ */
+  document.querySelectorAll('.enroll-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleEnrollClick(btn.dataset.cid));
+  });
+
+  /* ── 토스트 ─ */
+  function showEnrollToast(name) {
+    let t = document.getElementById('enroll-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'enroll-toast';
+      t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a3838;color:#fff;padding:14px 24px;border-radius:999px;font-size:0.88rem;font-weight:600;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.3);display:flex;align-items:center;gap:10px;white-space:nowrap;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = '🎉 수강 신청 완료! ' + name;
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity='0'; }, 3500);
+  }
+
+  /* ── 초기화 ─ */
+  sb.auth.onAuthStateChange((_event, session) => { refreshAuthUI(session?.user || null); });
+  sb.auth.getSession().then(({ data }) => { refreshAuthUI(data?.session?.user || null); });
+
+})();
 </script>
+
+<!-- ── 수강 신청 확인 모달 ── -->
+<div id="ec-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:#fff;border-radius:20px;padding:28px 28px 24px;width:90vw;max-width:400px;box-shadow:0 16px 48px rgba(0,0,0,0.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <h3 style="font-size:1.05rem;font-weight:800;color:#1a1a1a;margin:0;">수강 신청 확인</h3>
+      <button onclick="closeEnrollConfirm()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#aaa;line-height:1;">✕</button>
+    </div>
+    <div style="font-size:0.88rem;font-weight:700;color:#1a3838;margin-bottom:16px;line-height:1.4;" id="ec-name">—</div>
+    <div style="background:#F0FAFA;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+        <span style="color:#888;">일정 · 형태</span>
+        <span id="ec-sessions" style="color:#1a1a1a;font-weight:600;text-align:right;max-width:60%;">—</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+        <span style="color:#888;">수강료</span>
+        <span id="ec-amount" style="color:#1a3838;font-weight:800;font-size:1rem;">—</span>
+      </div>
+    </div>
+    <p style="font-size:0.72rem;color:#aaa;line-height:1.55;margin-bottom:16px;">※ 신청 내역이 저장됩니다. 실제 결제는 강사에게 별도 문의하세요.</p>
+    <button id="ec-confirm-btn" onclick="submitEnroll()" style="width:100%;background:#7AC5C5;color:#fff;border:none;padding:13px;border-radius:999px;font-size:0.9rem;font-weight:700;cursor:pointer;">신청하기</button>
+  </div>
+</div>
+
+<!-- ── 로그인 모달 ── -->
+<div id="el-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;">
+  <div style="background:#fff;border-radius:20px;padding:28px 28px 24px;width:90vw;max-width:380px;box-shadow:0 16px 48px rgba(0,0,0,0.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <h3 style="font-size:1.05rem;font-weight:800;color:#1a1a1a;margin:0;">로그인 / 회원가입</h3>
+      <button id="el-close" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#aaa;line-height:1;">✕</button>
+    </div>
+    <p style="font-size:0.78rem;color:#aaa;margin-bottom:20px;">수강 신청 내역을 저장하려면 로그인이 필요해요.</p>
+    <form id="el-form" data-mode="" style="display:flex;flex-direction:column;gap:10px;">
+      <input id="el-email" type="email" placeholder="이메일" autocomplete="email" required
+        style="padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:0.88rem;outline:none;font-family:inherit;" />
+      <input id="el-pw" type="password" placeholder="비밀번호 (8자 이상)" minlength="8" required autocomplete="current-password"
+        style="padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:0.88rem;outline:none;font-family:inherit;" />
+      <button id="el-submit" type="submit"
+        style="background:#1a3838;color:#fff;border:none;padding:13px;border-radius:999px;font-size:0.9rem;font-weight:700;cursor:pointer;margin-top:4px;">로그인</button>
+      <p id="el-msg" style="font-size:0.78rem;min-height:1em;text-align:center;margin:0;"></p>
+      <button type="button" id="el-switch"
+        style="background:none;border:none;color:#7AC5C5;font-size:0.8rem;font-weight:700;cursor:pointer;padding:0;">처음이신가요? 회원가입 →</button>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
