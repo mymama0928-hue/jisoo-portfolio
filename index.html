@@ -1287,8 +1287,7 @@ document.querySelectorAll('.sticky').forEach(el=>{
   window.openEnrollLoginModal = function() { $('el-overlay').style.display='flex'; setTimeout(()=>$('el-email')?.focus(),50); };
   window.closeEnrollLoginModal = function() { $('el-overlay').style.display='none'; $('el-msg').textContent=''; };
 
-  $('el-overlay')?.addEventListener('click', e => { if (e.target===$('el-overlay')) closeEnrollLoginModal(); });
-  $('el-close')?.addEventListener('click', closeEnrollLoginModal);
+  /* 닫기: onclick 속성으로 직접 연결 (모달 HTML이 스크립트 뒤에 있어 addEventListener 불가) */
   $('el-form')?.addEventListener('submit', async function(e) {
     e.preventDefault();
     const email = $('el-email').value.trim();
@@ -1378,11 +1377,11 @@ document.querySelectorAll('.sticky').forEach(el=>{
 </div>
 
 <!-- ── 로그인 모달 ── -->
-<div id="el-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;">
+<div id="el-overlay" onclick="if(event.target===this)closeEnrollLoginModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;">
   <div style="background:#fff;border-radius:20px;padding:28px 28px 24px;width:90vw;max-width:380px;box-shadow:0 16px 48px rgba(0,0,0,0.18);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
       <h3 style="font-size:1.05rem;font-weight:800;color:#1a1a1a;margin:0;">로그인 / 회원가입</h3>
-      <button id="el-close" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#aaa;line-height:1;">✕</button>
+      <button id="el-close" onclick="closeEnrollLoginModal()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#aaa;line-height:1;">✕</button>
     </div>
     <p style="font-size:0.78rem;color:#aaa;margin-bottom:20px;">수강 신청 내역을 저장하려면 로그인이 필요해요.</p>
     <form id="el-form" data-mode="" style="display:flex;flex-direction:column;gap:10px;">
