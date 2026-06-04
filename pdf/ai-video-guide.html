@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 영상 제작 비교 가이드 | JIsooLab</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="shortcut icon" href="../favicon.svg">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#1a1a1a; font-family:'Segoe UI',sans-serif; display:flex; flex-direction:column; height:100vh; }
+    .bar {
+      background:#1a3838; padding:10px 20px;
+      display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+      box-shadow:0 2px 8px rgba(0,0,0,0.4);
+    }
+    .bar-left { display:flex; align-items:center; gap:12px; }
+    .js-icon {
+      width:32px; height:32px; background:#1a3838; border:2px solid #7AC5C5;
+      border-radius:8px; display:flex; align-items:center; justify-content:center;
+      font-family:Georgia,serif; font-style:italic; font-weight:700;
+      color:#7AC5C5; font-size:16px; flex-shrink:0;
+    }
+    .bar-title { color:#fff; font-size:0.9rem; font-weight:600; }
+    .bar-sub { color:#7AC5C5; font-size:0.75rem; margin-top:2px; }
+    .dl-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      background:#7AC5C5; color:#1a3838; font-weight:700; font-size:0.82rem;
+      padding:8px 18px; border-radius:999px; text-decoration:none;
+      transition:opacity 0.2s; white-space:nowrap;
+    }
+    .dl-btn:hover { opacity:0.85; }
+    iframe { flex:1; width:100%; border:none; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <div class="bar-left">
+      <div class="js-icon">Js</div>
+      <div>
+        <div class="bar-title">AI 영상 제작 비교 가이드</div>
+        <div class="bar-sub">Kling AI vs Seedance — JIsooLab @jisoo_lab</div>
+      </div>
+    </div>
+    <a class="dl-btn" href="ai-video-guide.pdf" download>
+      ⬇ PDF 다운로드
+    </a>
+  </div>
+  <iframe src="ai-video-guide.pdf#toolbar=1"></iframe>
+</body>
+</html>
