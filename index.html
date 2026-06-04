@@ -87,6 +87,7 @@
 
     .sec-logo { display:block; width:36px; height:36px; object-fit:contain; margin:28px 0 0 auto; pointer-events:none; }
     @media(max-width:540px){ #vid-compare-grid{ grid-template-columns:1fr !important; } }
+    @media(max-width:560px){ #aivideo .paper { padding:16px !important; } #aivideo [style*="grid-template-columns:1fr 1fr"]{ grid-template-columns:1fr !important; } }
     @media(max-width:540px){ #hero-btns{ top:200px !important; } }
 
     /* ── PAPER ── */
@@ -309,6 +310,7 @@
     <a href="javascript:void(0)" data-page="about" class="ftab on" onclick="showPage('about')">소개</a>
     <a href="javascript:void(0)" data-page="courses" class="ftab" onclick="showPage('courses')">강의</a>
     <a href="javascript:void(0)" data-page="projects" class="ftab" onclick="showPage('projects')">프로젝트 & 수상</a>
+    <a href="javascript:void(0)" data-page="aivideo" class="ftab" onclick="showPage('aivideo')">AI 영상비교</a>
     <a href="javascript:void(0)" data-page="vibe" class="ftab" onclick="showPage('vibe')">바이브코딩</a>
     <a href="javascript:void(0)" data-page="contact" class="ftab" onclick="showPage('contact')">문의</a>
   </div>
@@ -321,6 +323,7 @@
       <button class="mnav-item on" onclick="selectMnav('about','소개')">소개</button>
       <button class="mnav-item" onclick="selectMnav('courses','강의')">강의</button>
       <button class="mnav-item" onclick="selectMnav('projects','프로젝트 &amp; 수상')">프로젝트 &amp; 수상</button>
+      <button class="mnav-item" onclick="selectMnav('aivideo','AI 영상비교')">AI 영상비교</button>
       <button class="mnav-item" onclick="selectMnav('vibe','바이브코딩')">바이브코딩</button>
       <button class="mnav-item" onclick="selectMnav('contact','문의')">문의</button>
     </div>
@@ -457,78 +460,6 @@
     <div class="slbl" style="margin-bottom:8px;">COURSES</div>
     <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:8px;"><span class="u-mint">지금 운영 중인 강의</span></h2>
 
-    <!-- ── AI 영상 비교 섹션 ── -->
-    <div style="background:#E8F8F8;border:1.5px solid #C4E8E8;border-radius:16px;padding:22px 24px;margin-bottom:28px;">
-      <p class="slbl" style="margin-bottom:6px;">AI VIDEO COMPARISON</p>
-      <h3 style="font-family:'Noto Serif KR',serif;font-weight:900;font-size:1.1rem;color:#1a3838;margin-bottom:4px;">같은 프롬프트, 두 가지 AI 영상</h3>
-      <p style="font-size:0.8rem;color:#888;margin-bottom:18px;">Kling AI vs Seedance 2.0 — 직접 비교해보세요</p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-
-        <!-- Kling AI 영상 -->
-        <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(122,197,197,0.15);">
-          <div style="position:relative;background:#1a3838;padding-bottom:56.25%;overflow:hidden;">
-            <video id="vid-kling"
-              src="image/kling.mp4"
-              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;"
-              onclick="toggleVideo('vid-kling','play-kling')"
-              preload="metadata"
-              playsinline></video>
-            <div id="play-kling" onclick="toggleVideo('vid-kling','play-kling')"
-              style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:rgba(26,56,56,0.45);transition:background 0.2s;">
-              <div style="width:52px;height:52px;background:rgba(122,197,197,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
-              </div>
-              <span style="color:#fff;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;">PLAY</span>
-            </div>
-          </div>
-          <div style="padding:12px 14px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              <span style="background:#1a3838;color:#7AC5C5;font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:0.05em;">KLING AI</span>
-              <span style="font-size:0.7rem;color:#aaa;">Video 3.0</span>
-            </div>
-            <p style="font-size:0.78rem;color:#555;line-height:1.5;margin:0;">klingai.com · 동일 프롬프트 생성</p>
-          </div>
-        </div>
-
-        <!-- Seedance 영상 -->
-        <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(122,197,197,0.15);">
-          <div style="position:relative;background:#1a3838;padding-bottom:56.25%;overflow:hidden;">
-            <video id="vid-seedance"
-              src="image/Seedance 2_0.mp4"
-              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;"
-              onclick="toggleVideo('vid-seedance','play-seedance')"
-              preload="metadata"
-              playsinline></video>
-            <div id="play-seedance" onclick="toggleVideo('vid-seedance','play-seedance')"
-              style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:rgba(26,56,56,0.45);transition:background 0.2s;">
-              <div style="width:52px;height:52px;background:rgba(122,197,197,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
-              </div>
-              <span style="color:#fff;font-size:0.75rem;font-weight:700;letter-spacing:0.05em;">PLAY</span>
-            </div>
-          </div>
-          <div style="padding:12px 14px;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              <span style="background:#1a3838;color:#7AC5C5;font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:0.05em;">SEEDANCE 2.0</span>
-              <span style="font-size:0.7rem;color:#aaa;">seedance2video.io</span>
-            </div>
-            <p style="font-size:0.78rem;color:#555;line-height:1.5;margin:0;">seedance2video.io · 동일 프롬프트 생성</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- PDF 다운로드 버튼 -->
-      <div style="margin-top:16px;text-align:center;">
-        <a href="pdf/ai-video-guide.pdf" target="_blank"
-          style="display:inline-flex;align-items:center;gap:8px;background:#1a3838;color:#7AC5C5;font-weight:700;font-size:0.82rem;padding:10px 24px;border-radius:999px;text-decoration:none;transition:opacity 0.2s;"
-          onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-          📄 제작 방법 PDF 다운로드
-        </a>
-      </div>
-    </div>
-
     <h2 style="font-size:clamp(1.3rem,3vw,1.9rem);margin-bottom:22px;"><span class="u-mint">강의 프로그램</span></h2>
     <div class="g3" style="margin-bottom:28px;">
 
@@ -595,6 +526,78 @@
         <div style="text-align:center;"><div style="width:44px;height:44px;background:#F5E260;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#1a1a1a;margin:0 auto 8px;">4</div><p style="color:#7a6000;font-size:0.65rem;font-weight:700;margin-bottom:3px;">STEP 4</p><p style="color:#1a1a1a;font-size:0.8rem;font-weight:700;">디지털 명함</p><p style="color:#999;font-size:0.7rem;">Canva / 카카오톡 명함</p></div>
       </div>
     </div>
+    <img src="image/logo.png" alt="" class="sec-logo" />
+  </section>
+
+  <!-- ── AI 영상비교 ── -->
+  <section id="aivideo" class="paper fup page-section" data-pg="aivideo">
+    <div class="slbl" style="margin-bottom:8px;">AI VIDEO COMPARISON</div>
+    <h2 style="font-size:clamp(1.4rem,3.5vw,2.1rem);margin-bottom:6px;"><span class="u-mint">같은 프롬프트, 두 가지 AI 영상</span></h2>
+    <p style="font-size:0.85rem;color:#888;margin-bottom:24px;">Kling AI vs Seedance 2.0 — 동일한 프롬프트로 생성한 결과를 직접 비교해보세요</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;">
+
+      <!-- Kling AI 영상 -->
+      <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(122,197,197,0.18);border:1.5px solid #E8F8F8;">
+        <div style="position:relative;background:#1a3838;padding-bottom:56.25%;overflow:hidden;">
+          <video id="vid-kling" src="image/kling.mp4"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;"
+            onclick="toggleVideo('vid-kling','play-kling')" preload="metadata" playsinline></video>
+          <div id="play-kling" onclick="toggleVideo('vid-kling','play-kling')"
+            style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:rgba(26,56,56,0.45);transition:background 0.2s;">
+            <div style="width:58px;height:58px;background:rgba(122,197,197,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:8px;box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span style="color:#fff;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;">PLAY</span>
+          </div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="background:#1a3838;color:#7AC5C5;font-size:0.68rem;font-weight:800;padding:4px 12px;border-radius:999px;letter-spacing:0.05em;">KLING AI</span>
+            <span style="font-size:0.72rem;color:#aaa;">Video 3.0</span>
+          </div>
+          <p style="font-size:0.82rem;color:#555;line-height:1.55;margin:0;">klingai.com · 동일 프롬프트로 생성</p>
+        </div>
+      </div>
+
+      <!-- Seedance 영상 -->
+      <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(122,197,197,0.18);border:1.5px solid #E8F8F8;">
+        <div style="position:relative;background:#1a3838;padding-bottom:56.25%;overflow:hidden;">
+          <video id="vid-seedance" src="image/Seedance 2_0.mp4"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;"
+            onclick="toggleVideo('vid-seedance','play-seedance')" preload="metadata" playsinline></video>
+          <div id="play-seedance" onclick="toggleVideo('vid-seedance','play-seedance')"
+            style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:rgba(26,56,56,0.45);transition:background 0.2s;">
+            <div style="width:58px;height:58px;background:rgba(122,197,197,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:8px;box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+            <span style="color:#fff;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;">PLAY</span>
+          </div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="background:#1a3838;color:#7AC5C5;font-size:0.68rem;font-weight:800;padding:4px 12px;border-radius:999px;letter-spacing:0.05em;">SEEDANCE 2.0</span>
+            <span style="font-size:0.72rem;color:#aaa;">seedance2video.io</span>
+          </div>
+          <p style="font-size:0.82rem;color:#555;line-height:1.55;margin:0;">seedance2video.io · 동일 프롬프트로 생성</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PDF 다운로드 -->
+    <div style="background:#E8F8F8;border:1.5px solid #C4E8E8;border-radius:14px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <p style="font-size:0.88rem;font-weight:800;color:#1a3838;margin-bottom:4px;">📄 AI 영상 제작 노하우 가이드</p>
+        <p style="font-size:0.78rem;color:#888;">Kling AI & Seedance 사용법 + 프롬프트 전문 수록</p>
+      </div>
+      <a href="pdf/ai-video-guide.pdf" target="_blank"
+        style="display:inline-flex;align-items:center;gap:8px;background:#1a3838;color:#7AC5C5;font-weight:700;font-size:0.84rem;padding:11px 24px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:opacity 0.2s;"
+        onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+        PDF 다운로드 →
+      </a>
+    </div>
+
     <img src="image/logo.png" alt="" class="sec-logo" />
   </section>
 
@@ -1099,7 +1102,7 @@ const obs = new IntersectionObserver(entries=>{
 document.querySelectorAll('.fup').forEach(el=>obs.observe(el));
 
 /* ─ PAGE NAVIGATION ─ */
-const _mnavLabels = {about:'소개', courses:'강의', projects:'프로젝트 & 수상', vibe:'바이브코딩', contact:'문의'};
+const _mnavLabels = {about:'소개', courses:'강의', projects:'프로젝트 & 수상', aivideo:'AI 영상비교', vibe:'바이브코딩', contact:'문의'};
 function showPage(pageId) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('ps-active'));
   document.querySelectorAll('.page-section[data-pg="' + pageId + '"]').forEach(s => s.classList.add('ps-active'));
