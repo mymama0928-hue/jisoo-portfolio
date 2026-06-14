@@ -710,13 +710,13 @@
           <span class="award-badge">🏆 최우수상 · 경기콘텐츠진흥원</span>
         </div>
       </div>
-      <div class="acard" id="ok-card">
-        <video class="vid-preview portrait" id="ok-vid" src="ok_video.mp4" muted loop playsinline></video>
+      <div class="acard" id="latest-card">
+        <img class="vid-preview" src="https://img.youtube.com/vi/HtLlK0bMQIo/hqdefault.jpg" alt="최신 출품 공모전 미리보기" />
         <div class="acard-body">
-          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2026.04 · 숏폼 공모전</p>
-          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">OK저축은행 29역&nbsp;숏폼왕 2관 입선</h3>
-          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">세상의 모든 웃맨 / 금융영웅</p>
-          <span class="award-badge">🥈 인기상 입선</span>
+          <p style="font-size:0.72rem;color:#aaa;font-weight:600;margin-bottom:4px;">2026 · AI 영상 공모전</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px;line-height:1.4;">최신 출품 공모전 영상</h3>
+          <p style="font-size:0.78rem;color:#888;margin-bottom:6px;">AI 영상 제작 · 기획·편집 담당</p>
+          <span class="award-badge">📽 공모전 출품</span>
         </div>
       </div>
       <div class="acard" id="gg-card">
@@ -1079,19 +1079,11 @@ if(sasmCard) {
   });
 }
 
-/* ─ OK / GG card → video modal ─ */
-const _okCard = document.getElementById('ok-card');
+/* ─ Latest / GG card → video modal ─ */
+const _latestCard = document.getElementById('latest-card');
 const _ggCard = document.getElementById('gg-card');
-if(_okCard) _okCard.addEventListener('click', ()=>{ playSound('click'); openVidModal('ok_video.mp4'); });
+if(_latestCard) _latestCard.addEventListener('click', ()=>{ playSound('click'); openYTModal('HtLlK0bMQIo'); });
 if(_ggCard) _ggCard.addEventListener('click', ()=>{ playSound('click'); openYTModal('58XxIdKdBiI'); });
-
-/* ─ VIDEO HOVER on OK card ─ */
-const okCard = document.getElementById('ok-card');
-const okVid  = document.getElementById('ok-vid');
-if (okCard && okVid) {
-  okCard.addEventListener('mouseenter', () => okVid.play().catch(()=>{}));
-  okCard.addEventListener('mouseleave', () => { okVid.pause(); okVid.currentTime = 0; });
-}
 
 
 /* ─ SCROLL REVEAL ─ */
