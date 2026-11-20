@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20초 AI 단편 따라 만들기 — 「이거 몰카죠?」</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1C1C1C;--sub:#6B6B6B;--line:#ECECEC;--soft:#F6F6F4;--accent:#1F6F68;--yellow:#FFD84D}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:"Noto Sans KR",sans-serif;font-size:19px;line-height:1.8;word-break:keep-all}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 22px 100px}
+  h1{font-size:32px;line-height:1.35;margin:0 0 10px;font-weight:900}
+  .lead{color:var(--sub);margin:0 0 28px}
+  a{color:var(--accent);font-weight:700}
+
+  .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+  .links a{display:block;text-decoration:none;color:var(--ink);background:var(--soft);border-radius:12px;padding:14px 16px;font-weight:700}
+  .links a small{display:block;color:var(--sub);font-weight:400;font-size:15px}
+  @media(max-width:560px){.links{grid-template-columns:1fr}}
+
+  .credit{background:#FFF8DD;border-radius:12px;padding:14px 18px;font-size:17px}
+
+  .step{padding:40px 0 8px;border-top:1px solid var(--line);margin-top:40px}
+  .step h2{display:flex;align-items:center;gap:14px;font-size:24px;margin:0 0 14px;line-height:1.3}
+  .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:19px;font-weight:900}
+  .where{display:inline-block;font-size:14px;font-weight:700;color:var(--accent);background:#E6F2F0;border-radius:99px;padding:2px 10px;margin-bottom:10px}
+  ol{padding-left:24px;margin:0 0 16px}
+  li{margin:4px 0}
+  .ui{background:var(--soft);border:1px solid #DDD;border-radius:6px;padding:0 6px;font-weight:700;font-size:17px;white-space:nowrap}
+  .tip{color:var(--sub);font-size:17px;margin:8px 0 0}
+
+  /* 복사 줄 */
+  .cp{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:12px 12px 12px 18px;margin:10px 0}
+  .cp .t{flex:1;font-weight:700}
+  .cp .t small{display:block;font-weight:400;color:var(--sub);font-size:15px;line-height:1.5}
+  .btn{flex:none;font:inherit;font-size:17px;font-weight:700;border:0;border-radius:10px;padding:10px 18px;background:var(--yellow);color:var(--ink);cursor:pointer}
+  .btn.ok{background:#8EDDB0}
+  details.view{margin:-4px 0 10px}
+  details.view summary{cursor:pointer;color:var(--sub);font-size:15px;padding-left:18px}
+  pre{white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:14px;font-size:15px;line-height:1.6;margin:8px 0 0;font-family:inherit}
+  pre.show{background:#FAFAF7;border:1.5px solid var(--line);border-top:0;border-radius:0 0 14px 14px;margin:-12px 0 14px;padding:16px 18px;font-size:16.5px;line-height:1.75;color:#2A2A2A}
+  .cp:has(+ pre.show){border-radius:14px 14px 0 0;background:#fff}
+
+  .set{background:var(--soft);border-radius:12px;padding:14px 18px;font-size:17px;margin:10px 0}
+  .set b{color:var(--accent)}
+
+  .moves{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 14px}
+  .moves div{background:var(--soft);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.5}
+  .moves b{display:block}
+  .moves small{color:var(--sub)}
+  @media(max-width:560px){.moves{grid-template-columns:1fr}}
+  .word{display:block;background:#EEF6F4;border-radius:10px;padding:8px 14px;font-size:16px;color:#27524E;margin:0 0 12px}
+  .word b{color:#1F6F68}
+  .shot{width:100%;border-radius:12px;border:1px solid var(--line);margin:10px 0 4px;display:block}
+  .cap{font-size:14px;color:var(--sub);margin:0 0 12px}
+  table.conti{width:100%;border-collapse:collapse;font-size:15.5px;line-height:1.6;margin:10px 0}
+  table.conti th,table.conti td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+  table.conti th{background:var(--soft);white-space:nowrap}
+  .next{background:var(--soft);border-radius:16px;padding:22px;margin-top:56px}
+  .next h2{margin:0 0 6px;font-size:22px}
+  mark.slot{background:#FFE58A;color:#1C1C1C;border-radius:4px;padding:0 3px;font-weight:700}
+  .hero{margin:0 0 28px}
+  .hero video{width:100%;border-radius:16px;background:#000;display:block;aspect-ratio:16/9}
+  .hero figcaption{font-size:15px;color:var(--sub);margin-top:6px;text-align:center}
+  .faq{margin-top:56px}
+  .faq h2{font-size:22px}
+  .faq details{border-bottom:1px solid var(--line);padding:12px 0}
+  .faq summary{cursor:pointer;font-weight:700}
+  .faq p{color:var(--sub);margin:8px 0 0;font-size:17px}
+  .end{text-align:center;font-size:24px;font-weight:900;margin:60px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<figure class="hero" id="hero">
+  <video src="video/final.mp4" controls playsinline preload="metadata" poster="img/space_campus.jpg" onerror="document.getElementById('hero').style.display='none'"></video>
+  <figcaption>▲ 오늘 만들 완성 영상 「이거 몰카죠?」 (20초 · 1080p)</figcaption>
+</figure>
+
+<h1>20초 AI 단편 따라 만들기<br>「이거 몰카죠?」</h1>
+<p class="lead">오늘은 <b>예시 하나를 그대로</b> 따라 만들어요. 인물·이야기·카메라 무빙이 모두 정해져 있어서, 노란 <b>복사</b> 버튼 → 붙여넣기(<span class="ui">Ctrl</span>+<span class="ui">V</span>)만 하면 돼요.<br>10초 영상 2개 + 배경음악 → 1080p 완성 → 내 휴대폰으로 보내기.</p>
+
+<div class="links">
+  <a href="https://chatgpt.com" target="_blank" rel="noopener">① 챗GPT<small>콘티 · 이미지</small></a>
+  <a href="https://flow.google.com" target="_blank" rel="noopener">② 구글 플로우<small>캐릭터 등록 · 영상</small></a>
+  <a href="https://flowmusic.app" target="_blank" rel="noopener">③ 플로우 뮤직<small>배경음악</small></a>
+  <a href="https://promptwhat.github.io/bgm-separator/" target="_blank" rel="noopener">④ BGM OFF<small>배경음 빼기</small></a>
+  <a href="https://www.capcut.com/ko-kr/tools/desktop-video-editor" target="_blank" rel="noopener">⑤ 캡컷 PC<small>편집 · 내보내기</small></a>
+  <a href="https://www.kakaocorp.com/page/service/service/KakaoTalk" target="_blank" rel="noopener">⑥ 카카오톡 PC<small>내 폰으로 보내기</small></a>
+</div>
+
+<div class="credit">🪙 <b>무료 계정 플로우 크레딧 50개</b> = 10초 영상 1개 15개 × 2개(30개) + 다시 만들기 1번(15개)</div>
+
+<!-- 1 -->
+<section class="step">
+  <h2><span class="n">1</span>오늘의 로그라인</h2>
+  <span class="word"><b>로그라인</b> = 이야기 전체를 <b>한 문장</b>으로 줄인 것. 영화 포스터 아래 적힌 한 줄 소개예요.</span>
+  <div class="cp"><div class="t">📌 「이거 몰카죠?」</div><button class="btn" data-c="logline">복사</button></div>
+  <pre class="show" id="logline">늘 혼자 다니는 안경 쓴 대학생에게 과에서 제일 잘생긴 선배가 진심으로 잘해 주지만, 그녀는 &quot;이거 몰카 챌린지죠?&quot;라며 숨은 카메라부터 찾는다.</pre>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:16px">
+    <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>지은 (22세)</b><br>안경 쓴 수수한 대학생. 소심하고 의심이 많음</div>
+    <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>서준 (24세)</b><br>과에서 제일 잘생긴 선배. 다정하지만 말이 서툶</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="step">
+  <h2><span class="n">2</span>콘티와 대사 만들기</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>콘티</b> = 컷마다 무엇이 보이고, 카메라가 어떻게 움직이고, 누가 무슨 말을 하는지 적은 <b>영화 설계도</b>.<br><b>컷</b> = 끊기지 않고 한 번에 찍은 장면 하나. 오늘은 10초짜리 컷 2개예요.</span>
+  <ol>
+    <li>챗GPT에서 왼쪽 위 <span class="ui">새 채팅</span></li>
+    <li>가운데 「ChatGPT에게 물어보세요」 칸에 프롬프트 붙여넣기 → <span class="ui">Enter</span> → 콘티 표가 나와요</li>
+  </ol>
+  <img class="shot" src="img/chatgpt_home.jpg" alt="챗GPT 첫 화면"><p class="cap">▲ 챗GPT 첫 화면 — 왼쪽 위 「새 채팅」, 가운데 입력 칸</p>
+  <div class="cp"><div class="t">프롬프트 · 콘티와 대사</div><button class="btn" data-c="conti">복사</button></div>
+  <pre class="show" id="conti">너는 단편영화 감독이야. 아래 로그라인과 인물로 20초 영상의 콘티와 대사를 만들어 줘.
+
+[로그라인]
+늘 혼자 다니는 안경 쓴 대학생에게 과에서 제일 잘생긴 선배가 진심으로 잘해 주지만, 그녀는 &quot;이거 몰카 챌린지죠?&quot;라며 숨은 카메라부터 찾는다.
+
+[인물]
+- 지은: 22세 여성 대학생. 꾸미지 않은 수수한 모습, 동그란 뿔테 안경. 소심하고 의심이 많음
+- 서준: 24세 남성 대학생, 지은의 과 선배. 키 크고 잘생김. 다정하지만 말이 서툶
+
+[장소]
+맑은 날 오후, 대학 캠퍼스 야외 벤치. 뒤로 도서관 건물과 가로수
+
+[조건]
+- 컷 2개, 컷마다 10초, 가로 16:9 화면
+- 젠지(Z세대) 느낌의 가볍고 귀여운 분위기
+- 대사는 모두 한국어로. 한 사람이 한 컷에 1~2마디, 짧게
+- 카메라는 컷마다 반드시 움직여야 해. 고정 화면(static)은 쓰지 마
+- 카메라 무빙은 아래 그대로:
+  컷 1: 0~5초 천천히 다가가기(Push In) → 5~10초 빠르게 좌우로 돌리기(Whip Pan)로 지은의 시선을 따라 주변을 훑기
+  컷 2: 0~5초 어깨 너머(Over-the-Shoulder)에서 반원 돌기(Arc Shot) → 5~10초 천천히 멀어지기(Pull Out)
+- 중학생도 이해할 수 있는 쉬운 말로
+
+[이렇게 정리해 줘]
+콘티 표: | 컷 | 시간 | 화면 크기 | 카메라 무빙 | 인물 동작·표정 | 대사 |
+화면 크기와 카메라 무빙은 한글로 쓰고 영어 용어를 괄호에 넣어 줘.</pre>
+  <p style="margin:6px 0 0"><b>오늘 진행할 콘티</b> <span style="color:var(--sub);font-size:16px">(챗GPT 결과는 조금씩 달라요. 영상은 이 콘티대로 만들어요.)</span></p>
+  <table class="conti">
+    <tr><th>컷</th><th>카메라 무빙</th><th>동작 · 대사</th></tr>
+    <tr><td><b>1</b><br>0~10초<br>의심</td><td>천천히 다가가기<br>(Push In)<br>→ 빠르게 좌우로 돌리기<br>(Whip Pan)</td><td>서준이 음료를 내민다.<br>서준: "이거… 너 좋아하는 거 맞지?"<br>지은이 얼어붙어 주변을 두리번.<br>지은: "…지금 찍고 있는 거죠? 몰카 맞죠?"</td></tr>
+    <tr><td><b>2</b><br>10~20초<br>진심</td><td>어깨 너머 반원 돌기<br>(Over-the-Shoulder · Arc Shot)<br>→ 천천히 멀어지기<br>(Pull Out)</td><td>서준이 빈손과 꺼진 폰을 보여 준다.<br>서준: "아니야. 그냥… 너랑 친해지고 싶어서."<br>지은이 안경을 밀어 올리며 작게 웃는다.<br>지은: "…일단 마셔 보고 생각할게요."</td></tr>
+  </table>
+  <div class="moves">
+    <div><b>천천히 다가가기 (Push In)</b><small>카메라가 인물 쪽으로 다가감 → 집중</small></div>
+    <div><b>빠르게 좌우로 돌리기 (Whip Pan)</b><small>고개를 홱 돌리듯 → 놀람 · 웃음</small></div>
+    <div><b>어깨 너머 (Over-the-Shoulder)</b><small>한 사람 어깨 뒤에서 상대를 봄 → 대화</small></div>
+    <div><b>반원 돌기 (Arc Shot)</b><small>인물 주위를 반원으로 돎 → 감정이 깊어짐</small></div>
+    <div style="grid-column:1/-1"><b>천천히 멀어지기 (Pull Out)</b><small>카메라가 뒤로 빠짐 → 여운</small></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="step">
+  <h2><span class="n">3</span>캐릭터 시트 만들기 (2명)</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>캐릭터 시트</b> = 한 사람을 <b>앞 · 뒤 · 얼굴</b> 3칸으로 보여 주는 "인물 신분증". 이게 있어야 영상 2개에서 얼굴·옷·키가 안 바뀌어요.</span>
+  <ol>
+    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>지은.jpg</b>로 저장</li>
+    <li>서준도 <b>새 채팅</b>에서 똑같이 → <b>서준.jpg</b>로 저장</li>
+  </ol>
+  <div class="cp"><div class="t">👓 지은 캐릭터 시트</div><button class="btn" data-c="charA">복사</button></div>
+  <pre class="show" id="charA">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+
+[인물]
+한국어로 말하는 한국인. 22세 여성 대학생 지은. 소심하고 늘 어깨를 살짝 움츠린 모습.
+꾸미지 않은 수수한 얼굴, 화장기 없는 피부, 두꺼운 검은색 동그란 뿔테 안경, 앞머리 없이 대충 하나로 묶은 검은 머리, 오버핏 회색 니트 카디건 안에 흰 티셔츠, 연청 와이드 청바지, 흰 캔버스 운동화, 어깨에 멘 베이지색 천 에코백.
+
+[캐릭터 시트 형식 — 꼭 이대로]
+가로 16:9 이미지 1장을 같은 너비의 세로 3칸으로 나누기.
+- 왼쪽 칸: 전신 완전 정면. 머리와 얼굴만 보이지 않게 비워 두고(머리 자리는 흰 배경), 목·어깨부터 발끝까지 보이게.
+- 가운데 칸: 전신 뒷모습. 머리 끝부터 발끝까지.
+- 중요: 왼쪽과 가운데 인물은 키·몸 크기·서 있는 높이가 완전히 똑같아야 해. 같은 카메라 거리에서 찍은 것처럼 몸을 확대하지 말고, 두 칸 모두 발끝이 같은 높이의 바닥에 닿고, 발 아래와 머리 위에 여백이 있게.
+- 오른쪽 칸: 정면 얼굴 클로즈업. 머리부터 가슴까지, 카메라를 똑바로 보는 모습.
+- 세 칸 모두 같은 사람, 같은 옷, 같은 머리 모양, 같은 신발과 액세서리.
+- 차렷 자세, 팔은 자연스럽게 내림.
+
+[촬영]
+흰 배경, 확산광(diffused light)으로 부드럽게 촬영, 캐논 R3(Canon EOS R3), 50mm 렌즈, 조리개 f/1.2, 실사 사진, 패션 룩북 느낌.
+
+[얼굴 클로즈업 디테일 — 실제 사람처럼]
+피부 모공과 솜털, 눈썹과 머리카락 한 올 한 올, 눈가와 입술의 잔주름, 코의 자연스러운 유분, 홍채의 갈라진 결무늬, 눈 흰자의 가는 핏줄.
+
+글자, 로고, 이름표, 칸 사이 선이나 테두리 없음.</pre>
+  <img class="shot" src="img/char_jieun.jpg" alt="지은 캐릭터 시트 예시"><p class="cap">▲ 완성 예시 — 왼쪽 앞모습(머리 없음) · 가운데 뒷모습 · 오른쪽 얼굴</p>
+  <div class="cp"><div class="t">🧑 서준 캐릭터 시트</div><button class="btn" data-c="charB">복사</button></div>
+  <pre class="show" id="charB">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+
+[인물]
+한국어로 말하는 한국인. 24세 남성 대학생 서준. 키가 크고 잘생긴 얼굴, 다정한 눈매.
+자연스러운 가르마 펌 검은 머리, 깨끗한 피부, 검은색 라운드넥 니트, 회색 와이드 슬랙스, 흰 가죽 스니커즈, 왼손 검지에 얇은 은반지.
+
+[캐릭터 시트 형식 — 꼭 이대로]
+가로 16:9 이미지 1장을 같은 너비의 세로 3칸으로 나누기.
+- 왼쪽 칸: 전신 완전 정면. 머리와 얼굴만 보이지 않게 비워 두고(머리 자리는 흰 배경), 목·어깨부터 발끝까지 보이게.
+- 가운데 칸: 전신 뒷모습. 머리 끝부터 발끝까지.
+- 중요: 왼쪽과 가운데 인물은 키·몸 크기·서 있는 높이가 완전히 똑같아야 해. 같은 카메라 거리에서 찍은 것처럼 몸을 확대하지 말고, 두 칸 모두 발끝이 같은 높이의 바닥에 닿고, 발 아래와 머리 위에 여백이 있게.
+- 오른쪽 칸: 정면 얼굴 클로즈업. 머리부터 가슴까지, 카메라를 똑바로 보는 모습.
+- 세 칸 모두 같은 사람, 같은 옷, 같은 머리 모양, 같은 신발과 액세서리.
+- 차렷 자세, 팔은 자연스럽게 내림.
+
+[촬영]
+흰 배경, 확산광(diffused light)으로 부드럽게 촬영, 캐논 R3(Canon EOS R3), 50mm 렌즈, 조리개 f/1.2, 실사 사진, 패션 룩북 느낌.
+
+[얼굴 클로즈업 디테일 — 실제 사람처럼]
+피부 모공과 솜털, 눈썹과 머리카락 한 올 한 올, 눈가와 입술의 잔주름, 코의 자연스러운 유분, 홍채의 갈라진 결무늬, 눈 흰자의 가는 핏줄.
+
+글자, 로고, 이름표, 칸 사이 선이나 테두리 없음.</pre>
+  <img class="shot" src="img/char_seojun.jpg" alt="서준 캐릭터 시트 예시"><p class="cap">▲ 완성 예시</p>
+  <p class="tip">✔️ 확인: 왼쪽(앞)과 가운데(뒤) 인물의 <b>키와 발 위치가 같은지</b> 보세요.<br>왼쪽 칸에 <b>머리가 보이면</b>, 같은 채팅에 아래 수정 프롬프트를 넣으세요.</p>
+  <div class="cp"><div class="t">✂️ 수정 프롬프트 · 왼쪽 칸 머리 지우기<small>머리가 보일 때만</small></div><button class="btn" data-c="fixhead">복사</button></div>
+  <pre class="show" id="fixhead">좋아, 키와 크기는 이대로 완벽해. 딱 하나만 고쳐 줘: 왼쪽 칸(전신 정면) 인물의 머리와 얼굴만 지워서 그 자리를 흰 배경으로 비워 줘. 목·어깨부터 발끝까지는 지금 크기와 위치 그대로 두고, 가운데·오른쪽 칸은 바꾸지 마.</pre>
+</section>
+
+<!-- 4 -->
+<section class="step">
+  <h2><span class="n">4</span>공간 시트 만들기</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>공간 시트</b> = 촬영 장소를 <b>여러 방향·여러 크기</b>로 찍은 사진 모음. 카메라가 움직여도 배경이 바뀌지 않게 해 줘요.</span>
+  <ol>
+    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>캠퍼스.jpg</b>로 저장</li>
+  </ol>
+  <div class="cp"><div class="t">🏫 캠퍼스 공간 시트</div><button class="btn" data-c="space">복사</button></div>
+  <pre class="show" id="space">가로 16:9 비율로 아래 공간 시트 이미지를 만들어 줘.
+
+[공간]
+맑은 날 오후, 한국 대학교 캠퍼스의 야외 산책로와 나무 벤치.
+뒤로 붉은 벽돌 도서관 건물, 길가의 가로수와 잔디밭, 커다란 화분, 벤치 옆 작은 가로등.
+
+[공간 시트 형식 — 꼭 이대로]
+연한 아이보리색 종이 배경 위에 사진 7장을 콜라주로 배치. 사진 사이에는 얇은 여백.
+- 윗줄: 가로로 넓은 사진 2장
+  · 왼쪽: 산책로에서 눈높이로 바라본 나무 벤치와 도서관 건물 전경
+  · 오른쪽: 높은 곳에서 내려다본 캠퍼스 산책로와 벤치 전경 (하이 앵글, high angle)
+- 아랫줄: 세로로 긴 사진 5장, 각각 다른 각도의 디테일
+  · 나무 벤치 클로즈업
+  · 도서관 건물 입구
+  · 햇살이 비치는 가로수 길
+  · 커다란 화분과 나무 뒤 (숨은 카메라가 있을 법한 곳)
+  · 벤치 반대편에서 바라본 잔디밭
+- 7장 모두 같은 장소, 같은 시간대, 같은 빛
+
+[촬영 — 실제 사진처럼]
+- 카메라: 캐논 EOS R5, 렌즈 RF 24-70mm f/2.8
+- 설정: 조리개 f/8, ISO 100, 셔터 1/250초 — 앞부터 뒤까지 모두 선명하게
+- 맑은 날의 밝은 자연광, 밝은 노출, 그림자 적게
+- 색은 자연스럽고 중립적으로 (노랗거나 주황빛으로 물들지 않게)
+- 실제 카메라로 찍은 스냅 사진처럼. 영화 같은 진한 색보정, HDR, 그림 같은 느낌 없음
+- 사람 없음. 글자, 간판, 로고 없음</pre>
+  <img class="shot" src="img/space_campus.jpg" alt="캠퍼스 공간 시트 예시"><p class="cap">▲ 완성 예시 — 윗줄 전경 2장(눈높이 · 내려다보기) · 아랫줄 디테일 5장</p>
+</section>
+
+<!-- 5 -->
+<section class="step">
+  <h2><span class="n">5</span>플로우에 캐릭터·공간 등록하기</h2>
+  <span class="where">구글 플로우</span>
+  <span class="word"><b>캐릭터 등록</b> = 인물 사진에 <b>이름·목소리·설명</b>을 붙여 저장하는 것. 목소리를 정해 두면 영상마다 같은 목소리로 말해요. 한 번 등록하면 영상마다 @로 불러올 수 있어요.</span>
+  <p style="margin:0 0 4px"><b>① 새 프로젝트</b></p>
+  <ol>
+    <li>구글 플로우 로그인 → <span class="ui">+ 새 프로젝트</span></li>
+    <li>왼쪽 위 프로젝트 이름(날짜) 클릭 → <b>이거 몰카죠</b> 입력 → <span class="ui">Enter</span></li>
+  </ol>
+  <p style="margin:12px 0 4px"><b>② 지은 캐릭터 만들기</b></p>
+  <ol>
+    <li>왼쪽 메뉴 <span class="ui">캐릭터</span> → <span class="ui">+ 신규 캐릭터</span> → 아래 <span class="ui">업로드</span> → <b>지은.jpg</b></li>
+    <li>「제목 없는 캐릭터」 옆 <span class="ui">✏️</span> → <b>지은</b> 입력 → <span class="ui">Enter</span></li>
+    <li><span class="ui">캐릭터 정보</span> 칸에 아래 글 붙여넣기</li>
+  </ol>
+  <div class="cp"><div class="t">👓 지은 · 캐릭터 정보</div><button class="btn" data-c="infoA">복사</button></div>
+  <pre class="show" id="infoA">한국어로 말하는 한국인. 22세 여성 대학생. 소심하고 의심이 많으며, 작고 조심스러운 목소리로 말한다.</pre>
+  <ol start="4">
+    <li><span class="ui">음성 선택</span> → 목록에서 <b>Achernar</b> (Female, soft, high pitch) 클릭</li>
+    <li>목소리 칸에 Achernar가 보이면 오른쪽 위 <span class="ui">완료</span><br><span style="color:var(--sub);font-size:16px">→ 창이 그대로 열려 있으면 아래 <span class="ui">캐릭터에 추가</span>를 누르세요.</span></li>
+  </ol>
+  <p style="margin:12px 0 4px"><b>③ 서준 캐릭터 만들기</b> — ②와 똑같이, 사진은 <b>서준.jpg</b>, 목소리는 <b>Achird</b> (Male, friendly, mid pitch)</p>
+  <div class="cp"><div class="t">🧑 서준 · 캐릭터 정보</div><button class="btn" data-c="infoB">복사</button></div>
+  <pre class="show" id="infoB">한국어로 말하는 한국인. 24세 남성 대학생. 다정하지만 말이 서툴고, 부드럽고 차분한 목소리로 말한다.</pre>
+  <p style="margin:12px 0 4px"><b>④ 캠퍼스 공간 시트 올리기</b></p>
+  <ol>
+    <li>왼쪽 메뉴 <span class="ui">전체 미디어</span> → 아래 프롬프트 창 왼쪽 <span class="ui">+</span> → <span class="ui">미디어 업로드</span> → <b>캠퍼스.jpg</b></li>
+  </ol>
+  <p class="tip">파일 이름이 그대로 이름표가 돼요. 그래서 3·4단계에서 <b>지은 · 서준 · 캠퍼스</b>로 저장해 두는 게 중요해요. 영상을 만들 때 @ 다음에 이 이름을 입력해서 찾아요.</p>
+</section>
+
+<!-- 6 -->
+<section class="step">
+  <h2><span class="n">6</span>영상 ① 만들기 (10초 · 의심)</h2>
+  <span class="where">구글 플로우</span>
+  <span class="word"><b>옴니(Omni)</b> = 등록한 캐릭터의 얼굴과 목소리를 그대로 살려 영상을 만드는 구글의 AI 모델. <b>크레딧</b> = AI를 쓸 때마다 빠지는 포인트(무료 하루 50개).</span>
+  <div class="set">오른쪽 아래 설정 칸: <b>동영상 · 소재 · 16:9 · Omni 1.1 Flash · 720p · 10초 · x1</b><br>→ 맨 아래 <b>"생성 시 15 크레딧이 사용됩니다"</b> 확인</div>
+  <ol>
+    <li>프롬프트 창에 아래 프롬프트 붙여넣기</li>
+    <li>노란 칸 <mark class="slot">[@캠퍼스]</mark> <mark class="slot">[@지은]</mark> <mark class="slot">[@서준]</mark>을 하나씩 지우고 → <span class="ui">@</span> 입력 → 이름 입력 → <span class="ui">Enter</span><br><span style="color:var(--sub);font-size:16px">→ 그 자리에 회색 이름표가 생기고, 창 위에 작은 사진이 붙어요.</span></li>
+    <li>오른쪽 <span class="ui">→</span> 버튼 → 1~3분 기다리기</li>
+  </ol>
+  <div class="cp"><div class="t">🎬 영상 ① · 컷 1 의심</div><button class="btn" data-c="vid1">복사</button></div>
+  <pre class="show" id="vid1"><mark class="slot">[@캠퍼스]</mark> 속 대학 캠퍼스 야외 벤치, 맑은 날 오후의 밝은 햇살.
+<mark class="slot">[@지은]</mark>(22세 여성)이 벤치에 혼자 앉아 책을 보고 있다. <mark class="slot">[@서준]</mark>(24세 남성)이 다가와 로고 없는 흰색 종이 커피 컵(뚜껑 있는 따뜻한 음료)을 조심스럽게 내밀며 한국어로 다정하게 말한다: &quot;이거… 너 좋아하는 거 맞지?&quot;
+지은은 안경 너머로 얼어붙은 채 컵을 보다가, 고개를 홱 돌려 주변 나무와 화분 뒤를 두리번거리며 한국어로 작게 말한다: &quot;…지금 찍고 있는 거죠? 몰카 맞죠?&quot;
+카메라: 0~5초 두 사람이 함께 보이는 화면(medium two-shot)에서 천천히 다가가기(Push In) → 5~10초 빠르게 좌우로 돌리기(Whip Pan)로 지은의 시선을 따라 나무와 화분을 훑었다가 다시 지은의 놀란 얼굴로. 눈높이(eye level).
+실사, 영화 같은 느낌, 얼굴과 옷은 <mark class="slot">[@지은]</mark>, <mark class="slot">[@서준]</mark>과 똑같이.
+모든 대사는 한국어. 영어로 말하지 않음.
+음악 없음, 배경음악 없음, 자막 없음, 화면에 글자 없음.</pre>
+  <p class="tip">⚠️ <b>x1</b>인지 꼭 확인! x2면 30크레딧이 한 번에 빠져요.</p>
+</section>
+
+<!-- 7 -->
+<section class="step">
+  <h2><span class="n">7</span>영상 ② 만들기 (10초 · 진심)</h2>
+  <span class="where">구글 플로우</span>
+  <p style="margin:0">설정은 6번과 똑같아요. 프롬프트를 바꿔 넣고, 노란 칸을 <span class="ui">@</span>로 바꿔 주세요.</p>
+  <div class="cp"><div class="t">🎬 영상 ② · 컷 2 진심</div><button class="btn" data-c="vid2">복사</button></div>
+  <pre class="show" id="vid2"><mark class="slot">[@캠퍼스]</mark> 속 같은 벤치, 맑은 날 오후의 밝은 햇살.
+<mark class="slot">[@지은]</mark>의 어깨 너머로 <mark class="slot">[@서준]</mark>의 얼굴이 보인다. 서준이 빈손을 펴 보이고, 화면이 꺼진 휴대폰을 들어 보이며 진지하게 한국어로 말한다: &quot;아니야. 그냥… 너랑 친해지고 싶어서.&quot;
+지은이 손가락으로 안경을 밀어 올리고, 같은 흰색 종이 커피 컵을 받아 들며 작게 웃으며 한국어로 말한다: &quot;…일단 마셔 보고 생각할게요.&quot;
+카메라: 0~5초 어깨 너머(Over-the-Shoulder)에서 천천히 반원 돌기(Arc Shot)로 지은의 얼굴 쪽으로 이동 → 5~10초 천천히 멀어지기(Pull Out)로 벤치에 나란히 앉은 두 사람이 함께 보이게. 눈높이(eye level), 밝은 자연광(natural daylight).
+실사, 영화 같은 느낌, 얼굴과 옷은 <mark class="slot">[@지은]</mark>, <mark class="slot">[@서준]</mark>과 똑같이.
+모든 대사는 한국어. 영어로 말하지 않음.
+음악 없음, 배경음악 없음, 자막 없음, 화면에 글자 없음.</pre>
+</section>
+
+<!-- 8 -->
+<section class="step">
+  <h2><span class="n">8</span>영상 제목 바꾸고 다운로드</h2>
+  <span class="where">구글 플로우</span>
+  <ol>
+    <li>완성된 영상 클릭 → 왼쪽 위 영어 제목 클릭 → <b>몰카_컷1</b> 입력 → <span class="ui">Enter</span></li>
+    <li>오른쪽 위 <span class="ui">⬇</span> → <span class="ui">720p 원본 크기</span></li>
+    <li>영상 ②도 똑같이 → <b>몰카_컷2</b></li>
+  </ol>
+  <p class="tip">파일은 <b>다운로드</b> 폴더에 저장돼요. 영상 구석 워터마크는 무료 계정이라 생겨요.</p>
+</section>
+
+<!-- 9 -->
+<section class="step">
+  <h2><span class="n">9</span>배경음 빼기 <span style="font-size:16px;color:var(--sub);font-weight:400">(배경음악이 들릴 때만)</span></h2>
+  <span class="where">BGM OFF</span>
+  <span class="word"><b>배경음 분리</b> = AI가 영상 속 소리를 <b>대사·효과음</b>과 <b>배경음악</b>으로 나눠 주는 것. 플로우가 몰래 깔아 둔 음악을 빼고 대사만 남겨요.</span>
+  <img class="shot" src="img/bgmoff.jpg" alt="BGM OFF 작업 화면"><p class="cap">▲ BGM OFF 작업 화면 — 왼쪽에 영상을 넣고, 오른쪽에서 남길 소리를 골라요</p>
+  <p style="margin:0 0 6px">먼저 영상 2개를 재생해 들어 보세요. <b>대사만 들리면 이 단계는 건너뛰어요.</b> 대사 뒤에 음악이 깔려 있으면 아래처럼 빼 주세요.</p>
+  <ol>
+    <li><a href="https://promptwhat.github.io/bgm-separator/" target="_blank" rel="noopener">BGM OFF</a>를 크롬으로 열기</li>
+    <li>「영상을 여기에 놓아주세요」 칸에 <b>몰카_컷1</b> 영상 끌어다 놓기</li>
+    <li>오른쪽 <span class="ui">남길 소리 선택</span>에서 <b>배경음 중간 (추천)</b> 그대로 두기</li>
+    <li><span class="ui">배경음악 분리하기 →</span> 클릭 → 끝나면 들어 보고 <b>영상</b> 내려받기</li>
+    <li>컷2도 똑같이</li>
+  </ol>
+  <p class="tip">⏳ 처음 한 번은 AI 프로그램을 내려받느라 몇 분 걸릴 수 있어요. 영상은 인터넷에 올라가지 않고 내 노트북 안에서만 처리돼요.</p>
+</section>
+
+<!-- 10 -->
+<section class="step">
+  <h2><span class="n">10</span>배경음악 만들기</h2>
+  <span class="where">플로우 뮤직</span>
+  <span class="word"><b>연주곡(Instrumental)</b> = 가사·목소리 없이 악기 소리만 있는 음악. <b>로파이(lo-fi)</b> = 편안하고 살짝 빈티지한 느낌의 잔잔한 음악.</span>
+  <ol>
+    <li>플로우 뮤직 → <span class="ui">로그인</span> → <span class="ui">Google로 계속하기</span></li>
+    <li>가운데 「함께 만들어 봐요…」 칸에 아래 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+  </ol>
+  <img class="shot" src="img/flowmusic_home.jpg" alt="플로우 뮤직 첫 화면">
+  <p class="cap">▲ 플로우 뮤직 첫 화면 — 가운데 칸에 프롬프트를 넣어요. 가사 칸은 따로 없어요.</p>
+  <ol start="3">
+    <li>AI 프로듀서가 30초쯤 뒤 곡을 만들어 줘요 (곡은 1분이 넘게 나와요 — 캡컷에서 20초로 잘라요)</li>
+    <li><b>가사 확인:</b> 곡 제목 클릭 → 아래 <b>Lyrics</b>에 <b>[Instrumental]</b>이라고 나오면 가사 없는 곡 ✅</li>
+    <li>곡의 <span class="ui">⋯</span> → <span class="ui">Download</span> → <span class="ui">MP3</span> → 다운로드 폴더에 저장</li>
+  </ol>
+  <div class="cp"><div class="t">🎵 배경음악 · 가사 없는 로파이</div><button class="btn" data-c="music">복사</button></div>
+  <pre class="show" id="music">가사 없는 연주곡(Instrumental)만 만들어 줘.
+가사 없음, 노래 없음, 보컬 없음, 허밍·코러스·말소리도 없음.
+대학 캠퍼스 벤치에서 소심한 여학생과 다정한 선배가 처음 친해지는 20초짜리 짧은 영화의 배경음악.
+가볍고 살짝 설레는 로파이(lo-fi) 곡. 부드러운 일렉트릭 피아노와 가벼운 드럼 비트, 템포 약 85 BPM.
+처음은 조심스럽고 귀엽게, 중간부터 살짝 밝고 설레게, 부드럽게 끝나기.</pre>
+</section>
+
+<!-- 11 -->
+<section class="step">
+  <h2><span class="n">11</span>캡컷으로 편집하기</h2>
+  <span class="where">캡컷 PC</span>
+  <span class="word"><b>타임라인</b> = 화면 아래 영상·음악을 순서대로 놓는 긴 줄. <b>전환</b> = 장면이 바뀔 때 넣는 효과. <b>페이드 아웃</b> = 소리가 서서히 작아지며 끝나는 것.</span>
+  <ol>
+    <li><span class="ui">+ 새 프로젝트</span> → 맨 위 가운데 프로젝트 이름 클릭 → <b>이거 몰카죠</b> → <span class="ui">Enter</span></li>
+    <li><span class="ui">가져오기</span> → <span class="ui">컴퓨터에서</span> → 왼쪽 <span class="ui">다운로드</span> → 영상 2개(<span class="ui">Ctrl</span> 누르고 클릭, 9번을 했다면 배경음 뺀 영상)와 음악 선택 → <span class="ui">열기</span></li>
+    <li>컷1 → 컷2 순서로 아래 타임라인에 끌어놓기, 음악은 그 아래 줄 <b>맨 앞</b>에 붙이기</li>
+    <li><b>대사는 살려요!</b> 영상 소리는 끄지 말고, 음악 클릭 → 오른쪽 <span class="ui">볼륨</span>을 <b>-15dB</b> 정도로 낮추기 (대사가 잘 들리게)</li>
+    <li><b>음악 자르기:</b> 마우스를 영상이 끝나는 곳(20초)에 올려 <b>주황색 선</b>이 끝에 오게 → <span class="ui">Ctrl</span>+<span class="ui">B</span> → 뒤에 남은 음악 클릭 → <span class="ui">Delete</span></li>
+    <li>남은 음악 클릭 → 오른쪽 <span class="ui">페이드 아웃</span> 칸에 <b>2</b> 입력</li>
+    <li>맨 위 <span class="ui">전환</span> → 검색창에 <b>디졸브</b> → 보석 표시 없는 첫 번째 「디졸브」를 두 영상 사이로 끌어놓기</li>
+    <li>「전환을 위한 복제 프레임 만들기」 창이 뜨면 <span class="ui">확인</span> → 오른쪽 <span class="ui">기간</span>에 <b>0.5</b> 입력</li>
+  </ol>
+  <p class="tip">✂️ 캡컷은 <b>마우스가 있는 곳(주황색 선)</b>에서 잘라요. 엉뚱한 곳이 잘리면 <span class="ui">Ctrl</span>+<span class="ui">Z</span>로 되돌리기!<br>💎 보석·Pro 표시가 있는 효과는 유료라서 쓰지 마세요.</p>
+</section>
+
+<!-- 12 -->
+<section class="step">
+  <h2><span class="n">12</span>1080p로 내보내기</h2>
+  <span class="where">캡컷 PC</span>
+  <span class="word"><b>1080p</b> = 가로 1920 × 세로 1080 크기의 선명한 화질. <b>H.264</b> = 어느 컴퓨터·휴대폰에서나 잘 열리는 영상 형식.</span>
+  <ol>
+    <li>오른쪽 위 <span class="ui">내보내기</span></li>
+    <li><span class="ui">해상도</span> 4K → <b>1080P</b>, <span class="ui">코덱</span> HEVC → <b>H.264</b>, 형식 <b>mp4</b>, 프레임 속도 <b>30fps</b> 확인</li>
+    <li><span class="ui">내보내기</span> → 「동영상이 저장되었습니다」가 뜨면 <span class="ui">닫기</span></li>
+  </ol>
+  <p class="tip">완성 파일은 <span class="ui">내보내기</span> 칸에 적힌 곳(보통 바탕화면)에 「이거 몰카죠.mp4」로 저장돼요.</p>
+</section>
+
+<!-- 13 -->
+<section class="step">
+  <h2><span class="n">13</span>내 휴대폰으로 보내기</h2>
+  <span class="where">카카오톡 PC</span>
+  <ol>
+    <li>카카오톡 PC 실행 → 휴대폰 카카오톡으로 화면의 QR 코드 찍어 로그인</li>
+    <li><span class="ui">채팅</span> → 맨 위 <b>나와의 채팅</b> 열기</li>
+    <li>완성 파일 「이거 몰카죠.mp4」를 채팅창에 끌어다 놓기 → <span class="ui">전송</span></li>
+    <li>휴대폰 카카오톡 → 나와의 채팅에서 영상 재생 🎉</li>
+  </ol>
+</section>
+
+<p class="end">🎉 「이거 몰카죠?」 완성!</p>
+
+</div>
+
+<div hidden></div>
+
+<script>
+(function(){
+  function fallback(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='-999px';document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(a);return ok}
+  function done(b,ok){b.textContent=ok?'✓ 복사됨':'다시 시도';b.classList.toggle('ok',ok);setTimeout(function(){b.textContent='복사';b.classList.remove('ok')},1600)}
+  document.querySelectorAll('.btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.dataset.c).textContent;
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(b,true)}).catch(function(){done(b,fallback(t))})}
+      else done(b,fallback(t));
+    });
+  });
+})();
+</script>
+</body>
+</html>
