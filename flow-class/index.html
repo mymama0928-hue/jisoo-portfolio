@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20초 AI 단편 따라 만들기 — 구글 플로우 무료 실습</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1C1C1C;--sub:#6B6B6B;--line:#ECECEC;--soft:#F6F6F4;--accent:#1F6F68;--yellow:#FFD84D}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:"Noto Sans KR",sans-serif;font-size:19px;line-height:1.8;word-break:keep-all}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 22px 100px}
+  h1{font-size:32px;line-height:1.35;margin:0 0 10px;font-weight:900}
+  .lead{color:var(--sub);margin:0 0 28px}
+  a{color:var(--accent);font-weight:700}
+
+  .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+  .links a{display:block;text-decoration:none;color:var(--ink);background:var(--soft);border-radius:12px;padding:14px 16px;font-weight:700}
+  .links a small{display:block;color:var(--sub);font-weight:400;font-size:15px}
+  @media(max-width:560px){.links{grid-template-columns:1fr}}
+
+  .credit{background:#FFF8DD;border-radius:12px;padding:14px 18px;font-size:17px}
+
+  .step{padding:40px 0 8px;border-top:1px solid var(--line);margin-top:40px}
+  .step h2{display:flex;align-items:center;gap:14px;font-size:24px;margin:0 0 14px;line-height:1.3}
+  .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:19px;font-weight:900}
+  .where{display:inline-block;font-size:14px;font-weight:700;color:var(--accent);background:#E6F2F0;border-radius:99px;padding:2px 10px;margin-bottom:10px}
+  ol{padding-left:24px;margin:0 0 16px}
+  li{margin:4px 0}
+  .ui{background:var(--soft);border:1px solid #DDD;border-radius:6px;padding:0 6px;font-weight:700;font-size:17px;white-space:nowrap}
+  .tip{color:var(--sub);font-size:17px;margin:8px 0 0}
+
+  /* 복사 줄 */
+  .cp{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:12px 12px 12px 18px;margin:10px 0}
+  .cp .t{flex:1;font-weight:700}
+  .cp .t small{display:block;font-weight:400;color:var(--sub);font-size:15px;line-height:1.5}
+  .btn{flex:none;font:inherit;font-size:17px;font-weight:700;border:0;border-radius:10px;padding:10px 18px;background:var(--yellow);color:var(--ink);cursor:pointer}
+  .btn.ok{background:#8EDDB0}
+  details.view{margin:-4px 0 10px}
+  details.view summary{cursor:pointer;color:var(--sub);font-size:15px;padding-left:18px}
+  pre{white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:14px;font-size:15px;line-height:1.6;margin:8px 0 0;font-family:inherit}
+  pre.show{background:#FAFAF7;border:1.5px solid var(--line);border-top:0;border-radius:0 0 14px 14px;margin:-12px 0 14px;padding:16px 18px;font-size:16.5px;line-height:1.75;color:#2A2A2A}
+  .cp:has(+ pre.show){border-radius:14px 14px 0 0;background:#fff}
+
+  .set{background:var(--soft);border-radius:12px;padding:14px 18px;font-size:17px;margin:10px 0}
+  .set b{color:var(--accent)}
+
+  .moves{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 14px}
+  .moves div{background:var(--soft);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.5}
+  .moves b{display:block}
+  .moves small{color:var(--sub)}
+  @media(max-width:560px){.moves{grid-template-columns:1fr}}
+  .word{display:block;background:#EEF6F4;border-radius:10px;padding:8px 14px;font-size:16px;color:#27524E;margin:0 0 12px}
+  .word b{color:#1F6F68}
+  .shot{width:100%;border-radius:12px;border:1px solid var(--line);margin:10px 0 4px;display:block}
+  .cap{font-size:14px;color:var(--sub);margin:0 0 12px}
+  table.conti{width:100%;border-collapse:collapse;font-size:15.5px;line-height:1.6;margin:10px 0}
+  table.conti th,table.conti td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+  table.conti th{background:var(--soft);white-space:nowrap}
+  .next{background:var(--soft);border-radius:16px;padding:22px;margin-top:56px}
+  .next h2{margin:0 0 6px;font-size:22px}
+  mark.slot{background:#FFE58A;color:#1C1C1C;border-radius:4px;padding:0 3px;font-weight:700}
+  .hero{margin:0 0 28px}
+  .hero video{width:100%;border-radius:16px;background:#000;display:block;aspect-ratio:16/9}
+  .hero figcaption{font-size:15px;color:var(--sub);margin-top:6px;text-align:center}
+  .faq{margin-top:56px}
+  .faq h2{font-size:22px}
+  .faq details{border-bottom:1px solid var(--line);padding:12px 0}
+  .faq summary{cursor:pointer;font-weight:700}
+  .faq p{color:var(--sub);margin:8px 0 0;font-size:17px}
+  .end{text-align:center;font-size:24px;font-weight:900;margin:60px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<figure class="hero" id="hero">
+  <video src="video/final.mp4" controls playsinline preload="metadata" poster="img/space_studio_day.jpg" onerror="document.getElementById('hero').style.display='none'"></video>
+  <figcaption>▲ 오늘 만들 완성 영상 「그날의 사진」 (20초 · 1080p)</figcaption>
+</figure>
+
+<h1>20초 AI 단편 따라 만들기<br>「그날의 사진」</h1>
+<p class="lead">오늘은 <b>예시 하나를 그대로</b> 따라 만들어요. 인물·이야기·카메라 무빙이 모두 정해져 있어서, 노란 <b>복사</b> 버튼 → 붙여넣기(<span class="ui">Ctrl</span>+<span class="ui">V</span>)만 하면 돼요.<br>10초 영상 2개 + 배경음악 → 1080p 완성.</p>
+
+<div class="links">
+  <a href="https://chatgpt.com" target="_blank" rel="noopener">① 챗GPT<small>콘티 · 이미지</small></a>
+  <a href="https://labs.google/flow" target="_blank" rel="noopener">② 구글 플로우<small>영상</small></a>
+  <a href="https://flowmusic.app" target="_blank" rel="noopener">③ 플로우 뮤직<small>배경음악</small></a>
+  <a href="https://www.capcut.com/" target="_blank" rel="noopener">④ 캡컷 PC<small>편집 · 내보내기</small></a>
+</div>
+
+<div class="credit">🪙 <b>플로우 크레딧 50개</b> = 영상 1개 15 × 2개(30) + 다시 만들기 1번(15)</div>
+
+<!-- 1 -->
+<section class="step">
+  <h2><span class="n">1</span>오늘의 로그라인</h2>
+  <span class="word"><b>로그라인</b> = 이야기 전체를 <b>한 문장</b>으로 줄인 것. 영화 포스터 아래 적힌 한 줄 소개예요.</span>
+  <div class="cp"><div class="t">📌 「그날의 사진」</div><button class="btn" data-c="logline">복사</button></div>
+  <pre class="show" id="logline">30년 전 엄마의 사진을 들고 온 딸에게, 동네 사진관 할아버지가 그날의 이야기를 꺼낸다.</pre>
+  <div class="story" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:16px">
+    <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>박영수 (70대)</b><br>오래된 동네 사진관 주인. 말수가 적고 따뜻함</div>
+    <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>김수진 (30대 초반)</b><br>돌아가신 엄마의 옛 사진을 들고 찾아온 딸</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="step">
+  <h2><span class="n">2</span>콘티와 대사 만들기</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>콘티</b> = 컷마다 무엇이 보이고, 카메라가 어떻게 움직이고, 누가 무슨 말을 하는지 적은 <b>영화 설계도</b>.<br><b>컷</b> = 끊기지 않고 한 번에 찍은 장면 하나. 오늘은 10초짜리 컷 2개예요.</span>
+  <ol>
+    <li>챗GPT에서 <span class="ui">새 채팅</span></li>
+    <li>프롬프트 붙여넣기 → <span class="ui">Enter</span> → 콘티 표가 나와요</li>
+  </ol>
+  <div class="cp"><div class="t">프롬프트 · 콘티와 대사</div><button class="btn" data-c="conti">복사</button></div>
+  <pre class="show" id="conti">너는 단편영화 감독이야. 아래 로그라인과 인물로 20초 영상의 콘티와 대사를 만들어 줘.
+
+[로그라인]
+30년 전 엄마의 사진을 들고 온 딸에게, 동네 사진관 할아버지가 그날의 이야기를 꺼낸다.
+
+[인물]
+- 박영수: 70대 남성, 오래된 동네 사진관 주인. 말수가 적고 따뜻함
+- 김수진: 30대 초반 여성. 돌아가신 엄마의 옛 사진을 들고 찾아옴
+
+[장소]
+맑은 날 오후, 오래된 동네 사진관 안. 나무 카운터, 흑백 가족사진 액자, 밝은 햇살
+
+[조건]
+- 컷 2개, 컷마다 10초, 가로 16:9 화면
+- 대사는 모두 한국어로. 한 사람이 한 컷에 1~2마디, 짧게
+- 카메라는 컷마다 반드시 움직여야 해. 고정 화면(static)은 쓰지 마
+- 카메라 무빙은 아래 그대로:
+  컷 1: 0~5초 천천히 다가가기(Push In) → 5~10초 좌우로 돌리기(Pan Shot)로 할아버지에게 시선 이동
+  컷 2: 0~5초 어깨 너머(Over-the-Shoulder)에서 반원 돌기(Arc Shot) → 5~10초 초점 옮기기(Rack Focus) 후 천천히 멀어지기(Pull Out)
+- 중학생도 이해할 수 있는 쉬운 말로
+
+[이렇게 정리해 줘]
+콘티 표: | 컷 | 시간 | 화면 크기 | 카메라 무빙 | 인물 동작·표정 | 대사 |
+화면 크기와 카메라 무빙은 한글로 쓰고 영어 용어를 괄호에 넣어 줘.</pre>
+  <p style="margin:6px 0 0"><b>오늘 진행할 콘티</b> <span style="color:var(--sub);font-size:16px">(챗GPT 결과는 조금씩 달라요. 영상은 이 콘티대로 만들어요.)</span></p>
+  <table class="conti">
+    <tr><th>컷</th><th>카메라 무빙</th><th>동작 · 대사</th></tr>
+    <tr><td><b>1</b><br>0~10초</td><td>천천히 다가가기<br>(Push In)<br>→ 좌우로 돌리기<br>(Pan Shot)</td><td>수진이 낡은 사진을 내민다.<br>수진: "이 사진… 여기서 찍은 거 맞죠?"<br>할아버지가 안경을 고쳐 쓰고 들여다본다.<br>할아버지: "이건… 내가 찍은 사진이구먼."</td></tr>
+    <tr><td><b>2</b><br>10~20초</td><td>어깨 너머 반원 돌기<br>(Over-the-Shoulder · Arc Shot)<br>→ 초점 옮기기<br>(Rack Focus)<br>→ 천천히 멀어지기<br>(Pull Out)</td><td>할아버지가 미소 지으며 사진을 톡톡.<br>할아버지: "네 엄마가 그날 참 많이 웃었지."<br>수진이 눈물 고인 채 웃는다.<br>수진: "고맙습니다."</td></tr>
+  </table>
+  <div class="moves">
+    <div><b>천천히 다가가기 (Push In)</b><small>카메라가 인물 쪽으로 다가감 → 집중</small></div>
+    <div><b>좌우로 돌리기 (Pan Shot)</b><small>제자리에서 고개 돌리듯 → 시선 이동</small></div>
+    <div><b>어깨 너머 (Over-the-Shoulder)</b><small>한 사람 어깨 뒤에서 상대를 봄 → 대화</small></div>
+    <div><b>반원 돌기 (Arc Shot)</b><small>인물 주위를 반원으로 돎 → 감정이 깊어짐</small></div>
+    <div><b>초점 옮기기 (Rack Focus)</b><small>선명한 곳이 물건 → 얼굴로 바뀜</small></div>
+    <div><b>천천히 멀어지기 (Pull Out)</b><small>카메라가 뒤로 빠짐 → 여운</small></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="step">
+  <h2><span class="n">3</span>캐릭터 시트 만들기 (2명)</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>캐릭터 시트</b> = 한 사람을 <b>앞 · 뒤 · 얼굴</b> 3칸으로 보여 주는 "인물 신분증". 이게 있어야 영상 2개에서 얼굴·옷·키가 안 바뀌어요.</span>
+  <ol>
+    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>박영수.jpg</b>로 저장</li>
+    <li>수진도 <b>새 채팅</b>에서 똑같이 → <b>김수진.jpg</b>로 저장</li>
+  </ol>
+  <div class="cp"><div class="t">🧓 박영수 캐릭터 시트</div><button class="btn" data-c="charA">복사</button></div>
+  <pre class="show" id="charA">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+
+[인물]
+한국어로 말하는 한국인. 70대 남성 박영수, 오래된 동네 사진관 주인.
+단정한 흰머리, 주름진 온화한 얼굴, 얇고 둥근 금테 안경, 흰 셔츠 위에 베이지색 꽈배기 니트 조끼, 갈색 면바지, 갈색 가죽 구두, 손목에 낡은 가죽 시계.
+
+[캐릭터 시트 형식 — 꼭 이대로]
+가로 16:9 이미지 1장을 같은 너비의 세로 3칸으로 나누기.
+- 왼쪽 칸: 전신 완전 정면. 머리와 얼굴만 보이지 않게 비워 두고(머리 자리는 흰 배경), 목·어깨부터 발끝까지 보이게.
+- 가운데 칸: 전신 뒷모습. 머리 끝부터 발끝까지.
+- 중요: 왼쪽과 가운데 인물은 키·몸 크기·서 있는 높이가 완전히 똑같아야 해. 같은 카메라 거리에서 찍은 것처럼 몸을 확대하지 말고, 두 칸 모두 발끝이 같은 높이의 바닥에 닿고, 발 아래와 머리 위에 여백이 있게.
+- 오른쪽 칸: 정면 얼굴 클로즈업. 머리부터 가슴까지, 카메라를 똑바로 보는 모습.
+- 세 칸 모두 같은 사람, 같은 옷, 같은 머리 모양, 같은 신발과 액세서리.
+- 차렷 자세, 팔은 자연스럽게 내림.
+
+[촬영]
+흰 배경, 확산광(diffused light)으로 부드럽게 촬영, 캐논 R3(Canon EOS R3), 50mm 렌즈, 조리개 f/1.2, 실사 사진, 패션 룩북 느낌.
+
+[얼굴 클로즈업 디테일 — 실제 사람처럼]
+피부 모공과 솜털, 눈썹과 머리카락 한 올 한 올, 눈가 잔주름과 입술 잔주름, 코의 자연스러운 유분, 홍채의 갈라진 결무늬, 눈 흰자의 가는 핏줄.
+
+글자, 이름표, 칸 사이 선이나 테두리 없음.</pre>
+  <img class="shot" src="img/char_youngsu.jpg" alt="박영수 캐릭터 시트 예시"><p class="cap">▲ 완성 예시 — 왼쪽 앞모습(머리 없음) · 가운데 뒷모습 · 오른쪽 얼굴. 앞·뒤 키가 똑같아요.</p>
+  <div class="cp"><div class="t">👩 김수진 캐릭터 시트</div><button class="btn" data-c="charB">복사</button></div>
+  <pre class="show" id="charB">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+
+[인물]
+한국어로 말하는 한국인. 30대 초반 여성 김수진.
+어깨 길이의 검은 생머리 단발, 자연스러운 화장, 순한 눈매, 하늘색 니트 위에 크림색 울 코트, 진청 일자 바지, 갈색 로퍼, 작은 갈색 숄더백, 작은 진주 귀걸이.
+
+[캐릭터 시트 형식 — 꼭 이대로]
+가로 16:9 이미지 1장을 같은 너비의 세로 3칸으로 나누기.
+- 왼쪽 칸: 전신 완전 정면. 머리와 얼굴만 보이지 않게 비워 두고(머리 자리는 흰 배경), 목·어깨부터 발끝까지 보이게.
+- 가운데 칸: 전신 뒷모습. 머리 끝부터 발끝까지.
+- 중요: 왼쪽과 가운데 인물은 키·몸 크기·서 있는 높이가 완전히 똑같아야 해. 같은 카메라 거리에서 찍은 것처럼 몸을 확대하지 말고, 두 칸 모두 발끝이 같은 높이의 바닥에 닿고, 발 아래와 머리 위에 여백이 있게.
+- 오른쪽 칸: 정면 얼굴 클로즈업. 머리부터 가슴까지, 카메라를 똑바로 보는 모습.
+- 세 칸 모두 같은 사람, 같은 옷, 같은 머리 모양, 같은 신발과 액세서리.
+- 차렷 자세, 팔은 자연스럽게 내림.
+
+[촬영]
+흰 배경, 확산광(diffused light)으로 부드럽게 촬영, 캐논 R3(Canon EOS R3), 50mm 렌즈, 조리개 f/1.2, 실사 사진, 패션 룩북 느낌.
+
+[얼굴 클로즈업 디테일 — 실제 사람처럼]
+피부 모공과 솜털, 눈썹과 머리카락 한 올 한 올, 눈가 잔주름과 입술 잔주름, 코의 자연스러운 유분, 홍채의 갈라진 결무늬, 눈 흰자의 가는 핏줄.
+
+글자, 이름표, 칸 사이 선이나 테두리 없음.</pre>
+  <img class="shot" src="img/char_sujin.jpg" alt="김수진 캐릭터 시트 예시"><p class="cap">▲ 완성 예시</p>
+  <p class="tip">✔️ 확인: 왼쪽(앞)과 가운데(뒤) 인물의 <b>키와 발 위치가 같은지</b> 보세요.<br>왼쪽 칸에 <b>머리가 보이면</b>, 같은 채팅에 아래 수정 프롬프트를 넣으세요.</p>
+  <div class="cp"><div class="t">✂️ 수정 프롬프트 · 왼쪽 칸 머리 지우기 <small>머리가 보일 때만</small></div><button class="btn" data-c="fixhead">복사</button></div>
+  <pre class="show" id="fixhead">좋아, 키와 크기는 이대로 완벽해. 딱 하나만 고쳐 줘: 왼쪽 칸(전신 정면) 인물의 머리와 얼굴만 지워서 그 자리를 흰 배경으로 비워 줘. 목·어깨부터 발끝까지는 지금 크기와 위치 그대로 두고, 가운데·오른쪽 칸은 바꾸지 마.</pre>
+</section>
+
+<!-- 4 -->
+<section class="step">
+  <h2><span class="n">4</span>공간 시트 만들기</h2>
+  <span class="where">챗GPT</span>
+  <span class="word"><b>공간 시트</b> = 촬영 장소를 <b>여러 방향·여러 크기</b>로 찍은 사진 모음. 윗줄은 넓은 전경 2장, 아랫줄은 세로 디테일 5장. 카메라가 움직여도 배경이 바뀌지 않게 해 줘요.</span>
+  <ol>
+    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>사진관.jpg</b>로 저장</li>
+  </ol>
+  <div class="cp"><div class="t">🏠 사진관 공간 시트</div><button class="btn" data-c="space">복사</button></div>
+  <pre class="show" id="space">가로 16:9 비율로 아래 공간 시트 이미지를 만들어 줘.
+
+[공간]
+맑은 날 오후, 작고 오래된 한국 동네 사진관과 그 앞 골목.
+낡은 나무 카운터, 나무 선반 위의 옛날 필름 카메라들, 벽에 걸린 흑백 가족사진 액자, 작은 유리문, 카운터 위 작은 스탠드 조명.
+큰 창으로 밝은 햇살이 들어오는 밝은 실내, 하얀 벽.
+
+[공간 시트 형식 — 꼭 이대로]
+연한 아이보리색 종이 배경 위에 사진 7장을 콜라주로 배치. 사진 사이에는 얇은 여백.
+- 윗줄: 가로로 넓은 사진 2장
+  · 왼쪽: 입구 쪽에서 눈높이로 바라본 사진관 안 전경 (카운터, 선반, 액자가 모두 보이게)
+  · 오른쪽: 높은 곳에서 내려다본 사진관과 골목 전경 (하이 앵글, high angle)
+- 아랫줄: 세로로 긴 사진 5장, 각각 다른 각도의 디테일
+  · 골목에서 바라본 사진관 유리문과 외관
+  · 카운터 위 옛날 필름 카메라와 빛바랜 사진들
+  · 벽에 걸린 흑백 가족사진 액자들
+  · 카운터 뒤에서 입구 유리문 쪽을 바라본 반대 방향
+  · 사진 촬영용 나무 의자와 배경 천, 촬영 조명
+- 7장 모두 같은 장소, 같은 시간대, 같은 빛
+
+[촬영 — 실제 사진처럼]
+- 카메라: 캐논 EOS R5, 렌즈 RF 24-70mm f/2.8
+- 설정: 조리개 f/8, ISO 100, 셔터 1/250초 — 앞부터 뒤까지 모두 선명하게
+- 맑은 날의 밝은 자연광, 밝은 노출, 그림자 적게
+- 색은 자연스럽고 중립적으로 (노랗거나 주황빛으로 물들지 않게)
+- 실제 카메라로 찍은 스냅 사진처럼. 영화 같은 진한 색보정, HDR, 그림 같은 느낌 없음
+- 사람 없음. 글자, 간판, 문자 없음</pre>
+  <img class="shot" src="img/space_studio_day.jpg" alt="사진관 공간 시트 예시"><p class="cap">▲ 완성 예시 — 윗줄 전경 2장(눈높이 · 내려다보기) · 아랫줄 디테일 5장</p>
+</section>
+
+<!-- 5 -->
+<section class="step">
+  <h2><span class="n">5</span>플로우에 캐릭터·공간 등록하기</h2>
+  <span class="where">구글 플로우</span>
+  <span class="word"><b>캐릭터 등록</b> = 인물 사진에 <b>이름·목소리·설명</b>을 붙여 저장하는 것. 한 번 등록하면 영상마다 @로 불러올 수 있어요.</span>
+  <p style="margin:0 0 4px"><b>① 새 프로젝트</b></p>
+  <ol>
+    <li>구글 플로우 로그인 → <span class="ui">+ 새 프로젝트</span></li>
+    <li>왼쪽 위 프로젝트 이름(날짜) 클릭 → <b>그날의 사진</b> 입력 → <span class="ui">Enter</span></li>
+  </ol>
+  <p style="margin:12px 0 4px"><b>② 박영수 캐릭터 만들기</b></p>
+  <ol>
+    <li>왼쪽 메뉴 <span class="ui">캐릭터</span> → <span class="ui">+ 신규 캐릭터</span> → 아래 <span class="ui">업로드</span> → <b>박영수.jpg</b></li>
+    <li>「제목 없는 캐릭터」 옆 <span class="ui">✏️</span> → <b>박영수</b> 입력 → <span class="ui">Enter</span></li>
+    <li><span class="ui">캐릭터 정보</span> 칸에 아래 글 붙여넣기</li>
+  </ol>
+  <div class="cp"><div class="t">🧓 박영수 · 캐릭터 정보</div><button class="btn" data-c="infoA">복사</button></div>
+  <pre class="show" id="infoA">한국어로 말하는 한국인. 70대 남성, 오래된 동네 사진관 주인. 말수가 적고 따뜻하며, 느리고 낮은 목소리로 말한다.</pre>
+  <ol start="4">
+    <li><span class="ui">음성 선택</span> → 목록에서 <b>Algenib</b> (남성, 낮은 목소리) 클릭</li>
+    <li><span class="ui">성능 맞춤설정</span> 칸에 아래 글 붙여넣기 → <span class="ui">새 음성 저장</span> (10~20초 기다리기)</li>
+  </ol>
+  <div class="cp"><div class="t">🎙️ 박영수 · 목소리 설정</div><button class="btn" data-c="voiceA">복사</button></div>
+  <pre class="show" id="voiceA">한국어로 말함. 70대 할아버지처럼 느리고 따뜻하게, 낮고 차분한 목소리.</pre>
+  <ol start="6">
+    <li><span class="ui">캐릭터에 추가</span> → 오른쪽 위 <span class="ui">완료</span></li>
+  </ol>
+  <p style="margin:12px 0 4px"><b>③ 김수진 캐릭터 만들기</b> — ②와 똑같이, 사진은 <b>김수진.jpg</b>, 목소리는 <b>Achernar</b> (여성, 부드러운 목소리)</p>
+  <div class="cp"><div class="t">👩 김수진 · 캐릭터 정보</div><button class="btn" data-c="infoB">복사</button></div>
+  <pre class="show" id="infoB">한국어로 말하는 한국인. 30대 초반 여성. 돌아가신 엄마의 옛 사진을 들고 사진관을 찾아온 딸. 조용하고 다정하게 말한다.</pre>
+  <div class="cp"><div class="t">🎙️ 김수진 · 목소리 설정</div><button class="btn" data-c="voiceB">복사</button></div>
+  <pre class="show" id="voiceB">한국어로 말함. 30대 여성처럼 조용하고 다정하게, 부드럽고 차분한 목소리.</pre>
+  <p style="margin:12px 0 4px"><b>④ 사진관 공간 시트 올리기</b></p>
+  <ol>
+    <li>왼쪽 메뉴 <span class="ui">전체 미디어</span> → 아래 프롬프트 창 왼쪽 <span class="ui">+</span> → <span class="ui">미디어 업로드</span> → <b>사진관.jpg</b></li>
+  </ol>
+  <p class="tip">파일 이름이 그대로 이름표가 돼요. 그래서 3·4단계에서 <b>박영수 · 김수진 · 사진관</b>으로 저장해 두는 게 중요해요.</p>
+</section>
+
+<!-- 6 -->
+<section class="step">
+  <h2><span class="n">6</span>영상 ① 만들기 (10초)</h2>
+  <span class="where">구글 플로우</span>
+  <span class="word"><b>크레딧</b> = AI를 쓸 때마다 빠지는 포인트. 무료는 하루 50개.</span>
+  <div class="set">오른쪽 아래 설정 칸: <b>동영상 · 소재 · 16:9 · Omni 1.1 Flash · 720p · 10초 · x1</b><br>→ 맨 아래 <b>"생성 시 15 크레딧이 사용됩니다"</b> 확인</div>
+  <ol>
+    <li>프롬프트 창에 아래 프롬프트 붙여넣기</li>
+    <li>노란 칸 <mark class="slot">[@사진관]</mark> <mark class="slot">[@김수진]</mark> <mark class="slot">[@박영수]</mark>을 하나씩 지우고 → <span class="ui">@</span> 입력 → 이름(<b>사진관</b> / <b>김수진</b> / <b>박영수</b>) 입력 → <span class="ui">Enter</span><br><span style="color:var(--sub);font-size:16px">→ 그 자리에 회색 이름표가 생기고, 창 위에 작은 사진이 붙어요.</span></li>
+    <li>오른쪽 <span class="ui">→</span> 버튼 → 1~3분 기다리기</li>
+  </ol>
+  <div class="cp"><div class="t">🎬 영상 ① · 컷 1</div><button class="btn" data-c="vid1">복사</button></div>
+  <pre class="show" id="vid1"><mark class="slot">[@사진관]</mark> 속 오래된 사진관, 맑은 날 오후, 창으로 들어오는 밝은 햇살.
+<mark class="slot">[@김수진]</mark>(30대 여성)이 나무 카운터로 다가와, 빛바랜 옛날 사진 한 장을 <mark class="slot">[@박영수]</mark> 할아버지 쪽으로 조심스럽게 밀어 건넨다.
+수진이 한국어로 조용히 말한다: &quot;이 사진… 여기서 찍은 거 맞죠?&quot;
+할아버지는 둥근 금테 안경을 고쳐 쓰고 몸을 숙여 사진을 들여다보다가, 놀란 표정으로 한국어로 조용히 말한다: &quot;이건… 내가 찍은 사진이구먼.&quot;
+카메라: 0~5초 두 사람이 다 보이는 넓은 화면(medium wide shot)에서 천천히 다가가기(Push In) → 5~10초 좌우로 돌리기(Pan Shot)로 할아버지 얼굴 쪽으로 시선 이동. 눈높이(eye level), 배경은 흐리게(shallow depth of field).
+실사, 영화 같은 느낌, 얼굴과 옷은 <mark class="slot">[@박영수]</mark>, <mark class="slot">[@김수진]</mark>과 똑같이.
+모든 대사는 한국어. 영어로 말하지 않음.
+음악 없음, 배경음악 없음, 자막 없음, 화면에 글자 없음.</pre>
+  <p class="tip">⚠️ <b>x1</b>인지 꼭 확인! x2면 30크레딧이 한 번에 빠져요.</p>
+</section>
+
+<!-- 7 -->
+<section class="step">
+  <h2><span class="n">7</span>영상 ② 만들기 (10초)</h2>
+  <span class="where">구글 플로우</span>
+  <p style="margin:0">설정은 6번과 똑같아요. 프롬프트를 바꿔 넣고, 노란 칸을 <span class="ui">@</span>로 바꿔 주세요.</p>
+  <div class="cp"><div class="t">🎬 영상 ② · 컷 2</div><button class="btn" data-c="vid2">복사</button></div>
+  <pre class="show" id="vid2"><mark class="slot">[@사진관]</mark> 속 같은 사진관, 맑은 날 오후의 밝은 햇살.
+<mark class="slot">[@김수진]</mark>의 어깨 너머로 <mark class="slot">[@박영수]</mark> 할아버지의 얼굴이 보인다.
+할아버지가 사진에서 고개를 들고 따뜻하게 미소 지으며, 손가락으로 사진을 톡톡 치면서 한국어로 조용히 말한다: &quot;네 엄마가 그날 참 많이 웃었지.&quot;
+수진의 눈에 눈물이 고이고, 작게 웃으며 한국어로 말한다: &quot;고맙습니다.&quot;
+카메라: 0~5초 어깨 너머(Over-the-Shoulder)에서 천천히 반원 돌기(Arc Shot)로 수진의 얼굴 쪽으로 이동 → 5~10초 초점 옮기기(Rack Focus)로 카운터 위 사진에서 수진의 얼굴로 초점이 넘어간 뒤, 천천히 멀어지기(Pull Out)로 두 사람이 함께 보이게. 눈높이(eye level), 창으로 들어오는 밝은 자연광(natural daylight).
+실사, 영화 같은 느낌, 얼굴과 옷은 <mark class="slot">[@박영수]</mark>, <mark class="slot">[@김수진]</mark>과 똑같이.
+모든 대사는 한국어. 영어로 말하지 않음.
+음악 없음, 배경음악 없음, 자막 없음, 화면에 글자 없음.</pre>
+</section>
+
+<!-- 8 -->
+<section class="step">
+  <h2><span class="n">8</span>영상 제목 바꾸고 다운로드</h2>
+  <span class="where">구글 플로우</span>
+  <ol>
+    <li>완성된 영상 클릭 → 왼쪽 위 영어 제목 클릭 → <b>그날의 사진_컷1</b> 입력 → <span class="ui">Enter</span></li>
+    <li>오른쪽 위 <span class="ui">⬇</span> → <span class="ui">720p 원본 크기</span></li>
+    <li>영상 ②도 똑같이 → <b>그날의 사진_컷2</b></li>
+  </ol>
+  <p class="tip">파일은 <b>다운로드</b> 폴더에 「그날의_사진_컷1_…mp4」로 저장돼요. 영상 구석 워터마크는 무료 계정이라 생겨요.</p>
+</section>
+
+<!-- 9 -->
+<section class="step">
+  <h2><span class="n">9</span>배경음악 만들기</h2>
+  <span class="where">플로우 뮤직</span>
+  <span class="word"><b>연주곡(Instrumental)</b> = 가사·목소리 없이 악기 소리만 있는 음악.</span>
+  <ol>
+    <li>플로우 뮤직 → <span class="ui">로그인</span> → <span class="ui">Google로 계속하기</span></li>
+    <li>가운데 「함께 만들어 봐요…」 칸에 아래 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>AI 프로듀서가 30초쯤 뒤 곡을 만들어 줘요 (곡은 1분이 넘게 나와요 — 캡컷에서 20초로 잘라요)</li>
+    <li><b>가사 확인:</b> 곡 제목 클릭 → 아래 <b>Lyrics</b>에 <b>[Instrumental]</b>이라고 나오면 가사 없는 곡 ✅</li>
+    <li>곡의 <span class="ui">⋯</span> → <span class="ui">Download</span> → <span class="ui">MP3</span> → 다운로드 폴더에 저장</li>
+  </ol>
+  <div class="cp"><div class="t">🎵 배경음악 · 가사 없는 연주곡</div><button class="btn" data-c="music">복사</button></div>
+  <pre class="show" id="music">가사 없는 연주곡(Instrumental)만 만들어 줘.
+가사 없음, 노래 없음, 보컬 없음, 허밍·코러스·말소리도 없음.
+맑은 오후, 오래된 동네 사진관에서 돌아가신 엄마의 옛 사진으로 추억을 나누는 20초짜리 짧은 영화의 배경음악.
+따뜻하고 그리운 어쿠스틱 곡. 부드러운 피아노와 어쿠스틱 기타, 느린 템포(약 70 BPM).
+조용하게 시작해서 중간에 살짝 벅차오르고, 부드럽게 끝나기.</pre>
+  <p class="tip">⚠️ 다운로드가 안 되면 크롬 주소창 오른쪽에 「다운로드 차단」 표시가 떴는지 보고 <b>허용</b>을 누른 뒤 다시 해 보세요.</p>
+</section>
+
+<!-- 10 -->
+<section class="step">
+  <h2><span class="n">10</span>캡컷으로 편집하기</h2>
+  <span class="where">캡컷 PC</span>
+  <span class="word"><b>타임라인</b> = 화면 아래 영상·음악을 순서대로 놓는 긴 줄. <b>전환</b> = 장면이 바뀔 때 넣는 효과. <b>페이드 아웃</b> = 소리가 서서히 작아지며 끝나는 것.</span>
+  <ol>
+    <li><span class="ui">+ 새 프로젝트</span> → 맨 위 가운데 프로젝트 이름 클릭 → <b>그날의 사진</b> → <span class="ui">Enter</span></li>
+    <li><span class="ui">가져오기</span> → <span class="ui">컴퓨터에서</span> → 왼쪽 <span class="ui">다운로드</span> → 영상 2개(<span class="ui">Ctrl</span> 누르고 클릭)와 음악 선택 → <span class="ui">열기</span></li>
+    <li>컷1 → 컷2 순서로 아래 타임라인에 끌어놓기, 음악은 그 아래 줄 <b>맨 앞</b>에 붙이기</li>
+    <li>영상 줄 맨 왼쪽 <span class="ui">🔊</span> 클릭 → 「트랙 음소거」 표시 확인</li>
+    <li><b>음악 자르기:</b> 마우스를 영상이 끝나는 곳(20초)에 올려 <b>주황색 선</b>이 끝에 오게 → <span class="ui">Ctrl</span>+<span class="ui">B</span> → 뒤에 남은 음악 클릭 → <span class="ui">Delete</span></li>
+    <li>남은 음악 클릭 → 오른쪽 <span class="ui">페이드 아웃</span> 칸에 <b>2</b> 입력</li>
+    <li>맨 위 <span class="ui">전환</span> → 검색창에 <b>디졸브</b> → 보석 표시 없는 첫 번째 「디졸브」를 두 영상 사이로 끌어놓기</li>
+    <li>「전환을 위한 복제 프레임 만들기」 창이 뜨면 <span class="ui">확인</span> → 오른쪽 <span class="ui">기간</span>에 <b>0.5</b> 입력</li>
+  </ol>
+  <p class="tip">✂️ 캡컷은 <b>마우스가 있는 곳(주황색 선)</b>에서 잘라요. 엉뚱한 곳이 잘리면 <span class="ui">Ctrl</span>+<span class="ui">Z</span>로 되돌리기!<br>💎 보석·Pro 표시가 있는 효과는 유료라서 쓰지 마세요.</p>
+</section>
+
+<!-- 11 -->
+<section class="step">
+  <h2><span class="n">11</span>1080p로 내보내기</h2>
+  <span class="where">캡컷 PC</span>
+  <span class="word"><b>1080p</b> = 가로 1920 × 세로 1080 크기의 선명한 화질. <b>H.264</b> = 어느 컴퓨터·휴대폰에서나 잘 열리는 영상 형식.</span>
+  <ol>
+    <li>오른쪽 위 <span class="ui">내보내기</span></li>
+    <li><span class="ui">해상도</span> 4K → <b>1080P</b>, <span class="ui">코덱</span> HEVC → <b>H.264</b>, 형식 <b>mp4</b>, 프레임 속도 <b>30fps</b> 확인</li>
+    <li><span class="ui">내보내기</span> → 「동영상이 저장되었습니다」가 뜨면 <span class="ui">닫기</span></li>
+  </ol>
+  <p class="tip">완성 파일은 <span class="ui">내보내기</span> 칸에 적힌 곳(보통 바탕화면)에 「그날의 사진.mp4」로 저장돼요. 틱톡·유튜브 공유 버튼은 누르지 않아도 돼요.</p>
+</section>
+
+<p class="end">🎉 「그날의 사진」 완성!</p>
+
+
+</div>
+
+
+
+<script>
+(function(){
+  function fallback(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='-999px';document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(a);return ok}
+  function done(b,ok){b.textContent=ok?'✓ 복사됨':'다시 시도';b.classList.toggle('ok',ok);setTimeout(function(){b.textContent='복사';b.classList.remove('ok')},1600)}
+  document.querySelectorAll('.btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.dataset.c).textContent;
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(b,true)}).catch(function(){done(b,fallback(t))})}
+      else done(b,fallback(t));
+    });
+  });
+})();
+</script>
+</body>
+</html>
