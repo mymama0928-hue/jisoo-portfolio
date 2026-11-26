@@ -75,7 +75,7 @@
 <div class="wrap">
 
 <figure class="hero" id="hero">
-  <video src="video/final.mp4" controls playsinline preload="metadata" poster="img/poster.jpg" onerror="document.getElementById('hero').style.display='none'"></video>
+  <video src="video/final.mp4?v=2" controls playsinline preload="metadata" poster="img/poster.jpg?v=2" onerror="document.getElementById('hero').style.display='none'"></video>
   <figcaption>▲ 오늘 만들 완성 영상 「말하는 고양이, 먹물」 (20초 · 1080p) — 아래 프롬프트를 그대로 복사해 만든 영상이에요</figcaption>
 </figure>
 
@@ -99,7 +99,7 @@
   <span class="word"><b>로그라인</b> = 이야기 전체를 <b>한 문장</b>으로 줄인 것. 영화 포스터 아래 적힌 한 줄 소개예요.</span>
   <div class="cp"><div class="t">📌 「말하는 고양이, 먹물」</div><button class="btn" data-c="logline">복사</button></div>
   <pre class="show" id="logline">힘든 하루를 보낸 사람에게만 말을 거는 검은 고양이 먹물이, 파스텔 마을 언덕 벤치에서 한숨 쉬는 다정에게 오늘 처음으로 입을 연다. &quot;힘든 날에만 말해. 그러니까 내일은… 안 들려도 좋은 날이야.&quot;</pre>
-  <img class="shot" src="img/style_ref.jpg" alt="오늘의 그림체 참고"><p class="cap">▲ 오늘의 그림체 — 파스텔 동화 그림책 (과슈 질감 · 둥근 집 마을 · 무지개 · 얼굴 있는 풍선)</p>
+  <img class="shot" src="img/style_ref.jpg" alt="오늘의 그림체 참고"><p class="cap">▲ 오늘의 그림체 레퍼런스 — 3·4번에서 이 그림을 챗GPT에 올리고 시작해요 (과슈 질감 · 둥근 집 마을 · 무지개 · 얼굴 있는 풍선)</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:16px">
     <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>먹물</b><br>검은 고양이. 동그란 흰 눈·분홍 목걸이·금색 방울. 힘든 사람에게만 말을 건다. 느긋하고 낮은 목소리</div>
     <div style="background:var(--soft);border-radius:12px;padding:12px 14px"><b>다정</b><br>성인 여성(20대 후반). 무지개색 단발·분홍 가디건. 오늘 하루가 힘들었다. 고양이가 말하자 깜짝 놀람</div>
@@ -163,14 +163,19 @@
   <h2><span class="n">3</span>캐릭터 시트 만들기 (2명)</h2>
   <span class="where">챗GPT</span>
   <span class="word"><b>캐릭터 시트</b> = 한 인물을 <b>앞 · 뒤 · 얼굴</b> 3칸으로 보여 주는 "인물 신분증". 이게 있어야 영상 2개에서 얼굴·옷·크기가 안 바뀌어요.</span>
+  <p style="margin:0 0 4px"><b>① 먼저 그림체 레퍼런스 받기</b> — 이 그림을 챗GPT에 같이 올려야 똑같은 그림체가 나와요.</p>
+  <div class="cp"><div class="t">🎨 레퍼런스 그림 <small>내려받아 <b>스타일.jpg</b>로 저장해 두세요</small></div><a class="btn" href="img/style_ref.jpg" download="스타일.jpg" style="text-decoration:none">내려받기</a></div>
+  <p style="margin:12px 0 4px"><b>② 챗GPT에서 만들기</b></p>
   <ol>
-    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>챗GPT <span class="ui">새 채팅</span> → 입력 칸 왼쪽 <span class="ui">+</span> → <b>스타일.jpg</b> 올리기</li>
+    <li>그 아래에 프롬프트 붙여넣기 → <span class="ui">Enter</span> <span style="color:var(--sub);font-size:16px">(프롬프트 첫 줄이 "첨부한 그림과 똑같은 그림체로"예요 — 그림을 안 올리면 다른 그림체가 나와요)</span></li>
     <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>먹물.jpg</b>로 저장</li>
-    <li>다정도 <b>새 채팅</b>에서 똑같이 → <b>다정.jpg</b>로 저장</li>
+    <li>다정도 <b>새 채팅</b>에서 똑같이(그림 올리기 → 프롬프트) → <b>다정.jpg</b>로 저장</li>
   </ol>
-  <img class="shot" src="img/char_cat.jpg" alt="먹물 캐릭터 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 왼쪽 앞모습 · 가운데 뒷모습 · 오른쪽 얼굴 (이 프롬프트로 만든 실제 결과)</p>
+  <p class="tip">🆘 챗GPT가 "이미지 생성 한도" 때문에 안 만들어 주면, 강사에게 말해 주세요. 같은 그림과 프롬프트로 다른 곳(매그니픽)에서 만들어 드려요.</p>
+  <img class="shot" src="img/char_cat.jpg?v=2" alt="먹물 캐릭터 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 왼쪽 앞모습 · 가운데 뒷모습 · 오른쪽 얼굴 (이 프롬프트로 만든 실제 결과)</p>
   <div class="cp"><div class="t">🐈‍⬛ 먹물 캐릭터 시트</div><button class="btn" data-c="charA">복사</button></div>
-  <pre class="show" id="charA">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+  <pre class="show" id="charA">첨부한 그림과 똑같은 그림체(과슈 종이 질감, 파스텔 색, 윤곽선 없는 둥근 색면, 점박이 무늬, 금색 반짝이 별)로 아래 캐릭터 시트 이미지를 가로 16:9 비율로 만들어 줘. 첨부 그림의 검은 고양이를 그대로 주인공으로.
 
 [인물]
 검은 고양이 먹물. 통통하고 둥근 몸, 짧은 다리, 둥글게 말린 꼬리. 얼굴은 아주 크고 동그란 흰 눈에 작은 검은 눈동자(눈이 얼굴의 절반), 작은 분홍 코, 살짝 웃는 작은 입, 분홍 귀 안쪽, 볼에 옅은 홍조. 목에 분홍 목걸이와 금색 방울 하나. 앞발 바닥은 분홍 젤리. 그 외 장신구·옷 없음.
@@ -185,9 +190,9 @@
 
 [그림체 — 꼭 이대로]
 납작한 2D 동화 그림책 일러스트. 과슈(불투명 수채)와 색연필로 그린 듯한 거칠고 포근한 종이 질감, 연분홍·연보라·민트·레몬·살구색 파스텔 색, 검은 윤곽선 없이 색면으로 그린 둥글둥글한 모양, 작은 금색 반짝이 별. 그림자 거의 없이 밝고 평평한 빛. 3D·실사 느낌 없음. 고양이 털은 검정이지만 짙은 남색 기운이 살짝 도는 부드러운 색면.</pre>
-  <img class="shot" src="img/char_dajeong.jpg" alt="다정 캐릭터 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 왼쪽 앞모습(머리 없음, 목 단면만) · 가운데 뒷모습 · 오른쪽 얼굴</p>
+  <img class="shot" src="img/char_dajeong.jpg?v=2" alt="다정 캐릭터 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 왼쪽 앞모습(머리 없음, 목 단면만) · 가운데 뒷모습 · 오른쪽 얼굴</p>
   <div class="cp"><div class="t">👩‍🦱 다정 캐릭터 시트</div><button class="btn" data-c="charB">복사</button></div>
-  <pre class="show" id="charB">가로 16:9 비율로 아래 캐릭터 시트 이미지를 만들어 줘.
+  <pre class="show" id="charB">첨부한 그림과 똑같은 그림체(과슈 종이 질감, 파스텔 색, 윤곽선 없는 둥근 색면, 점박이 무늬, 금색 반짝이 별)로 아래 캐릭터 시트 이미지를 가로 16:9 비율로 만들어 줘. 첨부 그림의 무지개색 단발 인물과 같은 얼굴 스타일이지만, 어린이가 아니라 키 큰 성인 여성으로.
 
 [인물]
 성인 여성 다정(20대 후반). 키 큰 성인 비율(7등신), 성인의 얼굴. 어깨까지 오는 단발머리인데 색이 무지개처럼 분홍·보라·민트·노랑으로 부드럽게 섞여 있고 앞머리는 일자. 눈은 가늘고 차분하게 살짝 감은 듯한 모양, 볼에 둥근 홍조, 작은 입. 옷: 분홍색 긴 가디건(단추 달림) 안에 흰색 긴팔 티셔츠, 민트색 긴 바지, 흰 운동화. 장신구·가방 없음.
@@ -216,12 +221,12 @@
   <span class="where">챗GPT</span>
   <span class="word"><b>공간 시트</b> = 촬영 장소를 <b>여러 방향·여러 크기</b>로 그린 그림 모음. 카메라가 움직여도 배경이 바뀌지 않게 해 줘요.</span>
   <ol>
-    <li>챗GPT <span class="ui">새 채팅</span> → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
+    <li>챗GPT <span class="ui">새 채팅</span> → <span class="ui">+</span> → <b>스타일.jpg</b> 올리기 → 프롬프트 붙여넣기 → <span class="ui">Enter</span></li>
     <li>이미지 <span class="ui">⬇ 다운로드</span> → 파일 이름을 <b>파스텔마을.jpg</b>로 저장</li>
   </ol>
-  <img class="shot" src="img/space_town.jpg" alt="파스텔 마을 공간 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 윗줄 전경 2장(눈높이 · 내려다보기) · 아랫줄 디테일 5장</p>
+  <img class="shot" src="img/space_town.jpg?v=2" alt="파스텔 마을 공간 시트 예시"><p class="cap">▲ 이렇게 나와야 해요 — 윗줄 전경 2장(눈높이 · 내려다보기) · 아랫줄 디테일 5장</p>
   <div class="cp"><div class="t">🏘️ 파스텔 마을 공간 시트</div><button class="btn" data-c="space">복사</button></div>
-  <pre class="show" id="space">가로 16:9 비율로 아래 공간 시트 이미지를 만들어 줘.
+  <pre class="show" id="space">첨부한 그림과 똑같은 그림체(과슈 종이 질감, 파스텔 색, 윤곽선 없는 둥근 색면, 점박이 무늬 둥근 나무, 얼굴 있는 풍선, 금색 반짝이 별, 웃는 초승달)로 아래 공간 시트 이미지를 가로 16:9 비율로 만들어 줘. 첨부 그림의 마을·하늘·풍선을 그대로 쓰되 사람과 고양이는 없이.
 
 [공간]
 해 질 무렵의 파스텔 색 언덕 마을. 둥근 지붕과 아치형 창문이 달린 연분홍·연보라·민트·레몬색 작은 집들이 언덕 위에 층층이 쌓여 있고, 집 사이에 점박이 무늬의 둥근 나무들. 언덕 꼭대기 풀밭에 연한 살구색 나무 벤치 하나. 하늘은 연보라·연분홍 파스텔, 뭉게구름, 큰 무지개, 웃는 얼굴이 그려진 하트·둥근 풍선들이 줄에 매달려 떠 있고, 금색 반짝이 별과 웃는 초승달. 사람·동물 없음. 글자·간판·로고 없음.
@@ -449,7 +454,7 @@
 (function(){
   function fallback(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='-999px';document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(a);return ok}
   function done(b,ok){b.textContent=ok?'✓ 복사됨':'다시 시도';b.classList.toggle('ok',ok);setTimeout(function(){b.textContent='복사';b.classList.remove('ok')},1600)}
-  document.querySelectorAll('.btn').forEach(function(b){
+  document.querySelectorAll('button.btn').forEach(function(b){
     b.addEventListener('click',function(){
       var t=document.getElementById(b.dataset.c).textContent;
       if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done(b,true)}).catch(function(){done(b,fallback(t))})}
